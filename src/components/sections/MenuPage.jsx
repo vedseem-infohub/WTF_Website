@@ -109,16 +109,24 @@ function MenuPage() {
     return item.type === filter;
   });
 
+  const toggleFilter = () => {
+    if (filter === "all") {
+      setFilter("veg");
+    } else if (filter === "veg") {
+      setFilter("all");
+    }
+  };
+
   return (
-    <div className="w-full min-h-screen bg-gray-100">
-      {/* Scrolling Image Banner */}
-      <div className="w-full h-64 md:h-80 overflow-hidden relative bg-black">
+    <div className="w-full min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+      {/* Enhanced Scrolling Image Banner */}
+      <div className="w-full h-72 md:h-96 overflow-hidden relative bg-gradient-to-br from-gray-900 via-gray-800 to-black">
         <div className="animate-scroll flex">
           {/* Duplicate images for seamless loop */}
           {[...bannerImages, ...bannerImages].map((img, index) => (
             <div
               key={index}
-              className="flex-shrink-0 w-64 md:w-80 h-64 md:h-80 relative"
+              className="flex-shrink-0 w-72 md:w-96 h-72 md:h-96 relative"
             >
               <Image
                 src={img}
@@ -126,117 +134,181 @@ function MenuPage() {
                 fill
                 className="object-cover"
               />
-              {/* Steam animation overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+              {/* Enhanced gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
             </div>
           ))}
         </div>
 
-        {/* Overlay text */}
-        <div className="absolute top-4 left-4 text-white">
-          <h1 className="text-2xl md:text-3xl font-bold">Menu Page</h1>
-          <p className="text-sm text-gray-300">scrolling image with a</p>
-        </div>
-      </div>
-
-      {/* Our Food Items Section */}
-      <section className="w-full bg-[#1a1a1a] py-12 px-4 md:px-8">
-        <div className="max-w-6xl mx-auto">
-          {/* Section Title */}
-          <div className="text-center mb-6">
-            <h2
-              className="text-3xl md:text-1xl font-bold"
+        {/* Enhanced overlay text with better styling */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center px-4 z-10">
+            <motion.h1
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-4xl md:text-6xl font-bold text-white mb-3 drop-shadow-2xl"
               style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
             >
-              <span className="text-white">Our </span>
-              <span className="text-red-700">Food</span>
-              <span className="text-white"> Items</span>
-            </h2>
-          </div>
-
-          {/* Title and Veg Toggle Row */}
-          <div className="flex justify-between items-center mb-10">
-            <div></div>
-
-            {/* iOS-style Veg Toggle on the right */}
-            <div
-              onClick={() => setFilter(filter === "veg" ? "all" : "veg")}
-              className={`relative w-16 h-7 rounded-full cursor-pointer transition-all duration-300 ${
-                filter === "veg" ? "bg-green-500" : "bg-gray-600"
-              }`}
+              Our Delicious Menu
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-lg md:text-xl text-gray-200 font-light"
             >
-              {/* Toggle Circle */}
-              <div
-                className={`absolute top-0.5 w-6 h-6 bg-white rounded-full shadow-md transition-all duration-300 flex items-center justify-center ${
-                  filter === "veg" ? "left-9" : "left-0.5"
-                }`}
-              >
-                {/* Line indicator */}
-                <span className="text-gray-400 font-bold text-xs">|</span>
-              </div>
-
-              {/* Veg Label */}
-              <span
-                className={`absolute right-2 top-1/2 -translate-y-1/2 text-white font-semibold text-sm transition-opacity ${
-                  filter === "veg" ? "opacity-0" : "opacity-100"
-                }`}
-              >
-                veg
-              </span>
-              <span
-                className={`absolute left-2 top-1/2 -translate-y-1/2 text-white font-semibold text-sm transition-opacity ${
-                  filter === "veg" ? "opacity-100" : "opacity-0"
-                }`}
-              >
-                veg
-              </span>
-            </div>
+              Explore our culinary delights
+            </motion.p>
           </div>
+        </div>
 
-          {/* Food Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 md:gap-8">
+        {/* Decorative bottom wave */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#1a1a1a] to-transparent" />
+      </div>
+
+      {/* Enhanced Food Items Section */}
+      <section className="w-full bg-[#1a1a1a] py-16 px-4 md:px-8 -mt-16 relative">
+        <div className="max-w-7xl mx-auto">
+          {/* Enhanced Section Title with Toggle */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative"
+          >
+            {/* Centered Title Section */}
+            <div className="text-center">
+              <h2
+                className="text-3xl sm:text-4xl md:text-5xl font-bold"
+                style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
+              >
+                <span className="text-white">Our </span>
+                <span className="text-red-500">Food</span>
+                <span className="text-white"> Items</span>
+              </h2>
+              <div className="w-24 h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent mx-auto mt-4" />
+            </div>
+            
+            {/* Enhanced Toggle Switch - Positioned absolutely on the right */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.3 }}
+              className="absolute top-0 right-0 flex items-center gap-3"
+            >
+              <span className={`text-sm md:text-base font-medium transition-colors hidden sm:inline ${
+                filter === "all" ? "text-white" : "text-gray-500"
+              }`}>
+                All
+              </span>
+              <button
+                onClick={toggleFilter}
+                className={`relative w-20 h-10 rounded-full cursor-pointer transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 ${
+                  filter === "veg"
+                    ? "bg-green-500 focus:ring-green-500"
+                    : "bg-gray-700 focus:ring-gray-600"
+                }`}
+                aria-label="Toggle vegetarian filter"
+              >
+                {/* Toggle Circle */}
+                <motion.div
+                  className="absolute top-1 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center"
+                  animate={{
+                    x: filter === "veg" ? 40 : 4,
+                  }}
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                >
+                  {/* Icon indicator */}
+                  {filter === "veg" ? (
+                    <span className="text-green-500 text-xs font-bold">✓</span>
+                  ) : (
+                    <span className="text-gray-400 text-xs">•</span>
+                  )}
+                </motion.div>
+              </button>
+              <span className={`text-sm md:text-base font-medium transition-colors hidden sm:inline ${
+                filter === "veg" ? "text-green-400" : "text-gray-500"
+              }`}>
+                Veg Only
+              </span>
+            </motion.div>
+          </motion.div>
+
+          {/* Enhanced Food Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-8 md:gap-x-10 gap-y-14 md:gap-y-24 mt-[9rem]">
             {filteredItems.map((item, index) => (
               <motion.div
                 key={item.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
+                transition={{ delay: index * 0.05, duration: 0.5 }}
+                whileHover={{ y: -8 }}
                 className="group cursor-pointer"
               >
-                {/* Card with overlapping circle */}
-                <div className="relative w-36 flex flex-col items-center mx-auto">
-                  {/* Circle - Absolutely positioned to overlap */}
+                {/* Enhanced Card with overlapping circle */}
+                <div className="relative flex flex-col items-center">
+                  {/* Enhanced Circle with better shadow */}
                   <div
-                    className={`absolute -top-6 left-1/2 -translate-x-1/2 w-48 h-48 rounded-full overflow-hidden border-[6px] z-10 ${
+                    className={`absolute -top-8 left-1/2 -translate-x-1/2 w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-[6px] z-10 transition-all duration-300 ${
                       item.type === "veg"
-                        ? "border-green-500"
-                        : "border-red-500"
-                    }`}
+                        ? "border-green-500 shadow-lg shadow-green-500/50 group-hover:shadow-xl group-hover:shadow-green-500/60"
+                        : "border-red-500 shadow-lg shadow-red-500/50 group-hover:shadow-xl group-hover:shadow-red-500/60"
+                    } group-hover:scale-105`}
                   >
                     <Image
                       src={item.image}
                       alt={item.name}
                       fill
-                      className="object-cover group-hover:scale-110 transition-transform"
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
+                    {/* Type badge */}
+                    <div
+                      className={`absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                        item.type === "veg"
+                          ? "bg-green-500 text-white"
+                          : "bg-red-500 text-white"
+                      }`}
+                    >
+                      {item.type === "veg" ? "V" : "NV"}
+                    </div>
                   </div>
 
-                  {/* Rectangle - Positioned below with padding for overlap */}
-                  <div className="mt-24 bg-gray-200 rounded-2xl px-22 pt-32 pb-6 flex flex-col items-center w-full">
-                    <p className="text-red-800 font-semibold text-sm text-center">
+                  {/* Enhanced Rectangle Card */}
+                  <div className="mt-28 md:mt-24 bg-gradient-to-b from-gray-800 to-gray-900 rounded-3xl px-4 pt-28 pb-6 flex flex-col items-center w-40 md:w-62 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-700/50 group-hover:border-gray-600">
+                    <h3 className="text-white font-bold text-base md:text-lg text-center mb-2 group-hover:text-red-400 transition-colors">
                       {item.name}
-                    </p>
+                    </h3>
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-red-400 font-bold text-lg md:text-xl">
+                        {item.price}
+                      </span>
+                    </div>
+                    {/* Add to cart button */}
+                    <button className="w-full py-2 px-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg font-semibold text-sm hover:from-red-700 hover:to-red-800 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-red-500/30">
+                      Add to Cart
+                    </button>
                   </div>
                 </div>
               </motion.div>
             ))}
           </div>
 
-          {/* No items message */}
+          {/* Enhanced No items message */}
           {filteredItems.length === 0 && (
-            <div className="text-center text-gray-400 py-10">
-              <p>No items found for this category.</p>
-            </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center py-20"
+            >
+              <div className="text-6xl mb-4">🍽️</div>
+              <p className="text-gray-400 text-xl mb-2">No items found</p>
+              <p className="text-gray-500 text-sm">
+                Try selecting a different category
+              </p>
+            </motion.div>
           )}
         </div>
       </section>
