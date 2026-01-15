@@ -90,23 +90,22 @@ function ServicesSkeleton() {
       onClick={() => handleClick(service.route)}
       className="relative w-full cursor-pointer flex flex-col items-center"
     >
-      {/* Circle that expands to box on hover - Instant change */}
-      <motion.div
-        animate={{
-          borderRadius: isHovered ? "1.5rem" : "50%",
-          width: isHovered ? "100%" : "280px",
-          height: isHovered ? "auto" : "280px",
-          minHeight: isHovered ? "400px" : "280px",
-        }}
-        transition={{ duration: 0 }}
-        className={`bg-gradient-to-br from-gray-100 via-gray-50 to-gray-200 border-[12px] ${service.borderColor} flex flex-col items-center justify-center overflow-hidden relative shadow-2xl ${
-          service.borderColor === "border-yellow-400" 
-            ? "shadow-yellow-400/30" 
-            : "shadow-red-800/30"
-        }`}
-      >
-        {/* Image - Shows when not hovered */}
-        {!isHovered ? (
+      {/* Container for both circle and rectangle - positioned absolutely */}
+      <div className="relative w-full min-h-[400px] flex items-center justify-center">
+        {/* Circle - Fades out on hover */}
+        <motion.div
+          animate={{
+            opacity: isHovered ? 0 : 1,
+            scale: isHovered ? 0.9 : 1,
+          }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className={`absolute w-[280px] h-[280px] rounded-full bg-gradient-to-br from-gray-100 via-gray-50 to-gray-200 border-12 ${service.borderColor} flex items-center justify-center overflow-hidden shadow-2xl ${
+            service.borderColor === "border-yellow-400" 
+              ? "shadow-yellow-400/30" 
+              : "shadow-red-800/30"
+          }`}
+        >
+          {/* Image */}
           <div className="absolute inset-0 z-0 bg-gray-300">
             <Image
               src={service.image}
@@ -121,70 +120,86 @@ function ServicesSkeleton() {
               }}
             />
           </div>
-        ) : (
-          <div className="w-full h-full p-6 md:p-8 flex flex-col justify-center z-10">
-              {/* Red accent dot */}
-              <div className="absolute top-4 left-4 w-3 h-3 bg-red-600 rounded-full" />
-              
-              {/* Service Name */}
-              <h3 className="text-white text-2xl md:text-3xl font-bold mb-4 text-center" style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}>
-                {service.name}
-              </h3>
-              
-              {/* Description */}
-              <p className="text-gray-200 text-sm md:text-base mb-6 leading-relaxed text-center">
-                {service.description}
-              </p>
-              
-              {/* Features List */}
-              <ul className="space-y-3">
-                {service.features.map((feature, idx) => (
-                  <li
-                    key={idx}
-                    className="flex items-center text-yellow-400 text-sm md:text-base"
-                  >
-                    <span className="mr-3 text-yellow-400 text-lg">✓</span>
-                    <span className="text-white">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-              
-              {/* Click indicator */}
-              <div className="mt-6 text-center">
-                <span className="text-yellow-400 text-sm font-semibold">Click to learn more →</span>
+          
+          {/* Overlay gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-black/10 via-black/5 to-black/15 rounded-full z-5" />
+          
+          {/* Decorative rings */}
+          <div className={`absolute inset-4 border-2 ${service.borderColor === "border-yellow-400" ? "border-yellow-300/60" : "border-red-700/60"} rounded-full z-30 pointer-events-none`} />
+          <div className={`absolute inset-6 border ${service.borderColor === "border-yellow-400" ? "border-yellow-200/40" : "border-red-600/40"} rounded-full z-30 pointer-events-none`} />
+          
+          {/* Tab for Catering Services */}
+          {service.hasTab && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0, rotate: -45 }}
+              animate={{ opacity: 1, scale: 1, rotate: 12 }}
+              transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
+              className="absolute -top-3 -right-3 w-18 h-18 md:w-20 md:h-20 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-lg transform rotate-12 shadow-xl shadow-yellow-400/50 border-2 border-yellow-300 z-50"
+            >
+              <div className="w-full h-full flex items-center justify-center text-black font-bold text-xs md:text-sm z-50 drop-shadow-md">
+                NEW
               </div>
-          </div>
-        )}
-        
-        {/* Overlay gradient */}
-        <div className={`absolute inset-0 z-5 ${
-          isHovered 
-            ? "bg-gradient-to-br from-black/80 via-black/70 to-black/90 rounded-3xl" 
-            : "bg-gradient-to-br from-black/10 via-black/5 to-black/15 rounded-full"
-        }`} />
-        
-        {/* Decorative rings - only show when circle */}
-        {!isHovered && (
-          <>
-            <div className={`absolute inset-4 border-2 ${service.borderColor === "border-yellow-400" ? "border-yellow-300/60" : "border-red-700/60"} rounded-full z-30 pointer-events-none`} />
-            <div className={`absolute inset-6 border ${service.borderColor === "border-yellow-400" ? "border-yellow-200/40" : "border-red-600/40"} rounded-full z-30 pointer-events-none`} />
-          </>
-        )}
-        
-        {/* Tab for Catering Services */}
-        {service.hasTab && !isHovered && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0, rotate: -45 }}
-            animate={{ opacity: 1, scale: 1, rotate: 12 }}
-            transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
-            className="absolute -top-3 -right-3 w-18 h-18 md:w-20 md:h-20 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-lg transform rotate-12 shadow-xl shadow-yellow-400/50 border-2 border-yellow-300 z-50"
-          >
-            <div className="w-full h-full flex items-center justify-center text-black font-bold text-xs md:text-sm z-50 drop-shadow-md">
-              NEW
+            </motion.div>
+          )}
+        </motion.div>
+
+        {/* Rectangle with content - Fades in on hover */}
+        <AnimatePresence>
+          {isHovered && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+              }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className={`absolute w-full min-h-[400px] rounded-[3rem] bg-gradient-to-br from-gray-100 via-gray-50 to-gray-200 border-12 ${service.borderColor} flex flex-col items-center justify-center overflow-hidden shadow-2xl ${
+                service.borderColor === "border-yellow-400" 
+                  ? "shadow-yellow-400/30" 
+                  : "shadow-red-800/30"
+              }`}
+            >
+          {/* Content */}
+          <div className="w-full h-full p-6 md:p-8 flex flex-col justify-center z-10 relative">
+            {/* Red accent dot */}
+            <div className="absolute top-4 left-4 w-3 h-3 bg-red-600 rounded-full" />
+            
+            {/* Service Name */}
+            <h3 className="text-white text-2xl md:text-3xl font-bold mb-4 text-center" style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}>
+              {service.name}
+            </h3>
+            
+            {/* Description */}
+            <p className="text-gray-200 text-sm md:text-base mb-6 leading-relaxed text-center">
+              {service.description}
+            </p>
+            
+            {/* Features List */}
+            <ul className="space-y-3">
+              {service.features.map((feature, idx) => (
+                <li
+                  key={idx}
+                  className="flex items-center text-yellow-400 text-sm md:text-base"
+                >
+                  <span className="mr-3 text-yellow-400 text-lg">✓</span>
+                  <span className="text-white">{feature}</span>
+                </li>
+              ))}
+            </ul>
+            
+            {/* Click indicator */}
+            <div className="mt-6 text-center">
+              <span className="text-yellow-400 text-sm font-semibold">Click to learn more →</span>
             </div>
-          </motion.div>
-        )}
-      </motion.div>
+          </div>
+          
+          {/* Overlay gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/70 to-black/90 rounded-3xl z-5" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
 
       {/* Red Banner Label - Below circle, only visible when not hovered */}
       {!isHovered && (

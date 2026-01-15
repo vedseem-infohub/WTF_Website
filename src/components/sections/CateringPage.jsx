@@ -199,31 +199,30 @@ function CateringPage() {
                     selectedCategory === category.id ? "opacity-100" : "opacity-80"
                   }`}
                 >
-<div
-  onMouseEnter={() => setHoveredCategory(category.id)}
-  onMouseLeave={() => setHoveredCategory(null)}
-  className={`
-    ${CIRCLE_SIZE}
-    flex items-center justify-center mb-4 border-2
-    transition-[border-radius,background-color,box-shadow]
-    duration-500 ease-in-out
-    ${
-      hoveredCategory === category.id
-        ? "rounded-xl"
-        : "rounded-full"
-    }
-    ${
-      selectedCategory === category.id
-        ? "border-red-800 bg-red-50 shadow-lg"
-        : "border-red-800 bg-white hover:bg-red-50"
-    }
-  `}
->
-  <span className="text-4xl md:text-5xl lg:text-6xl">
-    {category.icon}
-  </span>
-</div>
-
+                  <div
+                    onMouseEnter={() => setHoveredCategory(category.id)}
+                    onMouseLeave={() => setHoveredCategory(null)}
+                    className={`
+                      w-28 h-28 md:w-36 md:h-36 lg:w-40 lg:h-40
+                      flex items-center justify-center mb-4 border-2
+                      transition-[border-radius,background-color,box-shadow]
+                      duration-500 ease-in-out
+                      ${
+                        hoveredCategory === category.id
+                          ? "rounded-xl"
+                          : "rounded-full"
+                      }
+                      ${
+                        selectedCategory === category.id
+                          ? "border-red-800 bg-red-50 shadow-lg"
+                          : "border-red-800 bg-white hover:bg-red-50"
+                      }
+                    `}
+                  >
+                    <span className="text-4xl md:text-5xl lg:text-6xl">
+                      {category.icon}
+                    </span>
+                  </div>
                   <span className="text-base md:text-lg lg:text-xl font-semibold text-gray-800 text-center">
                     {category.name}
                   </span>
