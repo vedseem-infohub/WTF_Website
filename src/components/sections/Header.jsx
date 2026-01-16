@@ -72,7 +72,7 @@ function Header() {
             return (
               <Link href={item.href} key={item.label}>
                 <p
-                  className={`px-3 py-1 rounded ${
+                  className={`px-3 py-1 rounded hover:bg-red-300 hover:rounded-full duration-500 ${
                     isActive ? "bg-red-500 rounded-full px-4" : ""
                   }`}
                 >
