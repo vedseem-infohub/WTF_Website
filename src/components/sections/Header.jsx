@@ -60,7 +60,7 @@ function Header() {
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      <div className="flex justify-between items-center px-8 py-2 bg-black/30 border border-white/40 rounded-full mt-4 mx-4">
+      <div className="flex justify-between items-center px-8 py-2 bg-black/50 border border-white/40 rounded-full mt-4 mx-4">
         <div>
           <Link href="/">
             <Image src="/logo.png" alt="logo" width={80} height={50} />

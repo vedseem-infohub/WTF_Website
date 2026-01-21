@@ -86,7 +86,7 @@ export default function MenuPage() {
       <section className="px-4 md:px-10 py-14 w-[96%] mx-auto">
 
         {menuSections.map((section, index) => (
-          <div key={index} className="mb-16 bg-white/10 backdrop-blur-sm py-8 px-14 rounded-2xl border-1 border-white/50">
+          <div key={index} className="mb-16 bg-gray-800/20 backdrop-blur-sm py-8 px-14 rounded-2xl border-1 border-white/50">
 
             {/* Section Header */}
             <div className="flex justify-between items-center mb-6">

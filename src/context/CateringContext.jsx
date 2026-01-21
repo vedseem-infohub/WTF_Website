@@ -8,7 +8,25 @@ export function CateringProvider({ children }) {
   const [selectedService, setSelectedService] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedMenuItem, setSelectedMenuItem] = useState(null);
+  const [selectedCity, setSelectedCityState] = useState(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+
+  // Initialize city from localStorage
+  React.useEffect(() => {
+    const savedCity = localStorage.getItem("catering_selected_city");
+    if (savedCity) {
+      setSelectedCityState(savedCity);
+    }
+  }, []);
+
+  const setSelectedCity = (city) => {
+    setSelectedCityState(city);
+    if (city) {
+      localStorage.setItem("catering_selected_city", city);
+    } else {
+      localStorage.removeItem("catering_selected_city");
+    }
+  };
 
   const openDetailModal = (menuItem) => {
     setSelectedMenuItem(menuItem);
@@ -28,6 +46,8 @@ export function CateringProvider({ children }) {
     selectedCategory,
     setSelectedCategory,
     selectedMenuItem,
+    selectedCity,
+    setSelectedCity,
     isDetailModalOpen,
     openDetailModal,
     closeDetailModal,

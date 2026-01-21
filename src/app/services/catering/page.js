@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useCatering } from "../../../context/CateringContext";
 import { useRouter } from "next/navigation";
 import Header from "../../../components/sections/Header";
+import Footer from "@/components/sections/Footer";
 
 
 function CateringPage() {
@@ -15,8 +16,21 @@ function CateringPage() {
     setSelectedService,
     selectedCategory,
     setSelectedCategory,
+    selectedCity,
+    setSelectedCity,
   } = useCatering();
   
+  const [showCityModal, setShowCityModal] = useState(false);
+  
+  useEffect(() => {
+    // Show modal if no city is selected
+    if (!selectedCity) {
+      setShowCityModal(true);
+    } else {
+      setShowCityModal(false);
+    }
+  }, [selectedCity]);
+
   const [hoveredOccasion, setHoveredOccasion] = useState(null);
   const [hoveredService, setHoveredService] = useState(null);
   const [hoveredCategory, setHoveredCategory] = useState(null);
@@ -119,8 +133,19 @@ function CateringPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-gray-50/30 to-white">
+    <div className={`min-h-screen bg-gradient-to-b from-white via-gray-50/30 to-white ${showCityModal ? "overflow-hidden h-screen" : ""}`}>
       
+      <AnimatePresence>
+        {showCityModal && (
+          <CitySelectionModal 
+            onSelect={(city) => {
+              setSelectedCity(city);
+              setShowCityModal(false);
+            }} 
+          />
+        )}
+      </AnimatePresence>
+
       <Header/>
 
       {/* Header Section */}
@@ -220,76 +245,65 @@ function CateringPage() {
           <div className="relative">
             <div className="flex gap-6 md:gap-8 overflow-x-auto scrollbar-hide pb-8 pt-4 px-4 md:px-6 snap-x snap-mandatory scroll-smooth">
               {occasions.map((occasion) => (
-                <motion.button
-                  key={occasion.id}
-                  onClick={() => router.push(`/services/catering/occasions/${occasion.slug}`)}
-                  onMouseEnter={() => setHoveredOccasion(occasion.id)}
-                  onMouseLeave={() => setHoveredOccasion(null)}
-                  initial={{ opacity: 0, y: 30, scale: 0.9 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ 
-                    duration: 0.5, 
-                    delay: occasion.id * 0.08,
-                    type: "spring",
-                    stiffness: 120
-                  }}
-                  whileHover={{ scale: 1.08, y: -8 }}
-                  whileTap={{ scale: 0.96 }}
-                  animate={selectedOccasion === occasion.id ? {
-                    boxShadow: "0 20px 25px -5px rgba(220, 38, 38, 0.3), 0 10px 10px -5px rgba(220, 38, 38, 0.1)"
-                  } : {}}
-                  className={`relative flex-shrink-0 w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-2xl overflow-hidden transition-all duration-500 snap-center shadow-lg ${
-                    selectedOccasion === occasion.id
-                      ? "shadow-2xl shadow-red-300/40 ring-2 ring-red-200"
-                      : "hover:shadow-2xl"
-                  }`}
-                >
-                  {/* Image */}
-                  <div className="absolute inset-0">
-                    <Image
-                      src={occasion.image}
-                      alt={occasion.name}
-                      fill
-                      className="object-cover"
-                      unoptimized
-                    />
-                  </div>
-                  
-                  {/* Gradient overlay - appears on hover */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: hoveredOccasion === occasion.id ? 0.7 : 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60"
-                  />
-                  
-                  {/* Enhanced Name - appears on hover at bottom */}
-                  <motion.div
-                    initial={{ y: 30, opacity: 0, scale: 0.9 }}
-                    animate={{ 
-                      y: hoveredOccasion === occasion.id ? 0 : 30,
-                      opacity: hoveredOccasion === occasion.id ? 1 : 0,
-                      scale: hoveredOccasion === occasion.id ? 1 : 0.9
+                <div key={occasion.id} className="flex flex-col items-center gap-4 flex-shrink-0 snap-center">
+                  <motion.button
+                    onClick={() => router.push(`/services/catering/occasions/${occasion.slug}`)}
+                    onMouseEnter={() => setHoveredOccasion(occasion.id)}
+                    onMouseLeave={() => setHoveredOccasion(null)}
+                    initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ 
+                      duration: 0.5, 
+                      delay: occasion.id * 0.08,
+                      type: "spring",
+                      stiffness: 120
                     }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
-                    className="absolute bottom-0 left-0 right-0 z-10"
+                    whileHover={{ scale: 1.05, y: -8 }}
+                    whileTap={{ scale: 0.96 }}
+                    className={`relative w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-2xl overflow-hidden transition-all duration-500 shadow-lg group ${
+                      selectedOccasion === occasion.id
+                        ? "shadow-2xl shadow-red-300/40 ring-4 ring-red-500"
+                        : "hover:shadow-2xl"
+                    }`}
                   >
-                    <div className="bg-gradient-to-t from-black/90 via-black/70 to-transparent p-4 md:p-5 lg:p-6">
-                      <span className="text-white font-extrabold text-lg md:text-xl lg:text-2xl text-center block tracking-wide uppercase drop-shadow-2xl">
-                        {occasion.name}
-                      </span>
+                    {/* Image */}
+                    <div className="absolute inset-0">
+                      <Image
+                        src={occasion.image}
+                        alt={occasion.name}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-700"
+                        unoptimized
+                      />
                     </div>
-                  </motion.div>
+                    
+                    {/* Deep red premium gradient overlay - appears on hover */}
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: hoveredOccasion === occasion.id ? 1 : 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="absolute inset-0 bg-gradient-to-t from-red-700/90 via-red-600/40 to-transparent flex items-end justify-center pb-8 cursor-pointer"
+                    >
+                      <motion.span
+                        initial={{ y: 10, opacity: 0 }}
+                        animate={{ 
+                          y: hoveredOccasion === occasion.id ? 0 : 0, 
+                          opacity: hoveredOccasion === occasion.id ? 1 : 0,
+                        }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
+                        className="text-white text-xl md:text-xl drop-shadow-lg"
+                      >
+                        View Packages
+                      </motion.span>
+                    </motion.div>
+                  </motion.button>
                   
-                  {/* Bottom shadow on hover */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: hoveredOccasion === occasion.id ? 1 : 0 }}
-                    transition={{ duration: 0.4 }}
-                    className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/60 via-black/30 to-transparent pointer-events-none"
-                  />
-                </motion.button>
+                  {/* Label below */}
+                  <span className="text-gray-900 font-bold text-base md:text-lg tracking-tight">
+                    {occasion.name}
+                  </span>
+                </div>
               ))}
             </div>
           </div>
@@ -319,76 +333,65 @@ function CateringPage() {
           {/* Scrollable Services Row */}
           <div className="flex gap-6 md:gap-8 overflow-x-auto scrollbar-hide pb-8 pt-4 px-4 md:px-6 snap-x snap-mandatory scroll-smooth">
             {services.map((service) => (
-              <motion.button
-                key={service.id}
-                onClick={() => router.push(`/services/catering/services/${service.slug}`)}
-                onMouseEnter={() => setHoveredService(service.id)}
-                onMouseLeave={() => setHoveredService(null)}
-                initial={{ opacity: 0, y: 30, scale: 0.9 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ 
-                  duration: 0.5, 
-                  delay: service.id * 0.08,
-                  type: "spring",
-                  stiffness: 120
-                }}
-                whileHover={{ scale: 1.08, y: -8 }}
-                whileTap={{ scale: 0.96 }}
-                animate={selectedService === service.id ? {
-                  boxShadow: "0 20px 25px -5px rgba(220, 38, 38, 0.3), 0 10px 10px -5px rgba(220, 38, 38, 0.1)"
-                } : {}}
-                className={`relative flex-shrink-0 w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-2xl overflow-hidden transition-all duration-500 snap-center shadow-lg ${
-                  selectedService === service.id
-                    ? "shadow-2xl shadow-red-300/40 ring-2 ring-red-200"
-                    : "hover:shadow-2xl"
-                }`}
-              >
-                {/* Image */}
-                <div className="absolute inset-0">
-                  <Image
-                    src={service.image}
-                    alt={service.name}
-                    fill
-                    className="object-cover"
-                    unoptimized
-                  />
-                </div>
-                
-                {/* Gradient overlay - appears on hover */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: hoveredService === service.id ? 0.7 : 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60"
-                />
-                
-                {/* Enhanced Name - appears on hover at bottom */}
-                <motion.div
-                  initial={{ y: 30, opacity: 0, scale: 0.9 }}
-                  animate={{ 
-                    y: hoveredService === service.id ? 0 : 30,
-                    opacity: hoveredService === service.id ? 1 : 0,
-                    scale: hoveredService === service.id ? 1 : 0.9
+              <div key={service.id} className="flex flex-col items-center gap-4 flex-shrink-0 snap-center">
+                <motion.button
+                  onClick={() => router.push(`/services/catering/services/${service.slug}`)}
+                  onMouseEnter={() => setHoveredService(service.id)}
+                  onMouseLeave={() => setHoveredService(null)}
+                  initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ 
+                    duration: 0.5, 
+                    delay: service.id * 0.08,
+                    type: "spring",
+                    stiffness: 120
                   }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                  className="absolute bottom-0 left-0 right-0 z-10"
+                  whileHover={{ scale: 1.05, y: -8 }}
+                  whileTap={{ scale: 0.96 }}
+                  className={`relative w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-2xl overflow-hidden transition-all duration-500 shadow-lg group ${
+                    selectedService === service.id
+                      ? "shadow-2xl shadow-red-300/40 ring-4 ring-red-500"
+                      : "hover:shadow-2xl"
+                  }`}
                 >
-                  <div className="bg-gradient-to-t from-black/90 via-black/70 to-transparent p-4 md:p-5 lg:p-6">
-                    <span className="text-white font-extrabold text-lg md:text-xl lg:text-2xl text-center block tracking-wide uppercase drop-shadow-2xl">
-                      {service.name}
-                    </span>
+                  {/* Image */}
+                  <div className="absolute inset-0">
+                    <Image
+                      src={service.image}
+                      alt={service.name}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                      unoptimized
+                    />
                   </div>
-                </motion.div>
+                  
+                  {/* Deep red premium gradient overlay - appears on hover */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: hoveredService === service.id ? 1 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="absolute inset-0 bg-gradient-to-t from-red-700/90 via-red-600/40 to-transparent flex items-end justify-center pb-8 cursor-pointer"
+                  >
+                    <motion.span
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ 
+                        y: hoveredService === service.id ? 0 : 0, 
+                        opacity: hoveredService === service.id ? 1 : 0,
+                      }}
+                      transition={{ duration: 0.4, ease: "easeOut" }}
+                      className="text-white text-lg md:text-xl drop-shadow-lg"
+                    >
+                      View Packages
+                    </motion.span>
+                  </motion.div>
+                </motion.button>
                 
-                {/* Bottom shadow on hover */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: hoveredService === service.id ? 1 : 0 }}
-                  transition={{ duration: 0.4 }}
-                  className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/60 via-black/30 to-transparent pointer-events-none"
-                />
-              </motion.button>
+                {/* Label below */}
+                <span className="text-gray-900 font-bold text-base md:text-lg tracking-tight">
+                  {service.name}
+                </span>
+              </div>
             ))}
           </div>
         </div>
@@ -462,76 +465,65 @@ function CateringPage() {
             {/* Scrollable Categories Row */}
             <div className="flex gap-6 md:gap-8 overflow-x-auto scrollbar-hide pb-8 pt-4 px-4 md:px-6 snap-x snap-mandatory scroll-smooth">
               {categories.map((category) => (
-                <motion.button
-                  key={category.id}
-                  onClick={() => router.push(`/services/catering/categories/${category.slug}`)}                  
-                  onMouseEnter={() => setHoveredCategory(category.id)}
-                  onMouseLeave={() => setHoveredCategory(null)}
-                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ 
-                    duration: 0.5, 
-                    delay: category.id * 0.1,
-                    type: "spring",
-                    stiffness: 120
-                  }}
-                  whileHover={{ scale: 1.08, y: -8 }}
-                  whileTap={{ scale: 0.96 }}
-                  animate={selectedCategory === category.id ? {
-                    boxShadow: "0 20px 25px -5px rgba(220, 38, 38, 0.3), 0 10px 10px -5px rgba(220, 38, 38, 0.1)"
-                  } : {}}
-                  className={`relative flex-shrink-0 w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden transition-all duration-500 snap-center shadow-lg ${
-                    selectedCategory === category.id
-                      ? "shadow-2xl shadow-red-300/40 ring-2 ring-red-200"
-                      : "hover:shadow-2xl"
-                  }`}
-                >
-                  {/* Image */}
-                  <div className="absolute inset-0">
-                    <Image
-                      src={category.image}
-                      alt={category.name}
-                      fill
-                      className="object-cover"
-                      unoptimized
-                    />
-                  </div>
-                  
-                  {/* Gradient overlay - appears on hover */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: hoveredCategory === category.id ? 0.7 : 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60"
-                  />
-                  
-                  {/* Enhanced Name - appears on hover at bottom */}
-                  <motion.div
-                    initial={{ y: 30, opacity: 0, scale: 0.9 }}
-                    animate={{ 
-                      y: hoveredCategory === category.id ? 0 : 30,
-                      opacity: hoveredCategory === category.id ? 1 : 0,
-                      scale: hoveredCategory === category.id ? 1 : 0.9
+                <div key={category.id} className="flex flex-col items-center gap-4 flex-shrink-0 snap-center">
+                  <motion.button
+                    onClick={() => router.push(`/services/catering/categories/${category.slug}`)}                  
+                    onMouseEnter={() => setHoveredCategory(category.id)}
+                    onMouseLeave={() => setHoveredCategory(null)}
+                    initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ 
+                      duration: 0.5, 
+                      delay: category.id * 0.1,
+                      type: "spring",
+                      stiffness: 120
                     }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
-                    className="absolute bottom-0 left-0 right-0 z-10"
+                    whileHover={{ scale: 1.05, y: -8 }}
+                    whileTap={{ scale: 0.96 }}
+                    className={`relative w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden transition-all duration-500 shadow-lg group ${
+                      selectedCategory === category.id
+                        ? "shadow-2xl shadow-red-300/40 ring-4 ring-red-500"
+                        : "hover:shadow-2xl"
+                    }`}
                   >
-                    <div className="bg-gradient-to-t from-black/90 via-black/70 to-transparent p-4 md:p-5 lg:p-6">
-                      <span className="text-white font-extrabold text-lg md:text-xl lg:text-2xl text-center block tracking-wide uppercase drop-shadow-2xl">
-                        {category.name}
-                      </span>
+                    {/* Image */}
+                    <div className="absolute inset-0">
+                      <Image
+                        src={category.image}
+                        alt={category.name}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-700"
+                        unoptimized
+                      />
                     </div>
-                  </motion.div>
+                    
+                    {/* Deep red premium gradient overlay - appears on hover */}
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: hoveredCategory === category.id ? 1 : 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="absolute inset-0 bg-gradient-to-t from-red-700/90 via-red-600/40 to-transparent flex items-end justify-center pb-8 cursor-pointer"
+                    >
+                      <motion.span
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ 
+                          y: hoveredCategory === category.id ? 0 : 0, 
+                          opacity: hoveredCategory === category.id ? 1 : 0,
+                        }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
+                        className="text-white text-lg translateY-1/6 md:text-xl drop-shadow-lg"
+                      >
+                        View Packages
+                      </motion.span>
+                    </motion.div>
+                  </motion.button>
                   
-                  {/* Bottom shadow on hover */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: hoveredCategory === category.id ? 1 : 0 }}
-                    transition={{ duration: 0.4 }}
-                    className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/60 via-black/30 to-transparent pointer-events-none"
-                  />
-                </motion.button>
+                  {/* Label below */}
+                  <span className="text-gray-900 font-bold text-base md:text-lg tracking-tight">
+                    {category.name}
+                  </span>
+                </div>
               ))}
             </div>
           </div>
@@ -581,75 +573,77 @@ function CateringPage() {
                         type: "spring",
                         stiffness: 100
                       }}
-                      whileHover={{ y: -8, scale: 1.02 }}
-                      className="group cursor-pointer"
-                      onClick={() => {
-                        console.log(item);
-                        router.push(`/services/catering/${item.slug}`);
-                      }}
+                      whileHover={{ y: -6 }}
+                      className="group bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition cursor-pointer"
+                      onClick={() => router.push(`/services/catering/occasions/${item.slug}`)} // Default to occasions for details
                     >
-                      {/* Card Container */}
-                      <div className="relative bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
-                        {/* Image Section */}
-                        <div className="relative w-full h-48 md:h-56 lg:h-64 overflow-hidden">
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            fill
-                            className="object-cover group-hover:scale-110 transition-transform duration-500"
-                            unoptimized
-                          />
-                          
-                          {/* Premium Options Banner */}
-                          <div className="absolute top-3 left-3 bg-gradient-to-r from-yellow-500 to-orange-500 px-3 py-1 rounded-md shadow-lg">
-                            <span className="text-white text-xs md:text-sm font-bold uppercase tracking-wide">
-                              Premium Options
-                            </span>
-                          </div>
+                      {/* Image Section */}
+                      <div className="relative w-full h-48 md:h-56 overflow-hidden">
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          unoptimized
+                        />
+                        
+                        {/* Deep red premium gradient overlay - appears on hover */}
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-t from-red-700/90 via-red-600/20 to-transparent flex items-end justify-center pb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        >
+                          <span className="text-white text-base drop-shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                            View Details
+                          </span>
+                        </motion.div>
 
-                          {/* Veg/Non-Veg Indicator */}
-                          <div
-                            className={`absolute top-3 right-3 w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center shadow-lg ${
-                              item.type === "veg"
-                                ? "bg-green-600"
-                                : "bg-red-600"
-                            }`}
-                          >
-                            <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full border-2 border-white ${
-                              item.type === "veg"
-                                ? "bg-green-600"
-                                : "bg-red-600"
-                            }`}></div>
-                          </div>
-
-                          {/* Gradient Overlay */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent"></div>
+                        <div
+                          className={`absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center shadow-lg border-2 backdrop-blur-md ${
+                            item.type === "veg"
+                              ? "bg-green-50/90 border-green-500"
+                              : "bg-red-50/90 border-red-500"
+                          }`}
+                        >
+                          <div className={`w-2 h-2 rounded-full ${
+                            item.type === "veg" ? "bg-green-600" : "bg-red-600"
+                          }`} />
                         </div>
+                      </div>
 
-                        {/* Content Section */}
-                        <div className="p-4 md:p-5 bg-gray-800">
-                          {/* Title */}
-                          <h4 className="text-white font-bold text-base md:text-lg mb-3 group-hover:text-red-400 transition-colors">
-                            {item.name}
-                          </h4>
+                      {/* Content Section */}
+                      <div className="p-4 space-y-3">
+                        <h4 className="font-bold text-gray-900 text-lg leading-tight group-hover:text-red-600 transition-colors line-clamp-1">
+                          {item.name}
+                        </h4>
 
-                          {/* Serving Size and Price */}
-                          <div className="flex items-center justify-between mb-4">
-                            <div className="flex items-center gap-2">
-                              <span className="text-gray-400 text-sm md:text-base font-medium">
-                                {item.servingSize}
-                              </span>
-                            </div>
-                            <span className="text-white font-bold text-lg md:text-xl">
+                        <div className="flex justify-between items-center">
+                          <div className="flex flex-col">
+                            <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Starting from</span>
+                            <span className="text-xl font-black text-red-600 leading-none">
                               {item.price}
                             </span>
                           </div>
 
-                          {/* Customize Button */}
-                          <button className="w-full py-2.5 md:py-3 px-4 bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white rounded-lg font-semibold text-sm md:text-base transition-all duration-300 transform hover:scale-105 shadow-lg shadow-orange-500/30">
-                            Customize
-                          </button>
+                          <div className="flex flex-col items-end">
+                            <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Serving</span>
+                            <span className="text-sm font-semibold text-gray-700">
+                              {item.servingSize} People
+                            </span>
+                          </div>
                         </div>
+
+                        <button
+                          className="
+                            mt-2 w-full py-2.5
+                            text-xs font-bold uppercase tracking-widest
+                            rounded-xl
+                            border-2 border-red-600
+                            text-red-600
+                            hover:bg-red-600 hover:text-white
+                            transition-all duration-300
+                          "
+                        >
+                          Customize
+                        </button>
                       </div>
                     </motion.div>
                   ))}
@@ -670,85 +664,113 @@ function CateringPage() {
             </motion.div>
           )}
 
-          {/* Packages Grid - Scrollable */}
-          <div className="flex gap-6 md:gap-8 overflow-x-auto scrollbar-hide pb-10 pt-6 px-6 md:px-8 snap-x snap-mandatory scroll-smooth">
-            {packages.map((pkg) => (
-              <motion.div
-                key={pkg.id}
-                initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ 
-                  duration: 0.6, 
-                  delay: pkg.id * 0.1,
-                  type: "spring",
-                  stiffness: 100
-                }}
-                whileHover={{ scale: 1.05, y: -12 }}
-                className="flex-shrink-0 w-72 md:w-80 lg:w-96 snap-center"
-              >
-                <div className="bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-red-300/30 transition-all duration-500 relative group">
-                  {/* Image Section */}
-                  <div className="relative h-56 md:h-64 lg:h-72 bg-gray-200 overflow-hidden">
-                    <motion.div
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.6, ease: "easeOut" }}
-                      className="w-full h-full"
-                    >
-                      <Image
-                        src={pkg.image}
-                        alt={pkg.name}
-                        fill
-                        className="object-cover blur-sm group-hover:blur-none transition-all duration-500"
-                        unoptimized
-                      />
-                    </motion.div>
-                    {/* Dark overlay for better text readability */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50"></div>
-                    
-                    {/* Stats overlay */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-center z-10 p-6">
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: pkg.id * 0.1 + 0.2 }}
-                        className="text-center"
-                      >
-                        <h3 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-2 drop-shadow-2xl tracking-tight">
-                          {pkg.stat}
-                        </h3>
-                        <p className="text-white text-base md:text-lg lg:text-xl font-semibold drop-shadow-lg">
-                          {pkg.label}
-                        </p>
-                      </motion.div>
-                    </div>
-                    
-                    {/* Subtle glow effect on hover */}
-                    <motion.div 
-                      className="absolute inset-0 ring-4 ring-red-500/20 rounded-t-3xl"
-                      initial={{ opacity: 0 }}
-                      whileHover={{ opacity: 1 }}
-                      transition={{ duration: 0.3 }}
-                    ></motion.div>
-                  </div>
-                  
-                  {/* Footer Section */}
-                  <motion.div 
-                    className="bg-gradient-to-r from-red-700 to-red-800 h-16 md:h-20 lg:h-24 flex items-center justify-center relative overflow-hidden group-hover:from-red-600 group-hover:to-red-700 transition-all duration-300"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <span className="text-white font-extrabold text-lg md:text-xl lg:text-2xl tracking-wide relative z-10 drop-shadow-lg uppercase">
-                      {pkg.name}
-                    </span>
-                  </motion.div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+         
         </div>
       </section>
+      <Footer/>
     </div>
+  );
+}
+
+function CitySelectionModal({ onSelect }) {
+  const cities = [
+    { name: "Mumbai", icon: "🏙️", description: "The City of Dreams" },
+    { name: "Delhi", icon: "🏛️", description: "Heart of the Nation" },
+    { name: "Bangalore", icon: "🌱", description: "Silicon Valley of India" },
+    { name: "Hyderabad", icon: "🏰", description: "City of Pearls" },
+    { name: "Ahmedabad", icon: "🏗️", description: "Manchester of the East" },
+    { name: "Chennai", icon: "🌊", description: "Gateway to the South" },
+    { name: "Kolkata", icon: "🌉", description: "City of Joy" },
+    { name: "Pune", icon: "⛰️", description: "Oxford of the East" },
+  ];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+    >
+      {/* Dynamic Background */}
+      <div className="absolute inset-0 bg-gray-950/40 backdrop-blur-2xl px-4 py-4" />
+      
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.9, opacity: 0, y: 20 }}
+        className="relative w-full max-w-4xl bg-white/90 backdrop-blur-md rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/20"
+      >
+        {/* Decorative Elements */}
+        <div className="absolute top-0 right-0 p-8 opacity-10">
+          <div className="w-32 h-32 bg-red-600 rounded-full blur-3xl animate-pulse" />
+        </div>
+        <div className="absolute bottom-0 left-0 p-8 opacity-10">
+          <div className="w-32 h-32 bg-red-400 rounded-full blur-3xl animate-pulse" />
+        </div>
+
+        <div className="relative z-10 p-8 md:p-12">
+          <div className="text-center mb-12">
+            <motion.div
+              initial={{ y: -10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="inline-block px-4 py-1.5 rounded-full bg-red-50 text-red-600 text-xs font-bold uppercase tracking-widest mb-4"
+            >
+              Location Required
+            </motion.div>
+            <motion.h2
+              initial={{ y: -10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+              style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
+            >
+              Select Your City
+            </motion.h2>
+            <motion.p
+              initial={{ y: -10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="text-gray-500 text-lg max-w-md mx-auto"
+            >
+              To serve you better, please let us know your location for our catering services.
+            </motion.p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {cities.map((city, index) => (
+              <motion.button
+                key={city.name}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 + index * 0.05 }}
+                whileHover={{ y: -5, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => onSelect(city.name)}
+                className="group relative flex flex-col items-center justify-center p-6 rounded-3xl bg-white border border-gray-100 shadow-sm hover:shadow-xl hover:border-red-100 transition-all duration-300"
+              >
+                <div className="text-4xl mb-4 group-hover:scale-125 transition-transform duration-300">
+                  {city.icon}
+                </div>
+                <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-red-600 transition-colors">
+                  {city.name}
+                </h3>
+                <p className="text-[10px] text-gray-400 font-medium uppercase tracking-tighter opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {city.description}
+                </p>
+                
+                {/* Active selection glow */}
+                <div className="absolute inset-0 rounded-3xl ring-2 ring-red-500 ring-opacity-0 group-hover:ring-opacity-20 transition-all duration-300" />
+              </motion.button>
+            ))}
+          </div>
+          
+          <div className="mt-12 text-center text-gray-400 text-sm">
+            Can't find your city? <button className="text-red-500 font-semibold hover:underline">Contact Support</button>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }
 

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { notFound } from "next/navigation";
+import CateringSummaryView from "@/components/sections/CateringSummaryView";
 
 // Menu items data with occasion associations and package details
 const cateringMenuItems = [
@@ -76,7 +77,15 @@ const occasions = [
 export default function OccasionPage({ params }) {
   const { slug } = React.use(params);
   const [selectedItem, setSelectedItem] = React.useState(null);
-
+  const [isBookingModalOpen, setIsBookingModalOpen] = React.useState(false);
+  const [bookingDetails, setBookingDetails] = React.useState({
+    date: "",
+    time: "",
+    vegGuests: "10",
+  });
+  const [guestDropdownOpen, setGuestDropdownOpen] = React.useState(false);
+  const [showSummary, setShowSummary] = React.useState(false);
+  
   // Find the occasion
   const occasion = occasions.find((o) => o.slug === slug);
   
@@ -100,6 +109,16 @@ export default function OccasionPage({ params }) {
     });
     return grouped;
   };
+
+  if (showSummary) {
+    return (
+      <CateringSummaryView
+        selectedItem={selectedItem}
+        bookingDetails={bookingDetails}
+        onBack={() => setShowSummary(false)}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#fafafa] relative overflow-hidden">
@@ -279,14 +298,14 @@ export default function OccasionPage({ params }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-gray-900/80 backdrop-blur-xl z-[100] flex items-center justify-center p-4 md:p-6"
+            className="fixed inset-0 bg-gray-900/80 backdrop-blur-xl px-24 z-[100] flex items-center justify-center p-4 md:p-6"
             onClick={() => setSelectedItem(null)}
           >
             <motion.div
               initial={{ y: 100, opacity: 0, scale: 0.95 }}
               animate={{ y: 0, opacity: 1, scale: 1 }}
               exit={{ y: 100, opacity: 0, scale: 0.95 }}
-              className="bg-white rounded-[2rem] shadow-[0_50px_100px_rgba(0,0,0,0.3)] max-w-2xl w-full max-h-[85vh] overflow-hidden flex flex-col relative"
+              className="bg-white rounded-[2rem] shadow-[0_50px_100px_rgba(0,0,0,0.3)] max-w-xl w-full max-h-[85vh] overflow-hidden flex flex-col relative"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Header */}
@@ -308,7 +327,7 @@ export default function OccasionPage({ params }) {
                 </div>
                 <button
                   onClick={() => setSelectedItem(null)}
-                  className="w-12 h-12 flex items-center justify-center rounded-2xl bg-gray-50 hover:bg-red-50 hover:text-red-600 transition-all duration-300"
+                  className="w-12 h-12 flex items-center justify-center rounded-2xl bg-gray-50 text-gray-900 hover:bg-red-50 hover:text-red-600 transition-all duration-300"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
@@ -320,7 +339,7 @@ export default function OccasionPage({ params }) {
               <div className="flex-1 overflow-y-auto p-8 pt-4 scroll-smooth">
                 {Object.entries(groupItemsByCategory(selectedItem.items)).map(([category, items], catIdx) => (
                   <div key={category} className="mb-10 last:mb-0">
-                    <div className="flex items-center gap-4 mb-6 sticky top-0 bg-white/80 backdrop-blur-sm py-2 z-10">
+                    <div className="flex items-center gap-4 mb-6 bg-white/80 backdrop-blur-sm py-2 z-10">
                       <span className="text-gray-200 text-3xl font-black">0{catIdx + 1}</span>
                       <h3 className="text-lg font-black text-gray-900 uppercase tracking-tighter">{category}</h3>
                       <div className="h-px bg-gray-100 flex-1" />
@@ -354,7 +373,10 @@ export default function OccasionPage({ params }) {
 
               {/* Modal Footer */}
               <div className="p-8 border-t border-gray-100 bg-gray-50/50">
-                <button className="w-full bg-red-600 hover:bg-red-700 text-white py-5 px-10 rounded-[1.5rem] font-black text-lg tracking-tight transition-all duration-300 shadow-xl shadow-red-200 flex items-center justify-center gap-3 group">
+                <button 
+                  onClick={() => setIsBookingModalOpen(true)}
+                  className="w-full bg-red-600 hover:bg-red-700 text-white py-5 px-10 rounded-[1.5rem] font-semibold text-lg tracking-tight transition-all duration-300 shadow-xl shadow-red-200 flex items-center justify-center gap-3 group"
+                >
                   <span>Customize & Check Price</span>
                   <svg className="w-5 h-5 transform group-hover:translate-x-1.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -365,6 +387,184 @@ export default function OccasionPage({ params }) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Booking Details Modal (Step 2) */}
+      <AnimatePresence>
+        {isBookingModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[110] flex items-center justify-center bg-slate-900/70 backdrop-blur-md p-4"
+            onClick={() => {
+              setIsBookingModalOpen(false);
+              setSelectedItem(null);
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 30 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 30 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              className="relative w-full max-w-lg rounded-3xl bg-white shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="relative border-b border-slate-100 px-8 py-6 text-center">
+                <button
+                  onClick={() => setIsBookingModalOpen(false)}
+                  className="absolute left-6 top-6 flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-500 hover:bg-red-50 hover:text-red-600 transition"
+                >
+                  <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+      
+                <h2 className="text-xl font-extrabold text-slate-900">
+                  Booking Details
+                </h2>
+                <p className="mt-1 text-sm text-slate-500">
+                  Get exact pricing & service availability
+                </p>
+              </div>
+      
+              {/* Content */}
+              <div className="space-y-6 px-8 py-6">
+                {/* Service */}
+                <div>
+                  <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-400">
+                    Selected Service
+                  </label>
+                  <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 font-semibold text-slate-800">
+                    {occasion.name}
+                  </div>
+                </div>
+      
+                {/* Date & Time */}
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <div>
+                    <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-400">
+                      Event Date
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="DD / MM / YYYY"
+                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-medium text-slate-800 placeholder:text-slate-300 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none transition"
+                      value={bookingDetails.date}
+                      onChange={(e) =>
+                        setBookingDetails({ ...bookingDetails, date: e.target.value })
+                      }
+                    />
+                  </div>
+      
+                  <div>
+                    <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-400">
+                      Event Time
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 7:00 PM"
+                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-medium text-slate-800 placeholder:text-slate-300 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none transition"
+                      value={bookingDetails.time}
+                      onChange={(e) =>
+                        setBookingDetails({ ...bookingDetails, time: e.target.value })
+                      }
+                    />
+                  </div>
+                </div>
+      
+                {/* Guest Count */}
+                <div>
+                  <label className="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-400">
+                    Number of Guests (Veg)
+                  </label>
+                
+                  <div className="relative">
+                    {/* Selected Value */}
+                    <button
+                      onClick={() => setGuestDropdownOpen((prev) => !prev)}
+                      className="flex w-full items-center justify-between rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-left transition hover:border-emerald-300 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                    >
+                      <div>
+                        <p className="text-sm font-medium text-emerald-600">
+                          Selected Guests
+                        </p>
+                        <p className="text-lg text-emerald-900">
+                          {bookingDetails.vegGuests} People
+                        </p>
+                      </div>
+                
+                      <motion.span
+                        animate={{ rotate: guestDropdownOpen ? 180 : 0 }}
+                        transition={{ duration: 0.25 }}
+                        className="text-emerald-600"
+                      >
+                        <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </motion.span>
+                    </button>
+                
+                    {/* Dropdown */}
+                    <AnimatePresence>
+                      {guestDropdownOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10, scale: 0.98 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: -10, scale: 0.98 }}
+                          transition={{ duration: 0.25, ease: "easeOut" }}
+                          className="absolute z-20 mt-3 w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl"
+                        >
+                          <div className="max-h-64 overflow-y-auto py-2">
+                            {[10, 20, 30, 40, 50, 75, 100].map((num) => (
+                              <button
+                                key={num}
+                                onClick={() => {
+                                  setBookingDetails({ ...bookingDetails, vegGuests: num });
+                                  setGuestDropdownOpen(false);
+                                }}
+                                className={`flex w-full items-center justify-between px-6 py-3 text-left transition
+                                  ${
+                                    bookingDetails.vegGuests === num
+                                      ? "bg-emerald-50 text-emerald-700 font-bold"
+                                      : "text-slate-700 hover:bg-slate-50"
+                                  }
+                                `}
+                              >
+                                <span>{num} Guests</span>
+                
+                                {bookingDetails.vegGuests === num && (
+                                  <svg
+                                    className="h-5 w-5 text-emerald-600"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                  </svg>
+                                )}
+                              </button>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </div>
+      
+                {/* CTA */}
+                <button
+                  onClick={() => setShowSummary(true)}
+                  className="mt-4 flex w-full items-center justify-center rounded-2xl bg-red-600 px-6 py-4 text-lg font-semibold text-white shadow-lg shadow-red-200 transition hover:bg-red-700 active:scale-[0.98]"
+                >
+                  Customize & Check Price
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </div>
   );
 }
