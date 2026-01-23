@@ -44,18 +44,18 @@ export default function ContactPage() {
                         <div className="flex flex-col gap-8">
                             <ContactItem
                                 icon={<Phone className="w-5 h-5 text-rose-600" />}
-                                text="+91 9720191991"
-                                href="tel:+919720191991"
+                                text="+91 9818981438"
+                                href="tel:+919818981438"
                             />
-                            <ContactItem
+                            {/* <ContactItem
                                 icon={<Building className="w-5 h-5 text-rose-600" />}
                                 text="+0120 6053168"
                                 href="tel:+01206053168"
-                            />
+                            /> */}
                             <ContactItem
                                 icon={<Mail className="w-5 h-5 text-rose-600" />}
-                                text="info@knecthotel.com"
-                                href="mailto:info@knecthotel.com"
+                                text="sileenafoods@gmail.com"
+                                href="mailto:sileenafoods@gmail.com"
                             />
                         </div>
                     </section>
@@ -108,7 +108,7 @@ export default function ContactPage() {
 
 function ContactItem({ icon, text, href }) {
     return (
-        <a href={href} className="group flex items-center gap-5 text-slate-700 hover:text-rose-600 transition-all w-fit">
+        <a href={href} className="group flex items-center gap-5 text-slate-700 hover:text-rose-600  transition-all w-fit">
             <div className="w-12 h-12 flex items-center justify-center rounded-2xl bg-rose-50 group-hover:bg-rose-600 group-hover:text-white transition-all duration-300">
                 {icon}
             </div>

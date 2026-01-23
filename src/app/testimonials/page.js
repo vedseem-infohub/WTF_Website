@@ -1,0 +1,273 @@
+'use client'
+import React, { useState } from 'react'
+import Header from '@/components/sections/Header'
+import Footer from '@/components/sections/Footer'
+
+export default function TestimonialsPage() {
+  const [showReviewModal, setShowReviewModal] = useState(false)
+  const [reviewForm, setReviewForm] = useState({
+    name: '',
+    email: '',
+    rating: 5,
+    reviewText: ''
+  })
+  const testimonials = [
+    {
+      id: 1,
+      name: 'Priya Sharma',
+      role: 'Wedding Client',
+      rating: 5,
+      text: 'The catering service for our wedding was exceptional! Every dish was perfectly prepared and our guests couldn\'t stop praising the food. Highly recommended!',
+      date: 'December 2025'
+    },
+    {
+      id: 2,
+      name: 'Rajesh Kumar',
+      role: 'Corporate Event',
+      rating: 5,
+      text: 'We ordered for our office party and the experience was seamless. Great quality, timely delivery, and amazing taste. Will definitely order again!',
+      date: 'November 2025'
+    },
+    {
+      id: 3,
+      name: 'Sneha Patel',
+      role: 'Regular Customer',
+      rating: 5,
+      text: 'I order from here regularly and the consistency in quality and taste is remarkable. The biryani is absolutely delicious!',
+      date: 'January 2026'
+    },
+    {
+      id: 4,
+      name: 'Amit Verma',
+      role: 'Birthday Party',
+      rating: 5,
+      text: 'Organized my daughter\'s birthday party with their catering service. Everything was perfect - from the setup to the food quality. Thank you!',
+      date: 'October 2025'
+    },
+    {
+      id: 5,
+      name: 'Kavita Singh',
+      role: 'Festival Order',
+      rating: 5,
+      text: 'Ordered a large feast for Diwali celebrations. The variety and taste were outstanding. Everyone loved the food!',
+      date: 'November 2025'
+    },
+    {
+      id: 6,
+      name: 'Vikram Reddy',
+      role: 'Anniversary Celebration',
+      rating: 5,
+      text: 'Made our anniversary special with their excellent service and delicious menu. The presentation was beautiful too!',
+      date: 'December 2025'
+    }
+  ]
+
+  return (
+    <div className="min-h-screen bg-white">
+      <Header />
+      
+      <main className="pt-24 pb-16 px-6 md:px-12">
+        <div className="max-w-7xl mx-auto">
+          {/* Page Header */}
+          <div className="text-center mb-16">
+            <h1 className="text-5xl md:text-7xl font-bold text-red-800 mb-4">
+              Customer Testimonials
+            </h1>
+            <p className="text-2xl md:text-3xl text-gray-700">
+              What our valued customers say about us
+            </p>
+          </div>
+
+          {/* Stats Section */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+            <div className="bg-gradient-to-br from-red-50 to-red-100 p-8 rounded-2xl text-center border-2 border-red-200">
+              <div className="text-5xl font-bold text-red-800 mb-2">500+</div>
+              <div className="text-2xl text-gray-700">Happy Customers</div>
+            </div>
+            <div className="bg-gradient-to-br from-red-50 to-red-100 p-8 rounded-2xl text-center border-2 border-red-200">
+              <div className="text-5xl font-bold text-red-800 mb-2">4.9/5</div>
+              <div className="text-2xl text-gray-700">Average Rating</div>
+            </div>
+            <div className="bg-gradient-to-br from-red-50 to-red-100 p-8 rounded-2xl text-center border-2 border-red-200">
+              <div className="text-5xl font-bold text-red-800 mb-2">100+</div>
+              <div className="text-2xl text-gray-700">Events Catered</div>
+            </div>
+          </div>
+
+          {/* Testimonials Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {testimonials.map((testimonial) => (
+              <div
+                key={testimonial.id}
+                className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all border-2 border-gray-100"
+              >
+                {/* Stars */}
+                <div className="flex mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <svg
+                      key={i}
+                      className="w-6 h-6 text-yellow-400 fill-current"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                    </svg>
+                  ))}
+                </div>
+                
+                {/* Testimonial Text */}
+                <p className="text-xl text-gray-700 mb-6 italic">
+                  "{testimonial.text}"
+                </p>
+                
+                {/* Author Info */}
+                <div className="border-t pt-4">
+                  <div className="font-bold text-2xl text-gray-900">{testimonial.name}</div>
+                  <div className="text-lg text-red-800">{testimonial.role}</div>
+                  <div className="text-lg text-gray-500 mt-1">{testimonial.date}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA Section */}
+          <div className="mt-16 text-center bg-gradient-to-r from-red-800 to-red-600 text-white p-12 rounded-3xl">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Share Your Experience</h2>
+            <p className="text-2xl mb-6">We'd love to hear from you!</p>
+            <button 
+              onClick={() => setShowReviewModal(true)}
+              className="px-10 py-4 bg-white text-red-800 rounded-full text-2xl font-semibold hover:bg-gray-100 transition-colors shadow-lg"
+            >
+              Write a Review
+            </button>
+          </div>
+        </div>
+      </main>
+
+      {/* Review Modal */}
+      {showReviewModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8 relative">
+            {/* Close Button */}
+            <button
+              onClick={() => setShowReviewModal(false)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-3xl"
+            >
+              ×
+            </button>
+
+            {/* Modal Header */}
+            <h2 className="text-4xl md:text-5xl font-bold text-red-800 mb-6">
+              Write a Review
+            </h2>
+
+            {/* Review Form */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault()
+                // Handle form submission here
+                console.log('Review submitted:', reviewForm)
+                alert('Thank you for your review!')
+                setShowReviewModal(false)
+                setReviewForm({ name: '', email: '', rating: 5, reviewText: '' })
+              }}
+              className="space-y-6"
+            >
+              {/* Name */}
+              <div>
+                <label className="block text-2xl font-semibold text-gray-900 mb-2">
+                  Your Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={reviewForm.name}
+                  onChange={(e) => setReviewForm({ ...reviewForm, name: e.target.value })}
+                  className="w-full px-4 py-3 text-xl border-2 border-gray-300 rounded-xl focus:outline-none focus:border-red-800"
+                  placeholder="Enter your name"
+                />
+              </div>
+
+              {/* Email */}
+              <div>
+                <label className="block text-2xl font-semibold text-gray-900 mb-2">
+                  Email Address *
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={reviewForm.email}
+                  onChange={(e) => setReviewForm({ ...reviewForm, email: e.target.value })}
+                  className="w-full px-4 py-3 text-xl border-2 border-gray-300 rounded-xl focus:outline-none focus:border-red-800"
+                  placeholder="your.email@example.com"
+                />
+              </div>
+
+              {/* Rating */}
+              <div>
+                <label className="block text-2xl font-semibold text-gray-900 mb-2">
+                  Rating *
+                </label>
+                <div className="flex gap-2">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() => setReviewForm({ ...reviewForm, rating: star })}
+                      className="focus:outline-none"
+                    >
+                      <svg
+                        className={`w-10 h-10 ${
+                          star <= reviewForm.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                        } transition-colors`}
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                      </svg>
+                    </button>
+                  ))}
+                  <span className="ml-3 text-xl text-gray-600 self-center">
+                    ({reviewForm.rating} star{reviewForm.rating !== 1 ? 's' : ''})
+                  </span>
+                </div>
+              </div>
+
+              {/* Review Text */}
+              <div>
+                <label className="block text-2xl font-semibold text-gray-900 mb-2">
+                  Your Review *
+                </label>
+                <textarea
+                  required
+                  rows={6}
+                  value={reviewForm.reviewText}
+                  onChange={(e) => setReviewForm({ ...reviewForm, reviewText: e.target.value })}
+                  className="w-full px-4 py-3 text-xl border-2 border-gray-300 rounded-xl focus:outline-none focus:border-red-800"
+                  placeholder="Share your experience with us..."
+                />
+              </div>
+
+              {/* Submit Button */}
+              <div className="flex gap-4">
+                <button
+                  type="submit"
+                  className="flex-1 px-8 py-4 bg-red-800 text-white rounded-full text-2xl font-semibold hover:bg-red-700 transition-colors"
+                >
+                  Submit Review
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowReviewModal(false)}
+                  className="px-8 py-4 bg-gray-200 text-gray-700 rounded-full text-2xl font-semibold hover:bg-gray-300 transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      <Footer />
+    </div>
+  )
+}

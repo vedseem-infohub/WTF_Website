@@ -40,7 +40,7 @@ function Header() {
         {/* Mobile Header: Flat, Full-width, Minimal */}
         <div className="md:hidden w-full px-4 py-2 flex justify-between items-center">
           <Link href="/" className="transition-transform active:scale-95">
-            <Image src="/logo.png" alt="logo" width={80} height={35} className="w-auto bg-black/10 p-1 rounded-lg border border-white/10 h-14 md:h-8" />
+            <Image src="/Logo.png" alt="logo" width={80} height={35} className="w-auto bg-black/10 p-1 rounded-lg border border-white/10 h-14 md:h-8" />
           </Link>
 
           <button
@@ -57,7 +57,7 @@ function Header() {
           <div className="relative flex justify-between items-center px-8 py-3 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full shadow-2xl">
             {/* Logo */}
             <Link href="/" className="transition-transform active:scale-95">
-              <Image src="/logo.png" alt="logo" width={70} height={40} className="w-auto h-10" />
+              <Image src="/Logo.png" alt="logo" width={70} height={40} className="w-auto h-10" />
             </Link>
 
             {/* Desktop Nav */}
@@ -134,7 +134,7 @@ function Header() {
               <div className="max-w-7xl mx-auto w-full flex flex-col">
                 {/* Header inside Drawer */}
                 <div className="px-6 py-4 flex items-center justify-between border-b border-white/5">
-                  <Image src="/logo.png" alt="logo" width={60} height={35} className="w-auto h-7" />
+                  <Image src="/Logo.png" alt="logo" width={60} height={35} className="w-auto h-7" />
                   <button
                     className="w-10 h-10 flex items-center justify-center rounded-full text-white/50 hover:text-white transition-all active:scale-95"
                     onClick={() => setIsOpen(false)}
