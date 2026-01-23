@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const itemData = [
   { 
@@ -148,7 +149,7 @@ function PopularItems() {
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}
-          className="w-full grid md:grid-cols-2 gap-4 md:gap-8 items-center bg-white/5 backdrop-blur-xl rounded-[3rem] p-6 md:p-6 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
+          className="w-full grid md:grid-cols-2 gap-4 md:gap-8 items-center bg-gray-500/10 md:bg-white/5 backdrop-blur-xl rounded-[3rem] p-6 md:p-6 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
         >
           <div className="flex flex-col text-center md:text-left md:px-8">
             <h3 className="text-5xl md:text-8xl font-black text-white uppercase tracking-tighter italic mb-6"
@@ -195,20 +196,26 @@ function PopularItems() {
             </motion.div>
           </div>
           <div className="md:hidden">
-            <p className="text-white/70 text-base md:text-lg font-medium leading-relaxed max-w-md">
+            <p className="text-white/70 text-2xl font-medium leading-relaxed max-w-md"
+               style={{
+                lineHeight: "0.9"
+               }}
+            >
               Russet potatoes have a high starch content and low moisture, making them ideal for creating the perfect, golden-brown French fries with a fluffy interior and crispy exterior.
             </p>
-            <motion.button
-              whileHover={{ x: 10 }}
-                className="flex md:hidden items-center gap-4 text-yellow-400 font-black uppercase tracking-widest text-lg group mt-6"
-              >
-                Explore Full Menu
-                <div className="w-10 h-10 rounded-full border border-yellow-400/30 flex items-center justify-center transition-all group-hover:bg-yellow-400 group-hover:text-white">
-                  <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </div>
-            </motion.button>
+            <Link href="/menu">
+              <motion.button
+                whileHover={{ x: 10 }}
+                  className="flex md:hidden items-center gap-4 text-yellow-400 uppercase tracking-widest text-2xl group mt-3"
+                >
+                  Explore Full Menu
+                  <div className="w-10 h-10 rounded-full border border-yellow-400/30 flex items-center justify-center transition-all group-hover:bg-yellow-400 group-hover:text-white">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </div>
+              </motion.button>
+            </Link>
           </div>
         </motion.div>
       </div>
@@ -273,7 +280,9 @@ function PopularItems() {
                     }}
                   />
                 </div>
-                <p className="dongle-regular uppercase transition-colors text-xl text-nowrap md:text-wrap md:text-3xl tracking-widest text-red-800 group-hover:text-red-600">
+                <p className="dongle-regular uppercase transition-colors text-xl text-wrap md:text-wrap md:text-3xl tracking-widest text-red-800 group-hover:text-red-600"
+                   style={{lineHeight: '0.8'}}
+                >
                   {service.label}
                 </p>
               </motion.div>

@@ -32,14 +32,7 @@ function Banner() {
       id: '03',
       title: 'Culinary Delivery',
       description: 'We bring the gourmet experience directly to your venue with precision.',
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="1" y="3" width="15" height="13" />
-          <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
-          <circle cx="5.5" cy="18.5" r="2.5" />
-          <circle cx="18.5" cy="18.5" r="2.5" />
-        </svg>
-      )
+      icon: '/images/food-deliver.png'
     },
     {
       id: '04',
@@ -73,7 +66,7 @@ function Banner() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                 <div className="hidden md:absolute bottom-8 left-8 md:bottom-12 md:left-12 max-w-lg">
                     <span className="text-white/60 text-xl md:text-2xl font-bold uppercase tracking-[0.4em] mb-3 block">Grand Excellence</span>
-                    <h2 className="text-5xl md:text-7xl font-black text-white uppercase italic leading-none">
+                    <h2 className="text-5xl md:text-7xl font-black text-white uppercase leading-none">
                         Crafting <span className="text-red-600">Legendary</span> Events
                     </h2>
                 </div>
@@ -84,12 +77,14 @@ function Banner() {
         <div className='w-full px-4 md:px-8 max-w-7xl mx-auto'>
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
                 <div className="max-w-xl">
-                    <span className="text-red-600 font-bold uppercase tracking-widest text-xs mb-2 block">Our Workflow</span>
-                    <h3 className="text-4xl md:text-6xl font-black text-zinc-950 uppercase tracking-tighter italic leading-none">
+                    <span className="text-red-600 font-bold uppercase tracking-widest text-md mb-2 block">Our Workflow</span>
+                    <h3 className="text-4xl md:text-6xl font-black text-zinc-950 uppercase tracking-tighter leading-none">
                         How <span className="text-red-500">Excellence</span> Happens
                     </h3>
                 </div>
-                <p className="text-zinc-400 text-2xl md:text-3xl font-medium max-w-xs md:text-right">
+                <p className="md:hidden text-zinc-400 text-2xl md:text-3xl font-medium max-w-xs md:text-right"
+                   style={{lineHeight: '0.9'}}
+                >
                     Methodical approach to ensuring your culinary vision is realized with absolute precision.
                 </p>
             </div>
@@ -101,20 +96,35 @@ function Banner() {
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1, duration: 0.6 }}
-                        className="group relative flex flex-col p-8 rounded-[2.5rem] bg-zinc-50 border border-zinc-100 hover:bg-white hover:border-red-100 transition-all duration-500 hover:shadow-2xl hover:shadow-red-600/5 hover:-translate-y-2"
+                        className="group relative flex flex-col p-8 rounded-[2.5rem] bg-zinc-50 border-2 border-zinc-200 hover:bg-white hover:border-red-300 transition-all duration-500 hover:shadow-2xl hover:shadow-red-600/5 hover:-translate-y-2"
                     >
                         <div className="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center text-red-600 mb-8 border border-zinc-50 group-hover:bg-red-600 group-hover:text-white transition-all duration-500 group-hover:rotate-12">
-                            {step.icon}
+                            {typeof step.icon === 'string' ? (
+                                <Image 
+                                    src={step.icon} 
+                                    alt={step.title} 
+                                    width={24} 
+                                    height={24} 
+                                    className="transition-all duration-500"
+                                    style={{
+                                        filter: 'brightness(0) saturate(100%) invert(13%) sepia(94%) saturate(5436%) hue-rotate(352deg) brightness(83%) contrast(105%)'
+                                    }}
+                                />
+                            ) : (
+                                step.icon
+                            )}
                         </div>
                         
-                        <span className="text-4xl font-black text-zinc-200 group-hover:text-red-200 absolute top-8 right-8 transition-colors">
+                        <span className="text-4xl font-black text-zinc-500 group-hover:text-red-200 absolute top-8 right-8 transition-colors">
                             {step.id}
                         </span>
 
-                        <h4 className="text-3xl font-black text-zinc-950 uppercase italic tracking-tighter mb-3 transition-colors group-hover:text-red-600">
+                        <h4 className="text-3xl font-black text-zinc-950 uppercase tracking-tighter mb-3 transition-colors group-hover:text-red-600">
                             {step.title}
                         </h4>
-                        <p className="text-zinc-500 text-2xl font-medium leading-relaxed">
+                        <p className="text-zinc-500 text-2xl font-medium leading-relaxed"
+                           style={{lineHeight: '0.9'}}
+                        >
                             {step.description}
                         </p>
                         
