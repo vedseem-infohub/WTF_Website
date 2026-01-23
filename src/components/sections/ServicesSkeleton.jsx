@@ -62,7 +62,7 @@ function ServicesSkeleton() {
           mb-[-20px] md:mb-[-30px]
         "
       >
-        <h2 className="text-red-700 text-lg md:text-2xl font-bold tracking-tight">
+        <h2 className="text-red-700 text-3xl md:text-4xl font-bold tracking-tight">
           Our Multiple Services
         </h2>
       </motion.div>
@@ -116,22 +116,20 @@ function ServicesSkeleton() {
                   text-center md:text-${service.imagePos === "right" ? "right" : "left"}
                 `}
               >
-                <h3 className="text-[#f1c40f] text-xl sm:text-2xl md:text-3xl font-bold uppercase tracking-tight">
+                <h3 className="text-[#f1c40f] text-4xl sm:text-5xl md:text-6xl font-bold uppercase tracking-tight">
                   {service.name}
                 </h3>
 
                 <p
                   className="
                     text-white
-                    text-base sm:text-lg md:text-xl
+                    text-2xl sm:text-3xl md:text-4xl
                     leading-relaxed
                     opacity-90
                     max-w-2xl
                   "
                   style={{
-                    fontFamily: "var(--font-playfair), Georgia, serif",
-                    wordSpacing: "4px",
-                    letterSpacing: "1.5px",
+                    lineHeight: "0.9",
                   }}
                 >
                   {service.description}

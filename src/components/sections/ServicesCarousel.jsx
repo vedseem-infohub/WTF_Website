@@ -100,14 +100,14 @@ export default function ServicesCarousel() {
           <motion.span 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            className="text-red-500 font-bold tracking-widest uppercase text-xs md:sm mb-4 block"
+            className="text-red-500 font-bold tracking-widest uppercase text-2xl md:text-3xl mb-4 block"
           >
             Premium Solutions
           </motion.span>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="text-2xl md:text-5xl font-black text-white mb-2 md:mb-6 tracking-tighter"
+            className="text-5xl md:text-8xl font-black text-white  tracking-tighter"
           >
             OUR MULTIPLE <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-400">SERVICES</span>
           </motion.h2>
@@ -154,7 +154,7 @@ export default function ServicesCarousel() {
                   zIndex,
                 }}
                 transition={{
-                  duration: 1.5,
+                  duration: 1,
                   ease: [0.32, 0.72, 0, 1],
                 }}
                 className="absolute w-[240px] md:w-[300px] h-[350px] md:h-[420px] cursor-pointer group"
@@ -176,10 +176,10 @@ export default function ServicesCarousel() {
 
                   {/* Text Content */}
                   <div className="px-6 md:px-8 pb-6 md:pb-8 flex flex-col justify-end flex-grow">
-                    <h3 className="text-xl md:text-2xl font-black text-white mb-2 tracking-tight uppercase">
+                    <h3 className="text-3xl md:text-4xl font-black text-white mb-2 tracking-tight uppercase">
                       {service.title}
                     </h3>
-                    <p className="text-white/50 text-[10px] md:text-xs font-medium leading-relaxed line-clamp-2 transform transition-all duration-500 group-hover:text-white/80">
+                    <p className="text-white/50 text-xl md:text-2xl font-medium leading-tight line-clamp-2 transform transition-all duration-500 group-hover:text-white/80">
                       {service.description}
                     </p>
                     <motion.div 

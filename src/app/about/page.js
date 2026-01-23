@@ -39,7 +39,7 @@ export default function AboutPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#fafafa] overflow-hidden selection:bg-red-500 selection:text-white font-sans">
+    <main className="min-h-screen bg-[#fafafa] overflow-hidden selection:bg-red-500 selection:text-white">
       <Header />  
       {/* Dynamic Food Hero */}
       <section className="relative pt-32 pb-20 md:pt-36 md:pb-40 bg-zinc-950 overflow-hidden">
@@ -69,15 +69,15 @@ export default function AboutPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
           >
-            <span className="inline-block px-4 py-1.5 rounded-full bg-red-600/10 border border-red-600/20 text-red-500 font-black text-[10px] md:text-sm uppercase tracking-[0.3em] mb-8">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-red-600/10 border border-red-600/20 text-red-500 font-black text-xl md:text-2xl uppercase tracking-[0.3em] mb-8">
               The Evolution of Taste
             </span>
-            <h1 className="text-5xl md:text-8xl lg:text-9xl font-black text-white leading-none tracking-tighter mb-8 uppercase italic">
+            <h1 className="text-7xl md:text-9xl lg:text-[10rem] font-black text-white leading-none tracking-tighter mb-8 uppercase italic">
               FEAST. <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500">EXPERIENCE.</span> <br />
               REPEAT.
             </h1>
-            <p className="text-zinc-400 text-lg md:text-2xl max-w-3xl mx-auto font-medium leading-relaxed">
+            <p className="text-zinc-400 text-3xl md:text-4xl max-w-4xl mx-auto font-medium leading-relaxed">
               WTF1 isn't just a platform; it's a culinary journey designed for the modern foodie. We bridge the gap between hungry hearts and incredible flavors.
             </p>
           </motion.div>
@@ -105,11 +105,11 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <div className="max-w-xl">
-              <h2 className="text-3xl md:text-5xl font-black text-zinc-950 uppercase italic tracking-tighter leading-tight">
+              <h2 className="text-5xl md:text-7xl font-black text-zinc-950 uppercase italic tracking-tighter leading-tight">
                 Seamless <span className="text-red-600 underline decoration-red-200 underline-offset-8">Experience</span> From App To Table
               </h2>
             </div>
-            <p className="text-zinc-500 font-bold uppercase tracking-widest text-xs hidden md:block">Scroll to explore</p>
+            <p className="text-zinc-500 font-bold uppercase tracking-widest text-xl hidden md:block">Scroll to explore</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -121,14 +121,14 @@ export default function AboutPage() {
                 className="group relative p-10 rounded-[3rem] bg-white border border-zinc-100 hover:border-red-100 transition-all duration-500 shadow-sm hover:shadow-2xl hover:shadow-red-500/5 overflow-hidden"
               >
                 <div className="relative z-10">
-                  <div className="text-5xl mb-8 group-hover:scale-125 transition-transform duration-500 inline-block">{step.icon}</div>
-                  <h3 className="text-xl md:text-2xl font-black text-zinc-950 mb-4 uppercase italic tracking-tight">{step.title}</h3>
-                  <p className="text-zinc-500 font-medium leading-relaxed">
+                  <div className="text-6xl mb-8 group-hover:scale-125 transition-transform duration-500 inline-block">{step.icon}</div>
+                  <h3 className="text-3xl md:text-4xl font-black text-zinc-950 mb-4 uppercase italic tracking-tight">{step.title}</h3>
+                  <p className="text-zinc-500 text-2xl font-medium leading-relaxed">
                     {step.description}
                   </p>
                 </div>
                 {/* Decorative Number */}
-                <span className="absolute -bottom-8 -right-4 text-9xl font-black text-zinc-50 opacity-[0.03] italic">{index + 1}</span>
+                <span className="absolute -bottom-8 -right-4 text-[10rem] font-black text-zinc-50 opacity-[0.03] italic">{index + 1}</span>
               </motion.div>
             ))}
           </div>
@@ -139,8 +139,8 @@ export default function AboutPage() {
       <section className="py-24 bg-zinc-950 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-6xl font-black text-white italic tracking-tighter uppercase mb-4">Unmatched <span className="text-red-500">Variety</span></h2>
-            <p className="text-zinc-500 font-bold uppercase tracking-[0.3em] text-[10px] md:text-xs">Whatever you desire, we have it served.</p>
+            <h2 className="text-5xl md:text-8xl font-black text-white italic tracking-tighter uppercase mb-4">Unmatched <span className="text-red-500">Variety</span></h2>
+            <p className="text-zinc-500 font-bold uppercase tracking-[0.3em] text-xl md:text-2xl">Whatever you desire, we have it served.</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -160,8 +160,8 @@ export default function AboutPage() {
                   unoptimized
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-8">
-                  <span className="text-white text-3xl font-black italic uppercase tracking-tighter mb-1">{cat.name}</span>
-                  <span className="text-red-500 font-bold text-xs uppercase tracking-widest">{cat.count}</span>
+                  <span className="text-white text-5xl font-black italic uppercase tracking-tighter mb-1">{cat.name}</span>
+                  <span className="text-red-500 font-bold text-xl uppercase tracking-widest">{cat.count}</span>
                 </div>
               </motion.div>
             ))}
@@ -187,29 +187,29 @@ export default function AboutPage() {
             </motion.div>
 
             <motion.div {...fadeIn} className="lg:pl-10">
-              <span className="text-red-600 font-black uppercase tracking-[0.4em] text-xs mb-6 block">Our Mission</span>
-              <h2 className="text-4xl md:text-6xl font-black text-zinc-950 mb-8 leading-none italic tracking-tighter uppercase">
+              <span className="text-red-600 font-black uppercase tracking-[0.4em] text-xl mb-6 block">Our Mission</span>
+              <h2 className="text-6xl md:text-8xl font-black text-zinc-950 mb-8 leading-none italic tracking-tighter uppercase">
                 Redefining the <br />
                 <span className="text-red-600">Digital Kitchen.</span>
               </h2>
-              <p className="text-zinc-600 text-lg mb-12 leading-relaxed">
+              <p className="text-zinc-600 text-2xl md:text-3xl mb-12 leading-relaxed">
                 At WTF1, we believe that food is the universal language of love. Our platform is built to amplify this love by connecting top-tier culinary artists with passionate foodies. Every order placed is a promise of quality, hygiene, and unparalleled taste.
               </p>
               
               <div className="grid grid-cols-2 gap-10">
                 <div>
-                  <p className="text-4xl font-black text-zinc-950 italic mb-1">500k+</p>
-                  <p className="text-zinc-400 font-bold uppercase tracking-widest text-[10px]">Meals Delivered</p>
+                  <p className="text-6xl font-black text-zinc-950 italic mb-1">500k+</p>
+                  <p className="text-zinc-400 font-bold uppercase tracking-widest text-xl">Meals Delivered</p>
                 </div>
                 <div>
-                  <p className="text-4xl font-black text-zinc-950 italic mb-1">4.9/5</p>
-                  <p className="text-zinc-400 font-bold uppercase tracking-widest text-[10px]">User Rating</p>
+                  <p className="text-6xl font-black text-zinc-950 italic mb-1">4.9/5</p>
+                  <p className="text-zinc-400 font-bold uppercase tracking-widest text-xl">User Rating</p>
                 </div>
               </div>
 
               <div className="mt-12 flex gap-4">
-                 <Link href="/menu" className="px-8 py-4 bg-zinc-950 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-zinc-800 transition-all">Browse Menu</Link>
-                 <Link href="/contact" className="px-8 py-4 border border-zinc-200 text-zinc-950 font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-zinc-50 transition-all">Support</Link>
+                 <Link href="/menu" className="px-8 py-4 bg-zinc-950 text-white font-black uppercase tracking-widest text-2xl rounded-2xl hover:bg-zinc-800 transition-all">Browse Menu</Link>
+                 <Link href="/contact" className="px-8 py-4 border border-zinc-200 text-zinc-950 font-black uppercase tracking-widest text-2xl rounded-2xl hover:bg-zinc-50 transition-all">Support</Link>
               </div>
             </motion.div>
           </div>
@@ -221,18 +221,18 @@ export default function AboutPage() {
         <div className="max-w-5xl mx-auto rounded-[4rem] bg-zinc-950 p-12 md:p-24 relative overflow-hidden text-center">
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
           <div className="relative z-10">
-             <h2 className="text-4xl md:text-7xl font-black text-white italic tracking-tighter uppercase mb-8 leading-none">
+             <h2 className="text-5xl md:text-8xl font-black text-white italic tracking-tighter uppercase mb-8 leading-none">
                Don't Just Eat. <br />
                <span className="text-red-600">Explore.</span>
              </h2>
-             <p className="text-zinc-400 text-lg max-w-xl mx-auto mb-12">Join our elite circle of foodies and get exclusive access to new recipes, deals, and catering packages.</p>
+             <p className="text-zinc-400 text-2xl md:text-3xl max-w-2xl mx-auto mb-12">Join our elite circle of foodies and get exclusive access to new recipes, deals, and catering packages.</p>
              <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" onClick={(e) => e.preventDefault()}>
                <input 
                  type="email" 
                  placeholder="your@email.com" 
-                 className="flex-1 px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white outline-none focus:border-red-600 transition-all"
+                 className="flex-1 px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white outline-none focus:border-red-600 transition-all text-xl"
                />
-               <button className="px-8 py-4 bg-red-600 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-red-700 transition-all shadow-xl shadow-red-900/40">Subscribe</button>
+               <button className="px-8 py-4 bg-red-600 text-white font-black uppercase tracking-widest text-xl rounded-2xl hover:bg-red-700 transition-all shadow-xl shadow-red-900/40">Subscribe</button>
              </form>
           </div>
         </div>

@@ -32,123 +32,142 @@ function Header() {
 
   return (
     <>
-      {/* HEADER */}
       <div
-        className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ${
-          isVisible ? "translate-y-0" : "-translate-y-full"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          isVisible ? "md:translate-y-0" : "md:-translate-y-full"
         }`}
       >
-        <div className="flex justify-between items-center px-4 md:px-6 py-1 md:py-2 bg-black/50 border border-white/40 rounded-full mt-4 mx-4">
-          {/* Logo */}
-          <Link href="/">
-            <Image src="/logo.png" alt="logo" width={80} height={50} />
+        {/* Mobile Header: Flat, Full-width, Minimal */}
+        <div className="md:hidden w-full px-4 py-2 flex justify-between items-center">
+          <Link href="/" className="transition-transform active:scale-95">
+            <Image src="/logo.png" alt="logo" width={80} height={35} className="w-auto bg-black/10 p-1 rounded-lg border border-white/10 h-14 md:h-8" />
           </Link>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex gap-8">
-            {navItems.map((item) => {
-              const isActive = pathname === item.href;
-              return (
-                <Link href={item.href} key={item.label}>
-                  <p
-                    className={`px-3 py-1 rounded-full transition-all duration-300 ${
-                      isActive
-                        ? "bg-red-500 text-white"
-                        : "hover:bg-red-400"
-                    }`}
-                  >
-                    {item.label}
-                  </p>
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* Desktop Buttons */}
-          <div className="hidden md:flex gap-6">
-            <button>Be a Partner ?</button>
-            <button>Login</button>
-          </div>
-
-          {/* Mobile Hamburger */}
           <button
-            className="md:hidden text-white"
+            className="w-10 h-10 flex flex-col items-center bg-black/20 justify-center border border-white/10 p-3 rounded-full gap-1.5"
             onClick={() => setIsOpen(true)}
           >
-            <svg width="28" height="28" fill="none" stroke="currentColor">
-              <path strokeWidth="2" d="M4 7h20M4 14h20M4 21h20" />
-            </svg>
+            <span className="w-5 h-0.5 bg-white" />
+            <span className="w-5 h-0.5 bg-white" />
           </button>
+        </div>
+
+        {/* Desktop Header: Premium Floating Capsule */}
+        <div className="hidden md:block mx-auto max-w-full mt-6 px-4">
+          <div className="relative flex justify-between items-center px-8 py-3 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full shadow-2xl">
+            {/* Logo */}
+            <Link href="/" className="transition-transform active:scale-95">
+              <Image src="/logo.png" alt="logo" width={70} height={40} className="w-auto h-10" />
+            </Link>
+
+            {/* Desktop Nav */}
+            <div className="flex items-center gap-6">
+              {navItems.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <Link href={item.href} key={item.label}>
+                    <p
+                      className={`px-5 py-1 rounded-full text-2xl font-semibold transition-all duration-300 ${
+                        isActive
+                          ? "bg-red-600 text-white shadow-lg shadow-red-600/20"
+                          : "text-white/60 hover:text-white hover:bg-white/5"
+                      }`}
+                    >
+                      {item.label}
+                    </p>
+                  </Link>
+                );
+              })}
+            </div>
+
+            {/* Desktop Buttons */}
+            <div className="flex items-center gap-6">
+              <button
+                className="
+                  relative text-3xl font-semibold
+                  bg-gradient-to-r from-yellow-400 to-red-500
+                  bg-clip-text text-transparent
+                  transition-all duration-300 ease-out
+              
+                  hover:text-white
+                  hover:drop-shadow-[0_0_12px_rgba(251,191,36,0.8)]
+                  hover:scale-[1.05]
+                  hover:cursor-pointer
+              
+                  after:content-['']
+                  after:absolute after:left-0 after:-bottom-1
+                  after:h-[2px] after:w-0
+                  after:bg-gradient-to-r after:from-yellow-400 after:to-red-500
+                  after:transition-all after:duration-300
+                  hover:after:w-full
+                "
+              >
+                Be a Partner ?
+              </button>
+              <button className="bg-white text-black px-8 py-2 rounded-full text-xl font-bold active:scale-95 transition-all hover:bg-zinc-100">Login</button>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* MOBILE DRAWER */}
+      {/* MINIMAL MOBILE DRAWER */}
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Overlay */}
+            {/* Cinematic Overlay */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/40 backdrop-blur-[2px] z-40"
+              className="fixed inset-0 bg-black/60 backdrop-blur-md z-[60]"
               onClick={() => setIsOpen(false)}
             />
 
-            {/* Drawer */}
+            {/* Professional Minimal Top Drawer */}
             <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 h-full w-full max-w-[280px] bg-zinc-950 border-l border-white/5 z-50 flex flex-col shadow-2xl"
+              initial={{ y: "-100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "-100%" }}
+              transition={{ type: "tween", duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+              className="fixed top-0 left-0 right-0 w-full bg-zinc-950/95 backdrop-blur-3xl z-[70] flex flex-col overflow-hidden border-b border-white/5"
             >
-              {/* Header */}
-              <div className="px-4 py-3 flex justify-between items-center border-b border-white/5 bg-zinc-900/50">
-                <div className="flex items-center gap-2">
-                  <Image src="/logo.png" alt="logo" width={80} height={50} />
-                  {/* <span className="text-white text-sm font-black tracking-tighter uppercase italic">Where's The Fork</span> */}
+              <div className="max-w-7xl mx-auto w-full flex flex-col">
+                {/* Header inside Drawer */}
+                <div className="px-6 py-4 flex items-center justify-between border-b border-white/5">
+                  <Image src="/logo.png" alt="logo" width={60} height={35} className="w-auto h-7" />
+                  <button
+                    className="w-10 h-10 flex items-center justify-center rounded-full text-white/50 hover:text-white transition-all active:scale-95"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                  </button>
                 </div>
-                <button
-                  className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/5 text-white/50 hover:text-white transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5">
-                    <path d="M13.5 4.5l-9 9m0-9l9 9" />
-                  </svg>
-                </button>
-              </div>
 
-              {/* Navigation Grid */}
-              <div className="flex-1 overflow-y-auto px-4 py-6 scrollbar-hide">
-                <p className="px-2 text-[10px] font-black uppercase tracking-[0.2em] text-white/20 mb-4">Quick Access</p>
-                <div className="grid grid-cols-1 gap-2">
+                {/* Minimal Navigation List */}
+                <div className="flex flex-col px-6 py-6">
                   {navItems.map((item, index) => {
                     const isActive = pathname === item.href;
                     return (
                       <motion.div
                         key={item.label}
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: index * 0.05 }}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.05 + 0.1 }}
                       >
                         <Link
                           href={item.href}
                           onClick={() => setIsOpen(false)}
-                          className={`flex items-center gap-4 p-3 rounded-xl transition-all duration-300 ${
-                            isActive
-                              ? "bg-red-600 text-white shadow-lg shadow-red-900/20"
-                              : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"
-                          }`}
+                          className="flex items-center justify-between py-2 border-b border-white/[0.03] group"
                         >
-                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isActive ? "bg-white/20" : "bg-zinc-900"}`}>
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={item.icon} />
-                            </svg>
-                          </div>
-                          <span className="text-sm font-bold tracking-wide">{item.label}</span>
+                          <span className={`text-3xl dongle-regular tracking-tight transition-colors ${
+                             isActive ? "text-red-600" : "text-white/60 group-hover:text-white"
+                          }`}>
+                            {item.label}
+                          </span>
                           {isActive && (
-                            <div className="ml-auto w-1.5 h-1.5 rounded-full bg-white" />
+                            <div className="w-1.5 h-1.5 bg-red-600 rounded-full" />
                           )}
                         </Link>
                       </motion.div>
@@ -156,33 +175,15 @@ function Header() {
                   })}
                 </div>
 
-                {/* <div className="mt-8 border-t border-white/5 pt-6">
-                  <p className="px-2 text-[10px] font-black uppercase tracking-[0.2em] text-white/20 mb-4">Support</p>
-                  <div className="space-y-2">
-                    <button className="w-full flex items-center gap-4 p-3 rounded-xl bg-white/5 text-white/40 hover:bg-white/10 hover:text-white transition-all text-sm font-bold">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.948V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                        </svg>
-                        Customer Care
-                    </button>
-                  </div>
-                </div> */}
-              </div>
-
-              {/* Footer */}
-              <div className="p-4 space-y-2 bg-zinc-900/50">
-                <motion.button 
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full bg-white text-black text-xs font-black uppercase tracking-widest py-3.5 rounded-lg active:bg-gray-100 transition-colors"
-                >
-                  Login
-                </motion.button>
-                <motion.button 
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full bg-transparent text-white/50 text-xs font-bold uppercase tracking-widest py-3 rounded-lg border border-white/10 hover:text-white transition-colors"
-                >
-                  Be a Partner
-                </motion.button>
+                {/* Primary Actions Footer */}
+                <div className="p-6 pt-2 pb-4 grid grid-cols-2 gap-4">
+                  <button className="bg-white text-black py-2 rounded-xl text-2xl dongle-regular uppercase tracking-[0.1em] active:scale-95 transition-all">
+                    Login
+                  </button>
+                  <button className="bg-gradient-to-r from-yellow-400 to-red-500 text-white py-2 rounded-xl text-2xl dongle-regular uppercase tracking-[0.1em] border border-white/5 active:scale-95 transition-all">
+                    Partner
+                  </button>
+                </div>
               </div>
             </motion.div>
           </>

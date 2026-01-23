@@ -26,7 +26,9 @@ const accentMap = {
 =============================== */
 const menuSections = [
   {
-    title: "Here's Our Paneer Range...",
+    phrase1:"Here's Our",
+    title: "Paneer",
+    phrase2:" Range...",
     accentColor: "yellow",
     items: [
       { id: 1, name: "Achari Paneer Tikka", price: "₹149/-", image: "/block-1.png", rating: 4.5 },
@@ -36,7 +38,9 @@ const menuSections = [
     ],
   },
   {
-    title: "Here's Our Fast Food Range...",
+    phrase1:"Here's Our",
+    title: "Fast Food",
+    phrase2:" Range...",
     accentColor: "red",
     items: [
       { id: 5, name: "Malai Kofta", price: "₹249/-", image: "/block-1.png", rating: 4.4 },
@@ -46,7 +50,9 @@ const menuSections = [
     ],
   },
   {
-    title: "Here's Our Large Range Of South India Taste...",
+    phrase1:"Here's Our",
+    title: "South India",
+    phrase2:" Range...",
     accentColor: "green",
     items: [
       { id: 9, name: "Biryani", price: "₹149/-", image: "/block-1.png", rating: 4.6 },
@@ -72,7 +78,7 @@ export default function MenuPage() {
           className="object-cover"
         />
         <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-          <h1 className="text-yellow-400 text-3xl md:text-6xl font-bold">
+          <h1 className="text-yellow-400 text-6xl md:text-8xl font-bold">
             Our Food Items
           </h1>
         </div>
@@ -96,10 +102,12 @@ export default function MenuPage() {
             {/* Section Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
               <div>
-                <h2 className="text-white text-base sm:text-lg md:text-2xl font-semibold">
+                <h2 className="text-white text-3xl sm:text-4xl md:text-5xl font-semibold">
+                  {section.phrase1}{" "}
                   <span className={accentMap[section.accentColor].text}>
                     {section.title}
                   </span>
+                  {section.phrase2}
                 </h2>
 
                 <div
@@ -107,7 +115,7 @@ export default function MenuPage() {
                 />
               </div>
 
-              <button className="self-start sm:self-auto text-white bg-red-500 py-1 px-4 rounded-full text-sm md:text-lg">
+              <button className="self-start sm:self-auto text-white bg-red-500 py-1 px-6 rounded-full text-2xl md:text-3xl">
                 View All
               </button>
             </div>
@@ -141,16 +149,16 @@ export default function MenuPage() {
                   <div className="absolute bottom-0 left-0 right-0 h-32 md:h-40 bg-gradient-to-t from-black via-black/70 to-transparent" />
 
                   {/* Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4 z-10">
-                    <h3 className="text-white font-semibold text-base md:text-xl leading-tight">
+                  <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 z-10">
+                    <h3 className="text-white font-semibold text-2xl md:text-4xl leading-none">
                       {item.name}
                     </h3>
 
-                    <div className="flex items-center justify-between mt-2 md:mt-3">
-                      <span className="text-white font-bold text-base md:text-lg">
+                    <div className="flex items-center justify-between mt-2 md:mt-4">
+                      <span className="text-white font-bold text-2xl md:text-3xl">
                         {item.price}
                       </span>
-                      <p className="text-yellow-400 text-base md:text-lg">
+                      <p className="text-yellow-400 text-2xl md:text-3xl">
                         ⭐ {item.rating}
                       </p>
                     </div>

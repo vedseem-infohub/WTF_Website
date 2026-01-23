@@ -17,22 +17,22 @@ function Footer() {
 
             {/* About Us */}
             <div className="mb-6">
-              <h3 className="text-red-800 text-lg font-bold mb-2">About Us</h3>
-              <p className="text-black text-sm">we deliver the food where flavor come first</p>
+              <h3 className="text-red-800 text-3xl font-bold mb-2">About Us</h3>
+              <p className="text-black text-2xl">we deliver the food where flavor come first</p>
             </div>
 
             {/* Contact Us */}
             <div>
-              <h3 className="text-red-800 text-lg font-bold mb-3">Contact Us</h3>
-              <div className="space-y-2">
-                <div className="flex items-center text-black text-sm">
+              <h3 className="text-red-800 text-3xl font-bold mb-3">Contact Us</h3>
+              <div className="space-y-4">
+                <div className="flex items-center text-black text-2xl">
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="mr-2">
                     <path d="M3.5 1C2.67 1 2 1.67 2 2.5V13.5C2 14.33 2.67 15 3.5 15H6.5L8 13.5H10L11.5 15H14.5C15.33 15 16 14.33 16 13.5V2.5C16 1.67 15.33 1 14.5 1H3.5Z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
                     <path d="M6 4H10M6 8H10M6 12H8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
                   </svg>
                   <span>+91 9818981438</span>
                 </div>
-                <div className="flex items-center text-black text-sm">
+                <div className="flex items-center text-black text-2xl">
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="mr-2">
                     <path d="M3 2C2.45 2 2 2.45 2 3V13C2 13.55 2.45 14 3 14H13C13.55 14 14 13.55 14 13V3C14 2.45 13.55 2 13 2H3Z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
                     <path d="M2 4L8 9L14 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -45,30 +45,30 @@ function Footer() {
 
           {/* Information Links */}
           <div>
-            <h3 className="text-red-800 text-lg font-bold mb-4">Information</h3>
+            <h3 className="text-red-800 text-3xl font-bold mb-4">Information</h3>
             <ul className="space-y-2">
-              <li><Link href="/about" className="text-black text-sm hover:text-red-800">About Us</Link></li>
-              <li><Link href="/search" className="text-black text-sm hover:text-red-800">More Search</Link></li>
-              <li><Link href="/blogs" className="text-black text-sm hover:text-red-800">Blogs</Link></li>
-              <li><Link href="/testimonials" className="text-black text-sm hover:text-red-800">Testimonials</Link></li>
-              <li><Link href="/events" className="text-black text-sm hover:text-red-800">Events</Link></li>
+              <li><Link href="/about" className="text-black text-2xl hover:text-red-800">About Us</Link></li>
+              <li><Link href="/search" className="text-black text-2xl hover:text-red-800">More Search</Link></li>
+              <li><Link href="/blogs" className="text-black text-2xl hover:text-red-800">Blogs</Link></li>
+              <li><Link href="/testimonials" className="text-black text-2xl hover:text-red-800">Testimonials</Link></li>
+              <li><Link href="/events" className="text-black text-2xl hover:text-red-800">Events</Link></li>
             </ul>
           </div>
 
           {/* Helpful Links */}
           <div>
-            <h3 className="text-red-800 text-lg font-bold mb-4">Helpful Links</h3>
+            <h3 className="text-red-800 text-3xl font-bold mb-4">Helpful Links</h3>
             <ul className="space-y-2">
-              <li><Link href="/services" className="text-black text-sm hover:text-red-800">Services</Link></li>
-              <li><Link href="/support" className="text-black text-sm hover:text-red-800">Supports</Link></li>
-              <li><Link href="/terms" className="text-black text-sm hover:text-red-800">Terms & Conditions</Link></li>
-              <li><Link href="/privacy" className="text-black text-sm hover:text-red-800">Privacy Policy</Link></li>
+              <li><Link href="/services" className="text-black text-2xl hover:text-red-800">Services</Link></li>
+              <li><Link href="/support" className="text-black text-2xl hover:text-red-800">Supports</Link></li>
+              <li><Link href="/terms" className="text-black text-2xl hover:text-red-800">Terms & Conditions</Link></li>
+              <li><Link href="/privacy" className="text-black text-2xl hover:text-red-800">Privacy Policy</Link></li>
             </ul>
           </div>
 
           {/* Social Links */}
           <div>
-            <h3 className="text-red-800 text-lg font-bold mb-4">Social links</h3>
+            <h3 className="text-red-800 text-3xl font-bold mb-4">Social links</h3>
             <div className="flex gap-4">
               {/* Instagram */}
               <Link href="https://instagram.com" className="text-black hover:text-red-800">

@@ -3,204 +3,281 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 
+const itemData = [
+  { 
+    name: 'Gourmet Biriyani', 
+    image: '/images/biriyani.png',
+    description: 'with saffron and aromatic spices',
+    rating: 9.5,
+    price: 15,
+    stars: 5
+  },
+  { 
+    name: 'Kabab Platter', 
+    image: '/images/kabab.png',
+    description: 'with grilled veggies and mint dip',
+    rating: 9.2,
+    price: 12,
+    stars: 5
+  },
+  { 
+    name: 'Napoli Pizza', 
+    image: '/images/pizza.png',
+    description: 'with fresh basil and buffalo mozzarella',
+    rating: 8.8,
+    price: 18,
+    stars: 4
+  },
+  { 
+    name: 'Signature Burger', 
+    image: '/images/burger.png',
+    description: 'with melting cheese and crisp lettuce',
+    rating: 8.5,
+    price: 10,
+    stars: 4
+  },
+]
+
 function PopularItems() {
-  const items = ['Biriyani', 'Kabab', 'Pizza', 'Burger', 'Biriyani', 'Kabab', 'Pizza', 'Burger', 'Biriyani', 'Kabab', 'Pizza', 'Burger']
-  const [itemsPerSlide, setItemsPerSlide] = useState(4)
-  const [slideDuration, setSlideDuration] = useState(5000)
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const [progress, setProgress] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     const handleResize = () => {
-      const width = window.innerWidth
-      if (width < 640) {
-        setItemsPerSlide(2)
-        setSlideDuration(3000) // 3 seconds for mobile
-      } else if (width < 768) {
-        setItemsPerSlide(3)
-        setSlideDuration(4000) // 4 seconds for small tablets
-      } else if (width < 1024) {
-        setItemsPerSlide(3)
-        setSlideDuration(5000)
-      } else {
-        setItemsPerSlide(4)
-        setSlideDuration(5000)
-      }
+      setIsMobile(window.innerWidth < 640)
     }
-
     handleResize()
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  const totalSlides = Math.ceil(items.length / itemsPerSlide)
-
-  useEffect(() => {
-    if (currentSlide >= totalSlides) {
-      setCurrentSlide(0)
-    }
-  }, [totalSlides, currentSlide])
-
-  useEffect(() => {
-    // Reset progress when slide changes
-    setProgress(0)
-    
-    // Progress bar animation
-    const intervalTime = 100
-    const increment = 100 / (slideDuration / intervalTime)
-    
-    const progressInterval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          return 0
-        }
-        return prev + increment
-      })
-    }, intervalTime)
-
-    // Auto-slide 
-    const slideInterval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % totalSlides)
-    }, slideDuration)
-
-    return () => {
-      clearInterval(progressInterval)
-      clearInterval(slideInterval)
-    }
-  }, [currentSlide, totalSlides, slideDuration])
-
-  // Get current items to display
-  const currentItems = items.slice(
-    currentSlide * itemsPerSlide,
-    currentSlide * itemsPerSlide + itemsPerSlide
-  )
-
   return (
-    <div className="relative w-full min-h-screen bg-white">
-      {/* Background (UNCHANGED) */}
+    <div className="relative w-full min-h-screen bg-white overflow-hidden flex flex-col items-center">
+      {/* Base Background Layer - Full Height */}
       <div
-        className="absolute inset-0 bg-cover bg-no-repeat bg-top"
-        style={{ backgroundImage: 'url(/bg-union-red.png)' }}
+        className="absolute inset-0 w-full h-full opacity-100 z-0 pointer-events-none"
+        style={{ 
+          backgroundImage: 'url(/bg-union-red.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+         }}
       />
 
-      {/* Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center py-24 md:min-h-screen md:px-6 px-2">
-        <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
-          Most Popular Items
-        </h2>
+      {/* Content Overlay to manage contrast */}
+      <div className={`absolute inset-0 w-full h-full z-[1] transition-opacity duration-500 ${isMobile ? 'bg-black/20' : 'bg-transparent'}`} />
 
-        {/* Main Red Container */}
-        <div
-          className="w-full max-w-6xl rounded-3xl lg:px-10 md:px-6 px-2 lg:py-14 md:py-10 py-6 overflow-hidden"
-          style={{
-            background:
-              'radial-gradient(circle at center, #7a2a24 0%, #5a1612 55%, #4a0f0c 100%)',
-          }}
+      {/* Main Content */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-2 md:px-4 py-12 md:py-24 flex flex-col items-center">
+        
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+          className="text-center mb-6 md:mb-6"
         >
-          {/* Items - Responsive grid */}
-          <div className={`grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6 md:gap-10 py-8 relative overflow-hidden`}>
-            {currentItems.map((title, colIdx) => {
-              return (
-                <div key={`col-${colIdx}`} className="relative h-64">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={`${currentSlide}-${title}-${colIdx}`}
-                      initial={{ x: '100%', opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      exit={{ x: '-100%', opacity: 0 }}
-                      transition={{
-                        type: 'spring',
-                        stiffness: 300,
-                        damping: 30,
-                        duration: 1,
-                        delay: colIdx * 0.05
-                      }}
-                      className="flex flex-col items-center absolute inset-0"
-                    >
-                      {/* SINGLE SHAPE */}
-                      <div className="relative md:w-40 w-36 flex flex-col items-center">
-                        {/* Circle - Absolutely positioned to overlap */}
-                        <div className="absolute -top-6 md:w-48 md:h-48 w-44 h-44 rounded-full bg-gray-300 border-[6px] border-gray-400 z-10" />
+          <span className="text-white font-bold tracking-[0.3rem] uppercase text-md md:mb-4 block">Chef's Top Picks</span>
+          <h2 className="text-4xl md:text-8xl font-black text-white tracking- uppercase italic">
+            Most <span className="text-yellow-400">Popular</span> Items
+          </h2>
+          <div className="w-full h-0.5 md:h-1 bg-yellow-400 mx-auto -mt-2 md:-mt-4 rounded-full" />
+        </motion.div>
 
-                        {/* Rectangle - Positioned below with padding for overlap */}
-                        <div className="mt-24 bg-gray-200 rounded-2xl px-4 pt-32 pb-6 flex flex-col items-center w-full">
-                          <p className="text-red-800 font-semibold text-sm">
-                            {title}
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
-                  </AnimatePresence>
+        {/* Product Grid - Improved for Mobile */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-8 w-full mb-24">
+          {itemData.map((item, index) => (
+            <motion.div
+              key={item.name}
+              initial={{ opacity: 0, y: 0 }}
+              whileInView={{ opacity: 1, y: 30 }}
+              transition={{ delay: index * 0, duration: 0.5 }}
+              whileHover={{ y: 10 }}
+              className="bg-white/95 backdrop-blur-md rounded-2xl md:rounded-[1.5rem] overflow-hidden shadow-2xl flex flex-col group border border-white/20 hover:cursor-pointer"
+            >
+              {/* Image Container - Taller for mobile */}
+              <div className="relative aspect-[4/4] sm:aspect-[4/3] w-full p-2">
+                <div className="relative w-full h-full rounded-xl md:rounded-[1.5rem] overflow-hidden shadow-inner">
+                  <Image 
+                    src={item.image} 
+                    alt={item.name} 
+                    fill 
+                    className="object-cover transition-transform duration-700 group-hover:scale-110" 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                 </div>
-              )
-            })}
-          </div>
+              </div>
+
+              {/* Info Container - Better alignment for mobile */}
+              <div className="px-3 md:px-6 pb-4 md:pb-8 pt-2 flex flex-col h-full">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-1 md:mb-2 md:gap-1">
+                  <h3 className="text-md md:text-3xl font-black text-zinc-900 tracking-tight leading-tight uppercase break-words">
+                    {item.name}
+                  </h3>
+                  <span className="text-red-600 font-black text-md md:text-2xl leading-none">
+                    {item.rating}★
+                  </span>
+                </div>
+                
+                <p className="text-zinc-500 text-[20px] md:text-xl font-medium mb-3 md:mb-6 leading-tight">
+                  {item.description}
+                </p>
+
+                <div className="mt-auto flex justify-between items-center">
+                  <div className="flex gap-0.5 md:gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <svg 
+                        key={i} 
+                        className={`w-3 h-3 md:w-4 md:h-4 ${i < item.stars ? "text-red-600" : "text-zinc-300"}`} 
+                        fill="currentColor" 
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <span className="text-base md:text-2xl font-black text-zinc-900 leading-none">
+                    ₹{item.price}
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
 
-        {/* Progress Indicator */}
-        <div className="flex items-center gap-3 mt-8">
-          <span className="text-yellow-400 text-xl">‹</span>
-          <div className="relative h-1 w-16 bg-gray-400 rounded-full overflow-hidden">
-            <div 
-              className="absolute left-0 top-0 h-full bg-yellow-400 rounded-full transition-all duration-100"
-              style={{ width: `${progress}%` }}
-            />
+        {/* Featured Section - Inspired by the bottom part of the provided image */}
+        <motion.div 
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          className="w-full grid md:grid-cols-2 gap-4 md:gap-8 items-center bg-white/5 backdrop-blur-xl rounded-[3rem] p-6 md:p-6 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
+        >
+          <div className="flex flex-col text-center md:text-left md:px-8">
+            <h3 className="text-5xl md:text-8xl font-black text-white uppercase tracking-tighter italic mb-6"
+                style={{
+                    lineHeight: "0.7"
+                }}
+            >
+              Best Potatoes<br />
+              <span className="text-yellow-400 ">For French Fries</span>
+            </h3>
+            <p className="text-white/70 hidden sm:block text-base md:text-2xl font-medium leading-tight max-w-md">
+              Russet potatoes have a high starch content and low moisture, making them ideal for creating the perfect, golden-brown French fries with a fluffy interior and crispy exterior.
+            </p>
+            <motion.button
+              whileHover={{ x: 10 }}
+              className="mt-10 hidden md:flex items-center gap-4 text-yellow-400 font-black uppercase tracking-widest text-xl group"
+            >
+              Explore Full Menu
+              <div className="w-10 h-10 rounded-full border border-yellow-400/30 flex items-center justify-center transition-all group-hover:bg-yellow-400 group-hover:text-white">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </div>
+            </motion.button>
           </div>
-          <span className="text-yellow-400 text-xl">›</span>
-        </div>
+
+          <div className="relative aspect-square w-full max-w-md mx-auto flex items-center justify-center">
+            {/* Ambient glows behind the plate */}
+            <div className="absolute inset-8 bg-red-600/40 blur-[90px] rounded-full -z-10" />
+            
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+              className="relative w-[90%] h-[90%] bg-transparent overflow-hidden"
+              style={{ clipPath: 'circle(42%)' }}
+            >
+              <Image 
+                src="/images/fries.png" 
+                alt="Perfect Fries" 
+                fill
+                className="object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]" 
+                style={{ mixBlendMode: 'normal' }}
+              />
+            </motion.div>
+          </div>
+          <div className="md:hidden">
+            <p className="text-white/70 text-base md:text-lg font-medium leading-relaxed max-w-md">
+              Russet potatoes have a high starch content and low moisture, making them ideal for creating the perfect, golden-brown French fries with a fluffy interior and crispy exterior.
+            </p>
+            <motion.button
+              whileHover={{ x: 10 }}
+                className="flex md:hidden items-center gap-4 text-yellow-400 font-black uppercase tracking-widest text-lg group mt-6"
+              >
+                Explore Full Menu
+                <div className="w-10 h-10 rounded-full border border-yellow-400/30 flex items-center justify-center transition-all group-hover:bg-yellow-400 group-hover:text-white">
+                  <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </div>
+            </motion.button>
+          </div>
+        </motion.div>
       </div>
-      <div className="w-full relative flex flex-col justify-center items-center z-10 -mt-16">
-        <Image src="/chef.png" alt="popular-items-bg" width={600} height={1000} />
-        {/* Multiple Services Section */}
-        <div className="w-full max-w-6xl mx-auto px-6 mt-8">
-          {/* Title */}
-          <div className="text-center mb-8">
-            <p className="text-black text-xl md:text-2xl mb-2">We are more than</p>
-            <h3 className="text-red-800 text-3xl md:text-5xl font-bold">Multiple Services</h3>
+
+      {/* Unified Chef Section (Enhanced Mobile UI) */}
+      <div className={`w-full relative flex flex-col justify-center items-center mt-4 z-10 transition-all duration-700 ${isMobile ? '-mt-10 pb-0' : 'md:-mt-16 pb-24'} bg-transparent`}>
+        <div className="relative group">
+          {/* Mobile-only Ambient Glow */}
+          {isMobile && (
+            <div className="absolute inset-0 bg-red-600/10 blur-[80px] rounded-full scale-125 -z-10 animate-pulse" />
+          )}
+          <Image 
+            src="/chef.png" 
+            alt="Chef Master" 
+            width={isMobile ? 380 : 600} 
+            height={1000} 
+            className={`filter contrast-125 brightness-90 transition-transform duration-700 ${isMobile ? 'scale-105' : 'group-hover:scale-[1.02]'}`} 
+          />
+        </div>
+        
+        <div className="w-full max-w-[90%] mx-auto px-6 mt-4 mb-8 md:mt-12 relative z-20">
+          <div className="text-center mb-12">
+            <h3 className="font-black uppercase tracking-tighter leading-none flex flex-col items-center text-4xl md:text-8xl text-red-800">
+               <div className="text-red-800">Multiple {"  "}<span className="text-red-800">{" "}Services</span></div>
+            </h3>
           </div>
 
-          {/* Services Container */}
-          <div className="border border-red-800 rounded-3xl p-6 md:p-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-              {/* Franchise Model */}
-              <div className="flex flex-col items-center text-center">
-                <div className="mb-4">
-                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none" className="text-black">
-                    {/* Handshake Icon */}
-                    <path d="M12 28L16 24L20 28M28 28L32 24L36 28" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M16 24C16 20 18 18 22 18C24 18 26 19 26 21C26 19 28 18 30 18C34 18 36 20 36 24" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M22 18V14C22 12 24 10 26 10C28 10 30 12 30 14V18" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M18 18V14C18 12 16 10 14 10C12 10 10 12 10 14V18" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
+          <div className={`grid ${isMobile ? 'grid-cols-2 gap-4' : 'lg:grid-cols-4 md:gap-16'} max-w-full mx-auto`}>
+            {[
+              { 
+                label: 'Franchise Model', 
+                image: '/images/franchise-model.png'
+              },
+              { 
+                label: 'Fine Dining', 
+                image: '/images/dining.png'
+              },
+              { 
+                label: 'Food Delivery', 
+                image: '/images/food-deliver.png'
+              },
+              { 
+                label: 'Catering', 
+                image: '/images/catering.png'
+              }
+            ].map((service, index) => (
+              <motion.div 
+                key={service.label}
+                initial={isMobile ? { opacity: 0, scale: 0.9 } : false}
+                whileInView={isMobile ? { opacity: 1, scale: 1 } : false}
+                transition={{ delay: index * 0.1 }}
+                className="flex flex-col items-center justify-center border-2 border-red-100 text-center transition-all duration-300 p-6 md:p-8 rounded-[1rem] md:rounded-[2.5rem] border border-red-100 bg-white/80 backdrop-blur-sm shadow-lg hover:shadow-2xl hover:-translate-y-2"
+              >
+                <div className="mb-4 md:mb- flex items-center justify-center md:w-14 w-10 h-10 md:h-14 relative">
+                  <Image 
+                    src={service.image} 
+                    alt={service.label}
+                    fill
+                    className="object-contain"
+                    style={{
+                      filter: 'brightness(0) saturate(100%) invert(13%) sepia(94%) saturate(5436%) hue-rotate(352deg) brightness(83%) contrast(105%)'
+                    }}
+                  />
                 </div>
-                <p className="text-red-800 font-semibold text-sm md:text-base">Franchise Model</p>
-              </div>
-
-              {/* Dining */}
-              <div className="flex flex-col items-center text-center">
-                <div className="mb-4">
-                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none" className="text-black">
-                    {/* Fork and Knife Crossed Icon */}
-                    <path d="M18 6L18 42M18 6C20 6 22 8 22 10V14C22 16 20 18 18 18" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M30 6L30 42M30 6C28 6 26 8 26 10V18C26 20 28 22 30 22" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M18 42L22 46M30 42L26 46" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
-                  </svg>
-                </div>
-                <p className="text-red-800 font-semibold text-sm md:text-base">Dining</p>
-              </div>
-
-              {/* Food Delivery */}
-              <div className="flex flex-col items-center text-center">
-                <div className="mb-4 h-10"></div>
-                <p className="text-red-800 font-semibold text-sm md:text-base">Food Delivery</p>
-              </div>
-
-              {/* Catering */}
-              <div className="flex flex-col items-center text-center">
-                <div className="mb-4 h-10"></div>
-                <p className="text-red-800 font-semibold text-sm md:text-base">Catering</p>
-              </div>
-            </div>
+                <p className="dongle-regular uppercase transition-colors text-xl text-nowrap md:text-wrap md:text-3xl tracking-widest text-red-800 group-hover:text-red-600">
+                  {service.label}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>

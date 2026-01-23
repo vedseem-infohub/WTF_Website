@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle:wght@300;400;700&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -19,10 +20,13 @@
   }
 }
 
+
+
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Dongle", sans-serif;
+  font-size: 1.5rem; /* Dongle tends to be small, so bumping up base size */
 }
 
 @keyframes scroll {
@@ -82,4 +86,28 @@ body {
 .scrollbar-hide {
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+
+@font-face {
+  font-family: "Cheddar Gothic Rough";
+  src: url("/fonts/CheddarGothicRough-Regular.woff2") format("woff2"),
+       url("/fonts/CheddarGothicRough-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cheddar Gothic Rough";
+  src: url("/fonts/CheddarGothicRough-Italic.woff2") format("woff2"),
+       url("/fonts/CheddarGothicRough-Italic.woff") format("woff");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+.dongle-regular {
+  font-family: "Dongle", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
