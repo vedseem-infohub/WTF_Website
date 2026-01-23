@@ -72,7 +72,7 @@ function Footer() {
             <h3 className="text-red-800 text-3xl font-bold mb-4">Social links</h3>
             <div className="flex gap-4">
               {/* Instagram */}
-              <Link href="https://instagram.com" className="text-black hover:text-red-800">
+              <Link href="https://www.instagram.com/rollx_bywtf?igsh=MW9vaGtjNXJoeHhrNg==" className="text-black hover:text-red-800">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
                   <circle cx="12" cy="12" r="4"/>
@@ -136,7 +136,7 @@ function Footer() {
               <h3 className="text-red-800 text-3xl font-bold mb-4">Social links</h3>
               <div className="flex gap-4">
                 {/* Instagram */}
-                <Link href="https://instagram.com" className="text-black hover:text-red-800">
+                <Link href="https://www.instagram.com/rollx_bywtf?igsh=MW9vaGtjNXJoeHhrNg==" className="text-black hover:text-red-800">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
                     <circle cx="12" cy="12" r="4"/>
