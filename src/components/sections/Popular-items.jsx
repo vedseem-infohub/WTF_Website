@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, memo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -39,16 +39,110 @@ const itemData = [
   },
 ]
 
+const StarIcon = memo(({ filled }) => (
+  <svg 
+    className={`w-3 h-3 md:w-4 md:h-4 ${filled ? "text-red-600" : "text-zinc-300"}`} 
+    fill="currentColor" 
+    viewBox="0 0 20 20"
+  >
+    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+  </svg>
+));
+StarIcon.displayName = 'StarIcon';
+
+const PopularItemCard = memo(({ item, index }) => (
+  <motion.div
+    key={item.name}
+    initial={{ opacity: 0, y: 0 }}
+    whileInView={{ opacity: 1, y: 30 }}
+    viewport={{ once: true, amount: 0.1 }}
+    transition={{ delay: index * 0.05, duration: 0.5 }}
+    whileHover={{ y: 10 }}
+    className="bg-white/95 backdrop-blur-md rounded-2xl md:rounded-[1.5rem] overflow-hidden shadow-2xl flex flex-col group border border-white/20 hover:cursor-pointer will-change-transform"
+  >
+    {/* Image Container - Taller for mobile */}
+    <div className="relative aspect-[4/4] sm:aspect-[4/3] w-full p-2">
+      <div className="relative w-full h-full rounded-xl md:rounded-[1.5rem] overflow-hidden shadow-inner">
+        <Image 
+          src={item.image} 
+          alt={item.name} 
+          fill 
+          sizes="(max-width: 640px) 50vw, 25vw"
+          className="object-cover transition-transform duration-700 group-hover:scale-110 will-change-transform" 
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+      </div>
+    </div>
+
+    {/* Info Container - Better alignment for mobile */}
+    <div className="px-3 md:px-6 pb-4 md:pb-8 pt-2 flex flex-col h-full">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-1 md:mb-2 md:gap-1">
+        <h3 className="text-md md:text-3xl font-black text-zinc-900 tracking-tight leading-tight uppercase break-words">
+          {item.name}
+        </h3>
+        <span className="text-red-600 font-black text-md md:text-2xl leading-none">
+          {item.rating}★
+        </span>
+      </div>
+      
+      <p className="text-zinc-500 text-[20px] md:text-xl font-medium mb-3 md:mb-6 leading-tight">
+        {item.description}
+      </p>
+
+      <div className="mt-auto flex justify-between items-center">
+        <div className="flex gap-0.5 md:gap-1">
+          {[...Array(5)].map((_, i) => (
+            <StarIcon key={i} filled={i < item.stars} />
+          ))}
+        </div>
+        <span className="text-base md:text-2xl font-black text-zinc-900 leading-none">
+          ₹{item.price}
+        </span>
+      </div>
+    </div>
+  </motion.div>
+));
+PopularItemCard.displayName = 'PopularItemCard';
+
+const ServiceCard = memo(({ service, index, isMobile }) => (
+  <motion.div 
+    key={service.label}
+    initial={isMobile ? { opacity: 0, scale: 0.9 } : { opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, scale: 1, y: 0 }}
+    viewport={{ once: true, amount: 0.2 }}
+    transition={{ delay: index * 0.1, duration: 0.4 }}
+    className="flex flex-col items-center justify-center border-2 border-red-100 text-center transition-all duration-300 p-6 md:p-8 rounded-[1rem] md:rounded-[1.5rem] lg:rounded-[2.5rem] border border-red-100 bg-white/80 backdrop-blur-sm shadow-lg hover:shadow-2xl hover:-translate-y-2 will-change-transform"
+  >
+    <div className="mb-4 flex items-center justify-center md:w-14 w-10 h-10 md:h-14 relative">
+      <Image 
+        src={service.image} 
+        alt={service.label}
+        fill
+        sizes="(max-width: 640px) 40px, 56px"
+        className="object-contain"
+        style={{
+          filter: 'brightness(0) saturate(100%) invert(13%) sepia(94%) saturate(5436%) hue-rotate(352deg) brightness(83%) contrast(105%)'
+        }}
+      />
+    </div>
+    <p className="dongle-regular uppercase transition-colors text-xl text-wrap md:text-wrap md:text-3xl tracking-widest text-red-800 group-hover:text-red-600"
+       style={{lineHeight: '0.8'}}
+    >
+      {service.label}
+    </p>
+  </motion.div>
+));
+ServiceCard.displayName = 'ServiceCard';
+
 function PopularItems() {
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 640)
-    }
-    handleResize()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+    const mql = window.matchMedia('(max-width: 640px)');
+    const onChange = (e) => setIsMobile(e.matches);
+    setIsMobile(mql.matches);
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
   }, [])
 
   return (
@@ -73,6 +167,7 @@ function PopularItems() {
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           transition={{ delay: 0.2, duration: 0.5 }}
           className="text-center mb-6 md:mb-6"
         >
@@ -86,61 +181,7 @@ function PopularItems() {
         {/* Product Grid - Improved for Mobile */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-8 w-full mb-24">
           {itemData.map((item, index) => (
-            <motion.div
-              key={item.name}
-              initial={{ opacity: 0, y: 0 }}
-              whileInView={{ opacity: 1, y: 30 }}
-              transition={{ delay: index * 0, duration: 0.5 }}
-              whileHover={{ y: 10 }}
-              className="bg-white/95 backdrop-blur-md rounded-2xl md:rounded-[1.5rem] overflow-hidden shadow-2xl flex flex-col group border border-white/20 hover:cursor-pointer"
-            >
-              {/* Image Container - Taller for mobile */}
-              <div className="relative aspect-[4/4] sm:aspect-[4/3] w-full p-2">
-                <div className="relative w-full h-full rounded-xl md:rounded-[1.5rem] overflow-hidden shadow-inner">
-                  <Image 
-                    src={item.image} 
-                    alt={item.name} 
-                    fill 
-                    className="object-cover transition-transform duration-700 group-hover:scale-110" 
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                </div>
-              </div>
-
-              {/* Info Container - Better alignment for mobile */}
-              <div className="px-3 md:px-6 pb-4 md:pb-8 pt-2 flex flex-col h-full">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-1 md:mb-2 md:gap-1">
-                  <h3 className="text-md md:text-3xl font-black text-zinc-900 tracking-tight leading-tight uppercase break-words">
-                    {item.name}
-                  </h3>
-                  <span className="text-red-600 font-black text-md md:text-2xl leading-none">
-                    {item.rating}★
-                  </span>
-                </div>
-                
-                <p className="text-zinc-500 text-[20px] md:text-xl font-medium mb-3 md:mb-6 leading-tight">
-                  {item.description}
-                </p>
-
-                <div className="mt-auto flex justify-between items-center">
-                  <div className="flex gap-0.5 md:gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <svg 
-                        key={i} 
-                        className={`w-3 h-3 md:w-4 md:h-4 ${i < item.stars ? "text-red-600" : "text-zinc-300"}`} 
-                        fill="currentColor" 
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                  </div>
-                  <span className="text-base md:text-2xl font-black text-zinc-900 leading-none">
-                    ₹{item.price}
-                  </span>
-                </div>
-              </div>
-            </motion.div>
+            <PopularItemCard key={item.name} item={item} index={index} />
           ))}
         </div>
 
@@ -148,6 +189,7 @@ function PopularItems() {
         <motion.div 
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ delay: 0.5, duration: 0.5 }}
           className="w-full grid md:grid-cols-2 gap-4 md:gap-6 lg:gap-8 items-center bg-gray-500/10 md:bg-white/5 backdrop-blur-xl rounded-[3rem] p-6 md:p-6 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
         >
@@ -183,13 +225,14 @@ function PopularItems() {
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-              className="relative w-[90%] h-[90%] bg-transparent overflow-hidden"
+              className="relative w-[90%] h-[90%] bg-transparent overflow-hidden will-change-transform"
               style={{ clipPath: 'circle(42%)' }}
             >
               <Image 
                 src="/images/fries.png" 
                 alt="Perfect Fries" 
                 fill
+                sizes="(max-width: 768px) 100vw, 448px"
                 className="object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]" 
                 style={{ mixBlendMode: 'normal' }}
               />
@@ -232,7 +275,8 @@ function PopularItems() {
             alt="Chef Master" 
             width={isMobile ? 380 : 600} 
             height={1000} 
-            className={`filter contrast-125 brightness-90 transition-transform duration-700 ${isMobile ? 'scale-105' : 'group-hover:scale-[1.02]'}`} 
+            priority={false}
+            className={`filter contrast-125 brightness-90 transition-transform duration-700 ${isMobile ? 'scale-105' : 'group-hover:scale-[1.02]'} will-change-transform`} 
           />
         </div>
         
@@ -262,30 +306,7 @@ function PopularItems() {
                 image: '/images/catering.png'
               }
             ].map((service, index) => (
-              <motion.div 
-                key={service.label}
-                initial={isMobile ? { opacity: 0, scale: 0.9 } : false}
-                whileInView={isMobile ? { opacity: 1, scale: 1 } : false}
-                transition={{ delay: index * 0.1 }}
-                className="flex flex-col items-center justify-center border-2 border-red-100 text-center transition-all duration-300 p-6 md:p-8 rounded-[1rem] md:rounded-[1.5rem] lg:rounded-[2.5rem] border border-red-100 bg-white/80 backdrop-blur-sm shadow-lg hover:shadow-2xl hover:-translate-y-2"
-              >
-                <div className="mb-4 flex items-center justify-center md:w-14 w-10 h-10 md:h-14 relative">
-                  <Image 
-                    src={service.image} 
-                    alt={service.label}
-                    fill
-                    className="object-contain"
-                    style={{
-                      filter: 'brightness(0) saturate(100%) invert(13%) sepia(94%) saturate(5436%) hue-rotate(352deg) brightness(83%) contrast(105%)'
-                    }}
-                  />
-                </div>
-                <p className="dongle-regular uppercase transition-colors text-xl text-wrap md:text-wrap md:text-3xl tracking-widest text-red-800 group-hover:text-red-600"
-                   style={{lineHeight: '0.8'}}
-                >
-                  {service.label}
-                </p>
-              </motion.div>
+              <ServiceCard key={service.label} service={service} index={index} isMobile={isMobile} />
             ))}
           </div>
         </div>
