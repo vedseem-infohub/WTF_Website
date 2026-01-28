@@ -88,11 +88,11 @@ function Header() {
             </div>
 
             <button
-              className="w-10 h-10 flex flex-col items-center justify-center p-2 gap-1.5 transition-all text"
+              className="w-10 h-10 flex flex-col items-center justify-center p-2 gap-1.5 border border-gray-500 rounded-full transition-all text"
               onClick={() => setIsOpen(true)}
             >
-              <span className="w-6 h-0.5 bg-white/50" />
-              <span className="w-6 h-0.5 bg-white/50" />
+              <span className="w-5 h-0.5 bg-gray-500" />
+              <span className="w-5 h-0.5 bg-gray-500" />
             </button>
           </div>
         </div>
@@ -229,27 +229,6 @@ function Header() {
                   <div className="grid grid-cols-2 gap-4">
                     <Link className="bg-gradient-to-r from-yellow-400 to-red-500 text-center text-white py-2 md:py-3 rounded-xl text-2xl md:text-3xl dongle-regular uppercase tracking-[0.1em] border border-white/5 active:scale-95 transition-all" href="/partner">
                       Partner
-                    </Link>
-                  </div>
-                  
-                  {/* Social Icons in Drawer */}
-                  <div className="flex justify-center gap-6 pb-2">
-                    <Link href="#" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white active:scale-90 border border-white/10">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
-                      </svg>
-                    </Link>
-                    <Link href="#" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white active:scale-90 border border-white/10">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.134l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                      </svg>
-                    </Link>
-                    <Link href="#" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white active:scale-90 border border-white/10">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                        <circle cx="12" cy="12" r="4"/>
-                        <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>
-                      </svg>
                     </Link>
                   </div>
                 </div>

@@ -119,7 +119,7 @@ export default function TermsPage() {
             </div>
 
             <div className="bg-white rounded-2xl border-2 border-gray-200 p-8 mb-8">
-              <h2 className="text-3xl font-bold text-red-800 mb-4">5. Cancellation and Refunds</h2>
+              <h2 className="text-3xl font-bold text-red-800 mb-4">5. Cancellation and Refund Policy</h2>
               <p className="text-xl text-gray-700 leading-relaxed mb-4"
                  style={{lineHeight: '0.9'}}
               >
@@ -139,6 +139,10 @@ export default function TermsPage() {
                 <li className="flex items-start">
                   <span className="text-red-800 mr-2">•</span>
                   <strong>Partial Refunds:</strong> May be issued for late cancellations at our discretion
+                </li>
+                <li className="flex items-start">
+                  <span className="text-red-800 mr-2">•</span>
+                  <strong>Refund Policy:</strong> 50% refund will be provided for cancellations made within the specified period
                 </li>
                 <li className="flex items-start">
                   <span className="text-red-800 mr-2">•</span>

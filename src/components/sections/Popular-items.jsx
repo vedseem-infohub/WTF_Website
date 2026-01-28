@@ -292,7 +292,7 @@ function PopularItems() {
             </h3>
           </div>
 
-          <div className={`grid ${isMobile ? 'grid-cols-2 gap-4' : 'md:grid-cols-2 lg:grid-cols-4 md:gap-16'} max-w-full mx-auto`}>
+          <div className={`grid ${isMobile ? 'grid-cols-2 gap-4' : 'md:grid-cols-2 lg:grid-cols-4 md:gap-16'} max-w-full pb-16 mx-auto`}>
             {[
               {
                 label: 'Franchise Model',
