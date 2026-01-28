@@ -226,7 +226,7 @@ export default function OccasionPage({ params }) {
                       {/* Top Badges */}
                       <div className="absolute md:top-4 top-2 left-2 md:left-4 z-20">
                         <div className="bg-white/90 backdrop-blur-md md:px-3 px-2 md:py-1.5 py-1 rounded-full shadow-lg border border-white/20">
-                          <span className="text-red-600 text-[10px] font-black uppercase tracking-wider">Premium</span>
+                          <span className="text-red-600 text-[20px] font-black uppercase tracking-wider">Premium</span>
                         </div>
                       </div>
 
