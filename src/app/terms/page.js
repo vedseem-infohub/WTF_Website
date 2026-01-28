@@ -194,7 +194,6 @@ export default function TermsPage() {
                  style={{lineHeight: '0.9'}}
               >
                 <p><strong>Email:</strong> sileenafoods@gmail.com</p>
-                <p><strong>Phone:</strong> +91 9818981438</p>
               </div>
             </div>
           </div>

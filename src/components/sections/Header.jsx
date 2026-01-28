@@ -14,13 +14,13 @@ function Header() {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const navItems = [
-    { label: "Home", href: "/", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" },
-    { label: "Menu", href: "/menu", icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" },
-    { label: "Services", href: "/services", icon: "M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
-    { label: "About", href: "/about", icon: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" },
-    { label: "Catering", href: "/services/catering", icon: "M12 15h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" },
-    // { label: "Reels", href: "/reels", icon: "M14.75 6.25L10 9l4.75 2.75V6.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" },
-    // { label: "Contact", href: "/contact", icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
+    { label: "Home", href: "/" },
+    // { label: "Locations", href: "#locations" },
+    { label: "Menu", href: "/menu" },
+    { label: "Who We Are", href: "/about" },
+    // { label: "Instagram", href: "https://instagram.com" },
+    { label: "Services", href: "/services" },
+    { label: "Catering", href: "/services/catering" },
   ];
 
   // Check if user is logged in
@@ -54,85 +54,107 @@ function Header() {
   return (
     <>
       <div
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isVisible ? "lg:translate-y-0" : "lg:-translate-y-full"
-          }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500`}
       >
-        {/* Mobile & Tablet Header: Flat, Full-width, Minimal */}
-        <div className="lg:hidden w-full px-4 md:px-10 py-2 md:py-2 flex justify-between items-center bg-black/5 backdrop-blur-sm">
+
+        {/* Mobile & Tablet Header */}
+        <div className="lg:hidden w-full px-4 md:px-10 py-2 flex justify-between items-center bg-transparent backdrop-blur-sm">
           <Link href="/" className="transition-transform active:scale-95">
             <div className="flex items-center gap-3">
-              <Image src="/Logo.png" alt="logo" width={100} height={50} className="w-auto h-12 md:h-16 bg-black/10 p-1.5 rounded-xl border border-white/10" />
+              <Image src="/Logo.png" alt="logo" width={80} height={40} className="w-auto h-12" />
             </div>
           </Link>
 
-          <button
-            className="w-10 h-10 md:w-14 md:h-14 flex flex-col items-center bg-black/20 justify-center border border-white/10 p-3 rounded-full gap-1.5 transition-all hover:bg-black/40"
-            onClick={() => setIsOpen(true)}
-          >
-            <span className="w-5 md:w-7 h-0.5 bg-white" />
-            <span className="w-5 md:w-7 h-0.5 bg-white" />
-          </button>
+          <div className="flex items-center gap-4 ">
+            {/* Mobile Social Icons */}
+            <div className="flex gap-2 mr-2 absolute right-4 top-24">
+              <Link href="#" className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white active:scale-90 shadow-lg">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+                </svg>
+              </Link>
+              <Link href="#" className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white active:scale-90 shadow-lg">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.134l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </Link>
+              <Link href="#" className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white active:scale-90 shadow-lg">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <circle cx="12" cy="12" r="4"/>
+                  <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>
+                </svg>
+              </Link>
+            </div>
+
+            <button
+              className="w-10 h-10 flex flex-col items-center justify-center p-2 gap-1.5 transition-all text"
+              onClick={() => setIsOpen(true)}
+            >
+              <span className="w-6 h-0.5 bg-white/50" />
+              <span className="w-6 h-0.5 bg-white/50" />
+            </button>
+          </div>
         </div>
 
-        {/* Desktop Header: Premium Floating Capsule */}
-        <div className="hidden lg:block mx-auto max-w-full mt-6 px-4">
-          <div className="relative flex justify-between items-center px-8 py-3 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full shadow-2xl">
-            {/* Logo */}
-            <Link href="/" className="transition-transform active:scale-95">
-              <Image src="/Logo.png" alt="logo" width={70} height={40} className="w-auto h-10" />
-            </Link>
+        {/* Desktop Header Content (Logo & Socials) */}
+        <div className="hidden lg:flex justify-between items-start px-12 py-6 pointer-events-none">
+          {/* Logo */}
+          <Link href="/" className="pointer-events-auto transition-transform active:scale-95">
+             <Image src="/Logo.png" alt="logo" width={100} height={60} className="w-auto h-16" />
+          </Link>
 
-            {/* Desktop Nav */}
-            <div className="flex items-center gap-6">
-              {navItems.map((item) => {
-                const isActive = pathname === item.href;
-                return (
-                  <Link href={item.href} key={item.label}>
-                    <p
-                      className={`px-5 py-1 rounded-full text-2xl font-semibold transition-all duration-300 ${isActive
-                        ? "bg-red-600 text-white shadow-lg shadow-red-600/20"
-                        : "text-white/60 hover:text-white hover:bg-white/5"
-                        }`}
-                    >
-                      {item.label}
-                    </p>
-                  </Link>
-                );
-              })}
-            </div>
-
-            {/* Desktop Buttons */}
-            <div className="flex items-center gap-6">
-              <Link href="https://wtf-foods.vercel.app/">
-                <button
-                  className="
-                  relative text-3xl font-semibold
-                  bg-gradient-to-r from-yellow-400 to-red-500
-                  bg-clip-text text-transparent
-                  transition-all duration-300 ease-out
-              
-                  hover:text-white
-                  hover:drop-shadow-[0_0_12px_rgba(251,191,36,0.8)]
-                  hover:scale-[1.05]
-                  hover:cursor-pointer
-              
-                  after:content-['']
-                  after:absolute after:left-0 after:-bottom-1
-                  after:h-[2px] after:w-0
-                  after:bg-gradient-to-r after:from-yellow-400 after:to-red-500
-                  after:transition-all after:duration-300
-                  hover:after:w-full
-                "
-                >
-                  Be a Partner ?
-                </button>
-              </Link>
-
-           
-           
-              
-            </div>
+          {/* Social Icons */}
+          <div className="flex gap-4 pointer-events-auto">
+             <Link href="#" className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white hover:bg-red-600 transition-all hover:scale-110 shadow-lg">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+                </svg>
+             </Link>
+             <Link href="#" className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white hover:bg-red-600 transition-all hover:scale-110 shadow-lg">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.134l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+             </Link>
+             <Link href="#" className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white hover:bg-red-600 transition-all hover:scale-110 shadow-lg">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <circle cx="12" cy="12" r="4"/>
+                  <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>
+                </svg>
+             </Link>
           </div>
+        </div>
+
+        {/* Side Navigation Buttons (Desktop Only) */}
+        <div className="hidden lg:flex flex-col gap-3 absolute left-12 mt-14 top-48 pointer-events-auto">
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link href={item.href} key={item.label}>
+                <div
+                  className={`px-5 py-2 rounded-sm transition-all duration-300 group cursor-pointer
+                    ${isActive 
+                      ? "bg-red-600 text-white shadow-xl shadow-red-600/30 scale-105" 
+                      : "bg-white text-red-700 border border-red-100 hover:bg-red-600 hover:text-white"
+                    }`}
+                >
+                  <p className="text-2xl font-bold font-mono tracking-tighter">
+                    {item.label}
+                  </p>
+                </div>
+              </Link>
+            );
+          })}
+          
+          {/* Be a Partner Button as a specialized side button */}
+          <Link href="https://wtf-foods.vercel.app/" className="mt-4">
+            <div className="px-8 py-3 rounded bg-gradient-to-r from-yellow-400 to-red-600 text-white shadow-2xl hover:scale-105 transition-all group">
+              <p className="text-2xl font-bold font-mono tracking-tighter uppercase text-center">
+                Be a Partner ?
+              </p>
+            </div>
+          </Link>
         </div>
       </div>
 
@@ -203,13 +225,33 @@ function Header() {
                 </div>
 
                 {/* Primary Actions Footer */}
-                <div className="p-6 md:px-12 md:pt-4 md:pb-8 pt-2 pb-4 md:gap-8 grid grid-cols-2 gap-4">
-                  {/* <Link className="bg-white text-black py-2 md:py-3 rounded-xl text-2xl md:text-3xl text-center dongle-regular uppercase tracking-[0.1em] active:scale-95 transition-all" href="/login">
-                    Login
-                  </Link> */}
-                  <Link className="bg-gradient-to-r from-yellow-400 to-red-500 text-center text-white py-2 md:py-3 rounded-xl text-2xl md:text-3xl dongle-regular uppercase tracking-[0.1em] border border-white/5 active:scale-95 transition-all" href="/partner">
-                    Partner
-                  </Link>
+                <div className="p-6 md:px-12 md:pt-4 md:pb-8 pt-2 pb-4 flex flex-col gap-6">
+                  <div className="grid grid-cols-2 gap-4">
+                    <Link className="bg-gradient-to-r from-yellow-400 to-red-500 text-center text-white py-2 md:py-3 rounded-xl text-2xl md:text-3xl dongle-regular uppercase tracking-[0.1em] border border-white/5 active:scale-95 transition-all" href="/partner">
+                      Partner
+                    </Link>
+                  </div>
+                  
+                  {/* Social Icons in Drawer */}
+                  <div className="flex justify-center gap-6 pb-2">
+                    <Link href="#" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white active:scale-90 border border-white/10">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+                      </svg>
+                    </Link>
+                    <Link href="#" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white active:scale-90 border border-white/10">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.134l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                      </svg>
+                    </Link>
+                    <Link href="#" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white active:scale-90 border border-white/10">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                        <circle cx="12" cy="12" r="4"/>
+                        <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>
+                      </svg>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </motion.div>

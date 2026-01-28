@@ -221,7 +221,7 @@ export default function AboutPage() {
                 </p>
               </div>
 
-              <div className="pt-6">
+              {/* <div className="pt-6">
                 <Link 
                   href="/menu"
                   className="inline-flex items-center gap-4 px-10 py-5 bg-zinc-950 text-white font-bold text-2xl rounded-2xl hover:bg-red-600 transition-all duration-300 shadow-xl hover:shadow-red-500/20 group"
@@ -231,95 +231,14 @@ export default function AboutPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </Link>
-              </div>
+              </div> */}
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Professional Timeline */}
-      <ProfessionalTimeline timelineStory={timelineStory} />
-
-      {/* Core Values Section */}
-      <section className="py-24 md:py-32 bg-zinc-50">
-        <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-6xl font-black text-zinc-950 mb-4">
-              Our Core <span className="text-red-600">Values</span>
-            </h2>
-            <p className="text-zinc-600 text-lg md:text-xl max-w-2xl mx-auto">
-              The principles that guide everything we do
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                title: "Excellence",
-                desc: "Uncompromising quality in every order",
-                icon: (
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                )
-              },
-              {
-                title: "Innovation",
-                desc: "Leveraging technology for better experiences",
-                icon: (
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                )
-              },
-              {
-                title: "Reliability",
-                desc: "Consistent service you can count on",
-                icon: (
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                )
-              },
-              {
-                title: "Sustainability",
-                desc: "Committed to environmental responsibility",
-                icon: (
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                )
-              }
-            ].map((value, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="group relative bg-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300 border border-zinc-100"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-orange-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="relative">
-                  <div className="w-16 h-16 rounded-xl bg-red-50 flex items-center justify-center text-red-600 mb-6 group-hover:bg-red-100 transition-colors">
-                    {value.icon}
-                  </div>
-                  <h3 className="text-2xl font-black text-zinc-950 mb-3">{value.title}</h3>
-                  <p className="text-zinc-600 text-md leading-relaxed">{value.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Mission Statement */}
-      <section className="py-24 md:py-32 bg-white">
+      <section className="py-14 md:py-20 bg-white">
         <div className="max-w-6xl mx-auto px-6 md:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div
@@ -392,6 +311,9 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* Professional Timeline */}
+      <ProfessionalTimeline timelineStory={timelineStory} />
 
       {/* Newsletter CTA */}
       <section className="py-24 px-6 md:px-8 bg-zinc-50">

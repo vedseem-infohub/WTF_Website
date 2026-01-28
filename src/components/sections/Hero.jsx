@@ -22,6 +22,7 @@ function Hero() {
         <div className="text-white max-w-full">
           <h1
             className="
+              md:hidden
               lg:mt-[6rem]
               md:mt-[4rem]
               mt-[2rem]
@@ -33,9 +34,9 @@ function Hero() {
               font-cheddar
             "
           >
-            <span className="block text-[clamp(2rem,12vw,6rem)] md:text-[6rem] lg:text-[10rem] font-normal leading-none">Where</span>
-            <span className="text-[#ff0000] block text-[clamp(2.5rem,15vw,8rem)] md:text-[8rem] lg:text-[14rem] font-normal leading-none my-1">Food</span>
-            <span className="block text-[clamp(2rem,12vw,6rem)] md:text-[6rem] lg:text-[10rem] font-normal leading-none">Begins</span>
+            <span className="block text-[clamp(2rem,12vw,8rem)] md:text-[6rem] lg:text-[10rem] font-normal leading-none">Where</span>
+            <span className="text-[#ff0000] block text-[clamp(2.5rem,15vw,10rem)] md:text-[8rem] lg:text-[14rem] font-normal leading-none my-1">Food</span>
+            <span className="block text-[clamp(2rem,12vw,8rem)] md:text-[6rem] lg:text-[10rem] font-normal leading-none">Begins</span>
           </h1>
 
           {/* Play Button */}
