@@ -32,10 +32,10 @@ export const menuSections = [
     slug: "south-india",
     accentColor: "green",
     items: [
-      { id: 9, name: "Biryani", price: "₹149/-", image: "/block-1.png", rating: 4.6 },
-      { id: 10, name: "Plain Dosa", price: "₹149/-", image: "/block-2.png", rating: 4.4 },
-      { id: 11, name: "Masala Dosa", price: "₹159/-", image: "/block-3.png", rating: 4.7 },
-      { id: 12, name: "Idli Sambhar", price: "₹149/-", image: "/block-4.png", rating: 4.5 },
+      { id: 9, name: "Chaap", price: "₹149/-", image: "/chaap.jpg", rating: 4.6 },
+      { id: 10, name: "Tikka", price: "₹149/-", image: "/tikka1.jpg", rating: 4.4 },
+      { id: 11, name: "Chaap Do Pyaza", price: "₹159/-", image: "/Chaap_Do_Pyaza.jpg", rating: 4.7 },
+      { id: 12, name: "Chilli Mushroom", price: "₹149/-", image: "/chili_mushroom1.jpg", rating: 4.5 },
     ],
   },
 ];
