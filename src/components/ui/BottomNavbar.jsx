@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Home, Utensils, Phone, ChefHat, Play } from "lucide-react";
+import { Home, Utensils, Phone, ChefHat, Play, Mail } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -49,7 +49,7 @@ const BottomNavbar = () => {
     { label: "Home", icon: Home, href: "/" },
     { label: "Menu", icon: Utensils, href: "/menu" },
     { label: "Play", icon: null, isCentral: true }, // Workspace for the FAB
-    { label: "Call", icon: Phone, href: "tel:+919818981438" },
+    { label: "Mail", icon: Mail, href: "mailto:sileenafoods@gmail.com"},
     { label: "Catering", icon: ChefHat, href: "/services/catering" },
   ];
 
