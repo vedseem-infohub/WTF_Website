@@ -148,7 +148,7 @@ export default function EventsPage() {
           </div>
 
           {/* CTA Section */}
-          <div className="bg-gradient-to-r from-red-800 to-red-600 text-white p-12 rounded-3xl text-center">
+          {/* <div className="bg-gradient-to-r from-red-800 to-red-600 text-white p-12 rounded-3xl text-center">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
               Want to Host an Event?
             </h2>
@@ -160,7 +160,7 @@ export default function EventsPage() {
                 Contact Us
               </button>
             </Link>
-          </div>
+          </div> */}
         </div>
       </main>
 
