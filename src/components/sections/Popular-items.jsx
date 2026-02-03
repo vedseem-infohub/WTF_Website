@@ -4,40 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 
-const itemData = [
-  { 
-    name: 'Gourmet Biriyani', 
-    image: '/images/biriyani.png',
-    description: 'Aromatic basmati rice cooked with premium spices and tender meat.',
-    rating: '9.5',
-    price: 350,
-    stars: 5
-  },
-  { 
-    name: 'Kabab Platter', 
-    image: '/images/kabab.png',
-    description: 'Succulent grilled skewers served with fresh mint chutney.',
-    rating: '9.2',
-    price: 450,
-    stars: 5
-  },
-  { 
-    name: 'Napoli Pizza', 
-    image: '/images/pizza.png',
-    description: 'Authentic wood-fired pizza with fresh basil and mozzarella.',
-    rating: '8.8',
-    price: 550,
-    stars: 4
-  },
-  { 
-    name: 'Signature Burger', 
-    image: '/images/burger.png',
-    description: 'Juicy patty with melting cheese, crisp lettuce, and secret sauce.',
-    rating: '8.5',
-    price: 250,
-    stars: 4
-  },
-]
+
 
 const StarIcon = memo(({ filled }) => (
   <svg
@@ -60,7 +27,7 @@ const PopularItemCard = memo(({ item, index }) => (
     whileHover={{ y: 10 }}
     className="bg-white/95 backdrop-blur-md rounded-2xl md:rounded-[1.5rem] overflow-hidden shadow-2xl flex flex-col group border border-white/20 hover:cursor-pointer will-change-transform"
   >
-    {/* Image Container - Taller for mobile */}
+
     <div className="relative aspect-[4/4] sm:aspect-[4/3] w-full p-2">
       <div className="relative w-full h-full rounded-xl md:rounded-[1.5rem] overflow-hidden shadow-inner">
         <Image
@@ -74,7 +41,7 @@ const PopularItemCard = memo(({ item, index }) => (
       </div>
     </div>
 
-    {/* Info Container - Better alignment for mobile */}
+
     <div className="px-3 md:px-6 pb-4 md:pb-8 pt-2 flex flex-col h-full">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-1 md:mb- md:gap-1">
         <h3 className="text-md md:text-3xl font-black text-zinc-900 tracking-tight leading-tight uppercase break-words">
@@ -84,11 +51,11 @@ const PopularItemCard = memo(({ item, index }) => (
           {item.rating}★
         </span>
       </div>
-      
+
       <p className="text-zinc-500 text-[20px] md:text-xl font-medium mb-3 md:mb-6 leading-tight"
-         style={{
-            lineHeight: "0.9"
-         }}
+        style={{
+          lineHeight: "0.9"
+        }}
       >
         {item.description}
       </p>
@@ -96,7 +63,7 @@ const PopularItemCard = memo(({ item, index }) => (
       <div className="mt-auto flex justify-between items-center">
         <div className="flex gap-0.5 md:gap-1">
           {[...Array(5)].map((_, i) => (
-            <StarIcon key={i} filled={i < item.stars} />
+            <StarIcon key={i} filled={i < (item.stars || item.rating || 5)} />
           ))}
         </div>
         <span className="text-base md:text-2xl font-black text-zinc-900 leading-none">
@@ -141,8 +108,23 @@ ServiceCard.displayName = 'ServiceCard';
 
 function PopularItems() {
   const [isMobile, setIsMobile] = useState(false)
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
+    const fetchPopularItems = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/food?limit=4`);
+        if (response.ok) {
+          const data = await response.json();
+          setItems(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch popular items:", error);
+      }
+    };
+
+    fetchPopularItems();
+
     const mql = window.matchMedia('(max-width: 640px)');
     const onChange = (e) => setIsMobile(e.matches);
     setIsMobile(mql.matches);
@@ -152,7 +134,7 @@ function PopularItems() {
 
   return (
     <div className="relative w-full min-h-screen bg-white overflow-hidden flex flex-col items-center">
-      {/* Base Background Layer - Full Height */}
+
       <div
         className="absolute inset-0 w-full h-full opacity-100 z-0 pointer-events-none"
         style={{
@@ -163,10 +145,9 @@ function PopularItems() {
         }}
       />
 
-      {/* Content Overlay to manage contrast */}
       <div className={`absolute inset-0 w-full h-full z-[1] transition-opacity duration-500 ${isMobile ? 'bg-black/20' : 'bg-transparent'}`} />
 
-      {/* Main Content */}
+
       <div className="relative z-10 w-full max-w-7xl mx-auto px-2 md:px-4 py-12 md:py-24 flex flex-col items-center">
 
         <motion.div
@@ -177,20 +158,17 @@ function PopularItems() {
           className="text-center mb-6 md:mb-6"
         >
           <span className="text-white font-bold tracking-[0.1rem] md:tracking-[0.3rem] uppercase text-2xl md:text-5xl md:mb-4 block">Chef's <span className="text-yellow-400">Top </span>Picks</span>
-          {/* <h2 className="text-4xl md:text-8xl font-black text-white tracking- uppercase">
-            Most <span className="text-yellow-400">Popular</span> Items
-          </h2> */}
+
           <div className="w-full h-0.5 md:h-1 bg-yellow-400 mx-auto -mt-2 md:-mt-4 rounded-full" />
         </motion.div>
 
-        {/* Product Grid - Improved for Mobile */}
+
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 w-full mb-24">
-          {itemData.map((item, index) => (
-            <PopularItemCard key={item.name} item={item} index={index} />
+          {items.map((item, index) => (
+            <PopularItemCard key={item._id || item.name} item={item} index={index} />
           ))}
         </div>
 
-        {/* Featured Section - Inspired by the bottom part of the provided image */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -204,15 +182,15 @@ function PopularItems() {
                 lineHeight: "0.7"
               }}
             >
-             Best Noodles<br />
-             <span className="text-yellow-400">For Chowmein</span>
+              Best Noodles<br />
+              <span className="text-yellow-400">For Chowmein</span>
             </h3>
 
-             <p className="text-white/70 hidden sm:block text-base md:text-2xl font-medium leading-tight ma  x-w-md">
-              Fresh wheat noodles with the right balance of chewiness and softness are per  fect for chowmein. 
-              They absorb sauces beautifully while staying springy, giving yo u that authentic street-style 
+            <p className="text-white/70 hidden sm:block text-base md:text-2xl font-medium leading-tight ma  x-w-md">
+              Fresh wheat noodles with the right balance of chewiness and softness are per  fect for chowmein.
+              They absorb sauces beautifully while staying springy, giving yo u that authentic street-style
               flavor with every bite.
-              </p>
+            </p>
             <Link href="/menu" className="mt-10 hidden md:flex items-center gap-4 text-yellow-400 font-black uppercase tracking-widest text-xl group">
               <motion.button
                 whileHover={{ x: 10 }}
@@ -225,11 +203,11 @@ function PopularItems() {
                   </svg>
                 </div>
               </motion.button>
-            </Link>  
+            </Link>
           </div>
 
           <div className="relative aspect-square w-full max-w-md mx-auto flex items-center justify-center">
-            {/* Ambient glows behind the plate */}
+
             <div className="absolute inset-8 bg-red-600/40 blur-[90px] rounded-full -z-10" />
 
             <motion.div
@@ -254,8 +232,8 @@ function PopularItems() {
                 lineHeight: "0.9"
               }}
             >
-              Fresh wheat noodles with the right balance of chewiness and softness are per  fect for chowmein. 
-              They absorb sauces beautifully while staying springy, giving yo u that authentic street-style 
+              Fresh wheat noodles with the right balance of chewiness and softness are per  fect for chowmein.
+              They absorb sauces beautifully while staying springy, giving yo u that authentic street-style
               flavor with every bite.
             </p>
             <Link href="/menu">
@@ -275,10 +253,10 @@ function PopularItems() {
         </motion.div>
       </div>
 
-      {/* Unified Chef Section (Enhanced Mobile UI) */}
+
       <div className={`w-full relative flex flex-col justify-center items-center mt-4 z-10 transition-all duration-700 ${isMobile ? '-mt-10 pb-0' : 'md:-mt-16 pb-24'} bg-transparent`}>
         <div className="relative group">
-          {/* Mobile-only Ambient Glow */}
+
           {isMobile && (
             <div className="absolute inset-0 bg-red-600/10 blur-[80px] rounded-full scale-125 -z-10 animate-pulse" />
           )}
@@ -305,8 +283,8 @@ function PopularItems() {
                 label: 'Franchise Model',
                 image: '/images/franchise-model.png'
               },
-              { 
-                label: 'Dining', 
+              {
+                label: 'Dining',
                 image: '/images/dining.png'
               },
               {

@@ -6,70 +6,58 @@ import Footer from '@/components/sections/Footer'
 import Image from 'next/image'
 
 export default function BlogsPage() {
-  const blogs = [
-    {
-      id: 1,
-      title: 'The Art of Perfect Biryani',
-      excerpt: 'Discover the secrets behind making the perfect biryani with authentic spices and techniques.',
-      date: 'January 20, 2026',
-      image: '/images/biriyani.png',
-      category: 'Recipes'
-    },
-    {
-      id: 2,
-      title: 'Catering Tips for Large Events',
-      excerpt: 'Essential tips for planning and executing successful catering for weddings and corporate events.',
-      date: 'January 15, 2026',
-      image: 'https://i.pinimg.com/736x/85/9e/b5/859eb5992d2f74621fa57362531edeb0.jpg',
-      category: 'Catering'
-    },
-    {
-      id: 3,
-      title: 'Street Food Culture in India',
-      excerpt: 'Exploring the rich and diverse street food culture across different regions of India.',
-      date: 'January 10, 2026',
-      image: '/images/kabab.png',
-      category: 'Food Culture'
-    },
-    {
-      id: 4,
-      title: 'Perfect Pizza Making Guide',
-      excerpt: 'Learn how to make the perfect Italian pizza crust with our chef special recipe guide.',
-      date: 'January 05, 2026',
-      image: '/images/pizza.png',
-      category: 'Recipes'
-    },
-    {
-      id: 5,
-      title: 'Healthy Dining Options',
-      excerpt: 'Exploring healthy yet delicious dining options for fitness enthusiasts.',
-      date: 'January 01, 2026',
-      image: 'https://i.pinimg.com/1200x/36/03/42/3603429c48a30794ff2e3ad27278f4e8.jpg',
-      category: 'Lifestyle'
-    },
-    {
-      id: 6,
-      title: 'The Franchise Model Success',
-      excerpt: 'Understanding the key elements that make a food franchise successful in today market.',
-      date: 'December 28, 2025',
-      image: '/franshise-model.jpg',
-      category: 'Business'
-    }
-  ]
-
+  const [blogs, setBlogs] = React.useState([])
+  const [loading, setLoading] = React.useState(true)
   const [visibleBlogs, setVisibleBlogs] = React.useState(3)
+
+  React.useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:5000'}/api/blogs/getblogs`);
+        if (response.ok) {
+          const data = await response.json();
+          const mappedBlogs = data.map(blog => ({
+            id: blog._id,
+            title: blog.title,
+            excerpt: blog.description,
+            date: new Date(blog.date).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            }),
+            image: blog.image,
+            category: blog.blogType
+          }));
+          setBlogs(mappedBlogs);
+        }
+      } catch (error) {
+        console.error("Failed to fetch blogs:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, [])
 
   const loadMore = () => {
     setVisibleBlogs(prev => Math.min(prev + 3, blogs.length))
   }
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-red-800"></div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
-      
+
       <main className="pt-24 pb-16 px-6 md:px-12">
         <div className="max-w-7xl mx-auto">
-          {/* Page Header */}
           <div className="text-center mb-16">
             <h1 className="text-5xl md:text-7xl font-bold text-red-800 mb-4">
               Our Blogs
@@ -79,8 +67,7 @@ export default function BlogsPage() {
             </p>
           </div>
 
-          {/* Blog Grid */}
-          <motion.div 
+          <motion.div
             layout
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
@@ -115,7 +102,7 @@ export default function BlogsPage() {
                       {blog.title}
                     </h2>
                     <p className="text-xl text-gray-700 mb-4 line-clamp-3"
-                       style={{lineHeight: '1.2'}}
+                      style={{ lineHeight: '1.2' }}
                     >
                       {blog.excerpt}
                     </p>
@@ -125,10 +112,9 @@ export default function BlogsPage() {
             </AnimatePresence>
           </motion.div>
 
-          {/* Load More Button */}
           {visibleBlogs < blogs.length && (
             <div className="text-center mt-12">
-              <button 
+              <button
                 onClick={loadMore}
                 className="px-10 py-4 bg-red-800 text-white rounded-full text-2xl font-semibold hover:bg-red-700 transition-colors shadow-lg active:scale-95 transform"
               >
