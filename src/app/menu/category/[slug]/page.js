@@ -1,11 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { itemData } from "@/components/sections/Popular-items"; // If possible to reuse, but menuSections has its own items
-import { menuSections } from "@/data/menuData";
+import { getAllRangeMenus } from "@/services/menuService";
 import Header from "@/components/sections/Header";
 import Footer from "@/components/sections/Footer";
 import { motion } from "framer-motion";
@@ -31,11 +30,74 @@ const accentMap = {
   },
 };
 
+const rangeConfig = {
+  "Paneer Range": {
+    phrase1: "Here's Our",
+    title: "Paneer",
+    phrase2: " Range...",
+    slug: "paneer",
+    accentColor: "yellow",
+  },
+  "Fast Food Range": {
+    phrase1: "Here's Our",
+    title: "Fast Food",
+    phrase2: " Range...",
+    slug: "fast-food",
+    accentColor: "red",
+  },
+  "Chinese Range": {
+    phrase1: "Here's Our",
+    title: "Chinese",
+    phrase2: " Range...",
+    slug: "chinese",
+    accentColor: "green",
+  },
+};
+
 export default function CategoryDetails() {
   const { slug } = useParams();
-  
-  // Find the section that matches the slug
-  const section = menuSections.find((s) => s.slug === slug);
+  const [section, setSection] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getAllRangeMenus();
+
+        // Find which range corresponds to this slug
+        const rangeName = Object.keys(rangeConfig).find(key => rangeConfig[key].slug === slug);
+
+        if (rangeName) {
+          // Filter items for this range
+          const items = data.filter(item => item.range === rangeName);
+          if (items.length > 0) {
+            setSection({
+              ...rangeConfig[rangeName],
+              items: items
+            });
+          }
+        } else {
+          console.log("No matching configuration for slug:", slug);
+        }
+
+      } catch (error) {
+        console.error("Error fetching category details:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (slug) {
+      fetchData();
+    }
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center text-white">
+        <h1 className="text-4xl font-dongle">Loading...</h1>
+      </div>
+    );
+  }
 
   if (!section) {
     return (
@@ -56,7 +118,7 @@ export default function CategoryDetails() {
   return (
     <div className="w-full min-h-screen bg-[#0f0f0f] font-dongle">
       <Header />
-      
+
       {/* Category Hero */}
       <div className="relative w-full h-[300px] md:h-[450px]">
         <Image
@@ -67,21 +129,21 @@ export default function CategoryDetails() {
           className="object-cover opacity-60"
         />
         <div className="absolute inset-0 flex flex-col items-center justify-center pt-20">
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-white text-2xl md:text-3xl uppercase tracking-widest mb-2"
           >
             {section.phrase1}
           </motion.p>
-          <motion.h1 
+          <motion.h1
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             className={`text-6xl md:text-9xl font-black uppercase leading-none ${accent.text}`}
           >
             {section.title}
           </motion.h1>
-          <motion.div 
+          <motion.div
             initial={{ width: 0 }}
             animate={{ width: 150 }}
             className={`h-1.5 md:h-2 rounded-full mt-4 ${accent.underline}`}
@@ -94,7 +156,7 @@ export default function CategoryDetails() {
         <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-8">
           {section.items.map((item, index) => (
             <motion.div
-              key={item.id}
+              key={item._id}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
@@ -136,8 +198,8 @@ export default function CategoryDetails() {
 
         {/* Back Link */}
         <div className="mt-20 text-center">
-          <Link 
-            href="/menu" 
+          <Link
+            href="/menu"
             className="inline-flex items-center gap-2 text-white/60 hover:text-white text-xl md:text-3xl transition-colors uppercase tracking-widest"
           >
             ← Explore other ranges

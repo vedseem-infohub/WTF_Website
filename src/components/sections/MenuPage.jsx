@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { menuSections } from "@/data/menuData";
+import { getAllRangeMenus } from "../../services/menuService";
 
 const accentMap = {
   yellow: {
@@ -23,8 +23,98 @@ const accentMap = {
   },
 };
 
+const rangeConfig = {
+  "Paneer Range": {
+    phrase1: "Here's Our",
+    title: "Paneer",
+    phrase2: " Range...",
+    slug: "paneer",
+    accentColor: "yellow",
+  },
+  "Fast Food Range": {
+    phrase1: "Here's Our",
+    title: "Fast Food",
+    phrase2: " Range...",
+    slug: "fast-food",
+    accentColor: "red",
+  },
+  "Chinese Range": {
+    phrase1: "Here's Our",
+    title: "Chinese",
+    phrase2: " Range...",
+    slug: "chinese",
+    accentColor: "green",
+  },
+};
 
 export default function MenuPage() {
+  const [menuSections, setMenuSections] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchMenus = async () => {
+      try {
+        const data = await getAllRangeMenus();
+
+        // Group items by range
+        const grouped = data.reduce((acc, item) => {
+          const range = item.range;
+          if (!acc[range]) {
+            acc[range] = [];
+          }
+          acc[range].push(item);
+          return acc;
+        }, {});
+
+        // Transform into section format
+        const sections = Object.keys(grouped).map(range => {
+          const config = rangeConfig[range] || {
+            phrase1: "Here's Our",
+            title: range,
+            phrase2: " Range...",
+            slug: "other",
+            accentColor: "red",
+          };
+
+          return {
+            ...config,
+            items: grouped[range]
+          };
+        });
+
+        // Optional: Sort sections based on a predefined order if needed
+        const sortOrder = ["Paneer Range", "Fast Food Range", "Chinese Range"];
+        sections.sort((a, b) => {
+          // Find the original key by looking up which range matches the title/config
+          // This is a bit indirect, so we might want to keep the range key in the section object
+          // But for now, let's just rely on the order they come or basic sorting.
+          // A better way is to iterate over `rangeConfig` keys to create the order.
+          return 0;
+        });
+
+        // Re-sorting based on rangeConfig keys order
+        const orderedSections = sortOrder
+          .map(key => sections.find(s => s.title === rangeConfig[key]?.title))
+          .filter(Boolean);
+
+        // append any others that weren't in the sortOrder
+        const others = sections.filter(s => !orderedSections.includes(s));
+
+        setMenuSections([...orderedSections, ...others]);
+      } catch (error) {
+        console.error("Failed to fetch menu items", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMenus();
+  }, []);
+
+  if (loading) {
+    return <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center text-white text-2xl">Loading menu...</div>;
+  }
+
   return (
     <div className="w-full min-h-screen bg-[#0f0f0f]">
 
@@ -64,14 +154,14 @@ export default function MenuPage() {
               <div>
                 <h2 className="text-white text-3xl sm:text-4xl lg:text-5xl font-semibold">
                   {section.phrase1}{" "}
-                  <span className={accentMap[section.accentColor].text}>
+                  <span className={accentMap[section.accentColor]?.text || "text-white"}>
                     {section.title}
                   </span>
                   {section.phrase2}
                 </h2>
 
                 <div
-                  className={`mt-0 lg:mt-4 h-[3px] w-20 md:w-24 rounded-full ${accentMap[section.accentColor].underline}`}
+                  className={`mt-0 lg:mt-4 h-[3px] w-20 md:w-24 rounded-full ${accentMap[section.accentColor]?.underline || "bg-white"}`}
                 />
               </div>
 
@@ -87,7 +177,7 @@ export default function MenuPage() {
 
               {section.items.map((item) => (
                 <div
-                  key={item.id}
+                  key={item._id}
                   className={`
                     relative
                     min-w-[14rem] h-[18rem]
@@ -95,7 +185,7 @@ export default function MenuPage() {
                     lg:min-w-[18rem] lg:h-[22rem]
                     rounded-2xl overflow-hidden
                     group cursor-pointer shadow-xl
-                    border ${accentMap[section.accentColor].border}
+                    border ${accentMap[section.accentColor]?.border || "border-white"}
                   `}
                 >
                   {/* Image */}
