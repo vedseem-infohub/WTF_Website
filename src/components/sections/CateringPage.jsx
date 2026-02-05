@@ -18,12 +18,12 @@ function CateringPage() {
     selectedCategory,
     setSelectedCategory,
   } = useCatering();
-  
+
   const [hoveredOccasion, setHoveredOccasion] = useState(null);
   const [hoveredService, setHoveredService] = useState(null);
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
-  
+
   // SPA State Management
   const [viewMode, setViewMode] = useState("landing"); // "landing", "booking", "summary"
   const [selectedContext, setSelectedContext] = useState(null); // { type, item, slug }
@@ -81,8 +81,10 @@ function CateringPage() {
   if (viewMode === "summary") {
     // If we have specific items for this slug, we can pass them, otherwise the view handles it
     return (
-      <CateringSummaryView 
-        selectedItem={selectedContext.type === 'package' ? selectedContext.item : null}
+      <CateringSummaryView
+        selectedItem={selectedContext.item}
+        selectionType={selectedContext.type}
+        packageItem={selectedContext.type === 'package' ? selectedContext.item : null}
         slug={selectedContext.slug}
         bookingDetails={bookingDetails}
         onBack={() => setViewMode("landing")}
@@ -120,7 +122,7 @@ function CateringPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
-      
+
                 <h2 className="text-4xl font-extrabold text-slate-900">
                   Booking Details
                 </h2>
@@ -128,7 +130,7 @@ function CateringPage() {
                   Get exact pricing & service availability
                 </p>
               </div>
-      
+
               {/* Content */}
               <div className="space-y-6 px-8 py-6">
                 {/* Service */}
@@ -140,7 +142,7 @@ function CateringPage() {
                     {selectedContext?.item?.name}
                   </div>
                 </div>
-      
+
                 {/* Date & Time */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <div className="relative">
@@ -149,9 +151,8 @@ function CateringPage() {
                     </label>
                     <button
                       onClick={() => setCalendarOpen(!calendarOpen)}
-                      className={`w-full rounded-xl border-2 px-4 py-3 text-left transition flex items-center justify-between outline-none ${
-                        !bookingDetails.date && !calendarOpen ? "border-red-200 bg-red-50/30" : "border-slate-200 bg-white"
-                      } focus:border-red-500 focus:ring-2 focus:ring-red-100`}
+                      className={`w-full rounded-xl border-2 px-4 py-3 text-left transition flex items-center justify-between outline-none ${!bookingDetails.date && !calendarOpen ? "border-red-200 bg-red-50/30" : "border-slate-200 bg-white"
+                        } focus:border-red-500 focus:ring-2 focus:ring-red-100`}
                     >
                       <span className={`text-3xl ${bookingDetails.date ? "text-slate-800 font-bold" : "text-slate-300"}`}>
                         {bookingDetails.date || "DD / MM / YYYY"}
@@ -173,16 +174,15 @@ function CateringPage() {
                       )}
                     </AnimatePresence>
                   </div>
-      
+
                   <div className="relative">
                     <label className="mb-1 block text-lg font-semibold uppercase tracking-wide text-slate-400">
                       Event Time
                     </label>
                     <button
                       onClick={() => setTimePickerOpen(!timePickerOpen)}
-                      className={`w-full rounded-xl border-2 px-4 py-3 text-left transition flex items-center justify-between outline-none ${
-                        !bookingDetails.time && !timePickerOpen ? "border-red-200 bg-red-50/30" : "border-slate-200 bg-white"
-                      } focus:border-red-500 focus:ring-2 focus:ring-red-100`}
+                      className={`w-full rounded-xl border-2 px-4 py-3 text-left transition flex items-center justify-between outline-none ${!bookingDetails.time && !timePickerOpen ? "border-red-200 bg-red-50/30" : "border-slate-200 bg-white"
+                        } focus:border-red-500 focus:ring-2 focus:ring-red-100`}
                     >
                       <span className={`text-3xl ${bookingDetails.time ? "text-slate-800 font-bold" : "text-slate-300"}`}>
                         {bookingDetails.time || "e.g. 7:00 PM"}
@@ -205,13 +205,13 @@ function CateringPage() {
                     </AnimatePresence>
                   </div>
                 </div>
-      
+
                 {/* Guest Count Input */}
                 <div>
                   <label className="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-400">
                     Number of Guests (Veg)
                   </label>
-                
+
                   <div className="relative">
                     <div className="flex w-full items-center justify-between rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-left transition hover:border-emerald-300 focus-within:ring-2 focus-within:ring-emerald-200">
                       <div className="flex-1">
@@ -238,15 +238,14 @@ function CateringPage() {
                     )}
                   </div>
                 </div>
-      
+
                 <button
                   onClick={handleBookingComplete}
                   disabled={!bookingDetails.date || !bookingDetails.time || parseInt(bookingDetails.vegGuests) < 10}
-                  className={`mt-4 flex w-full items-center justify-center rounded-2xl px-6 py-4 text-3xl font-bold text-white shadow-lg transition active:scale-[0.98] ${
-                    bookingDetails.date && bookingDetails.time && parseInt(bookingDetails.vegGuests) >= 10
-                      ? "bg-red-600 shadow-red-200 hover:bg-red-700" 
-                      : "bg-slate-300 shadow-none cursor-not-allowed"
-                  }`}
+                  className={`mt-4 flex w-full items-center justify-center rounded-2xl px-6 py-4 text-3xl font-bold text-white shadow-lg transition active:scale-[0.98] ${bookingDetails.date && bookingDetails.time && parseInt(bookingDetails.vegGuests) >= 10
+                    ? "bg-red-600 shadow-red-200 hover:bg-red-700"
+                    : "bg-slate-300 shadow-none cursor-not-allowed"
+                    }`}
                 >
                   Customize & Check Price
                 </button>
@@ -270,7 +269,7 @@ function CateringPage() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="text-center mb-8"
           >
-            <motion.p 
+            <motion.p
               initial={{ opacity: 0, letterSpacing: "0.5em" }}
               animate={{ opacity: 1, letterSpacing: "0.2em" }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -329,14 +328,14 @@ function CateringPage() {
       {/* Choose Your Occasion Section */}
       <section className="relative bg-gradient-to-b from-gray-50 via-white to-white md:py-6 py-2 px-2 md:px-8">
         <div className="max-w-7xl mx-auto">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
             className="text-2xl md:text-3xl font-bold text-red-800 mb-10 flex items-center gap-4"
           >
-            <motion.span 
+            <motion.span
               initial={{ width: 0 }}
               whileInView={{ width: 48 }}
               viewport={{ once: true }}
@@ -345,7 +344,7 @@ function CateringPage() {
             ></motion.span>
             <span className="tracking-tight text-3xl md:text-5xl">Choose Your Occasion</span>
           </motion.h2>
-          
+
           <div className="relative">
             <div className="flex gap-6 md:gap-8 overflow-x-auto scrollbar-hide md:pb-8 pt-4 px-4 md:px-6 snap-x snap-mandatory scroll-smooth">
               {occasions.map((occasion) => (
@@ -357,8 +356,8 @@ function CateringPage() {
                   initial={{ opacity: 0, y: 30, scale: 0.9 }}
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true, margin: "-50px" }}
-                  transition={{ 
-                    duration: 0.5, 
+                  transition={{
+                    duration: 0.5,
                     delay: occasion.id * 0.08,
                     type: "spring",
                     stiffness: 120
@@ -384,7 +383,7 @@ function CateringPage() {
                   />
                   <motion.div
                     initial={{ y: 30, opacity: 0, scale: 0.9 }}
-                    animate={{ 
+                    animate={{
                       y: hoveredOccasion === occasion.id ? 0 : 30,
                       opacity: hoveredOccasion === occasion.id ? 1 : 0,
                       scale: hoveredOccasion === occasion.id ? 1 : 0.9
@@ -408,14 +407,14 @@ function CateringPage() {
       {/* Choose Your Services Section */}
       <section className="relative bg-white md:py-6 py-2 px-2 md:px-8">
         <div className="max-w-7xl mx-auto">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
             className="text-2xl md:text-3xl font-bold text-red-800 mb-10 flex items-center gap-4"
           >
-            <motion.span 
+            <motion.span
               initial={{ width: 0 }}
               whileInView={{ width: 48 }}
               viewport={{ once: true }}
@@ -424,7 +423,7 @@ function CateringPage() {
             ></motion.span>
             <span className="tracking-tight text-3xl md:text-5xl">Choose Your Services</span>
           </motion.h2>
-          
+
           <div className="flex gap-6 md:gap-8 overflow-x-auto scrollbar-hide md:pb-8 pt-4 px-4 md:px-6 snap-x snap-mandatory scroll-smooth">
             {services.map((service) => (
               <motion.button
@@ -435,8 +434,8 @@ function CateringPage() {
                 initial={{ opacity: 0, y: 30, scale: 0.9 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ 
-                  duration: 0.5, 
+                transition={{
+                  duration: 0.5,
                   delay: service.id * 0.08,
                   type: "spring",
                   stiffness: 120
@@ -462,7 +461,7 @@ function CateringPage() {
                 />
                 <motion.div
                   initial={{ y: 30, opacity: 0, scale: 0.9 }}
-                  animate={{ 
+                  animate={{
                     y: hoveredService === service.id ? 0 : 30,
                     opacity: hoveredService === service.id ? 1 : 0,
                     scale: hoveredService === service.id ? 1 : 0.9
@@ -492,7 +491,7 @@ function CateringPage() {
             transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
             className="text-center mb-16"
           >
-            <motion.p 
+            <motion.p
               initial={{ opacity: 0, letterSpacing: "0.5em" }}
               whileInView={{ opacity: 1, letterSpacing: "0.2em" }}
               viewport={{ once: true }}
@@ -502,14 +501,14 @@ function CateringPage() {
               SELECT & CUSTOMIZED
             </motion.p>
             <div className="flex items-center justify-center gap-4 mb-4">
-              <motion.div 
+              <motion.div
                 initial={{ width: 0 }}
                 whileInView={{ width: 128 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.3 }}
                 className="h-px bg-gradient-to-r from-transparent via-red-600 to-red-800"
               ></motion.div>
-              <motion.h2 
+              <motion.h2
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
@@ -518,7 +517,7 @@ function CateringPage() {
               >
                 Package
               </motion.h2>
-              <motion.div 
+              <motion.div
                 initial={{ width: 0 }}
                 whileInView={{ width: 128 }}
                 viewport={{ once: true }}
@@ -530,14 +529,14 @@ function CateringPage() {
 
           {/* Categories Section */}
           <div className="mb-16">
-            <motion.h3 
+            <motion.h3
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
               className="text-xl md:text-2xl font-bold text-red-800 mb-10 flex items-center gap-4"
             >
-              <motion.span 
+              <motion.span
                 initial={{ width: 0 }}
                 whileInView={{ width: 40 }}
                 viewport={{ once: true }}
@@ -546,7 +545,7 @@ function CateringPage() {
               ></motion.span>
               <span className="tracking-tight text-4xl md:text-5xl">Categories</span>
             </motion.h3>
-            
+
             <div className="flex gap-6 md:gap-8 overflow-x-auto scrollbar-hide md:pb-8 pt-4 px-4 md:px-6 snap-x snap-mandatory scroll-smooth">
               {categories.map((category) => (
                 <motion.button
@@ -557,8 +556,8 @@ function CateringPage() {
                   initial={{ opacity: 0, scale: 0.9, y: 20 }}
                   whileInView={{ opacity: 1, scale: 1, y: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
-                  transition={{ 
-                    duration: 0.5, 
+                  transition={{
+                    duration: 0.5,
                     delay: category.id * 0.1,
                     type: "spring",
                     stiffness: 120
@@ -584,7 +583,7 @@ function CateringPage() {
                   />
                   <motion.div
                     initial={{ y: 30, opacity: 0, scale: 0.9 }}
-                    animate={{ 
+                    animate={{
                       y: hoveredCategory === category.id ? 0 : 30,
                       opacity: hoveredCategory === category.id ? 1 : 0,
                       scale: hoveredCategory === category.id ? 1 : 0.9
@@ -611,14 +610,14 @@ function CateringPage() {
               transition={{ duration: 0.6 }}
               className="mb-16"
             >
-              <motion.h3 
+              <motion.h3
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
                 className="text-xl md:text-2xl font-bold text-red-800 mb-8 flex items-center gap-4"
               >
-                <motion.span 
+                <motion.span
                   initial={{ width: 0 }}
                   whileInView={{ width: 40 }}
                   viewport={{ once: true }}
@@ -629,8 +628,8 @@ function CateringPage() {
                   {selectedOccasion && selectedCategory
                     ? `${occasions.find((o) => o.id === selectedOccasion)?.name} - ${categories.find((c) => c.id === selectedCategory)?.name}`
                     : selectedOccasion
-                    ? `${occasions.find((o) => o.id === selectedOccasion)?.name} Packages`
-                    : `${categories.find((c) => c.id === selectedCategory)?.name} Packages`}
+                      ? `${occasions.find((o) => o.id === selectedOccasion)?.name} Packages`
+                      : `${categories.find((c) => c.id === selectedCategory)?.name} Packages`}
                 </span>
               </motion.h3>
 
@@ -642,8 +641,8 @@ function CateringPage() {
                       key={item.id}
                       initial={{ opacity: 0, y: 30, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
-                      transition={{ 
-                        duration: 0.5, 
+                      transition={{
+                        duration: 0.5,
                         delay: index * 0.05,
                         type: "spring",
                         stiffness: 100
@@ -669,17 +668,15 @@ function CateringPage() {
                             </span>
                           </div>
                           <div
-                            className={`absolute top-3 right-3 w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center shadow-lg ${
-                              item.type === "veg"
-                                ? "bg-green-600"
-                                : "bg-red-600"
-                            }`}
+                            className={`absolute top-3 right-3 w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center shadow-lg ${item.type === "veg"
+                              ? "bg-green-600"
+                              : "bg-red-600"
+                              }`}
                           >
-                            <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full border-2 border-white ${
-                              item.type === "veg"
-                                ? "bg-green-600"
-                                : "bg-red-600"
-                            }`}></div>
+                            <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full border-2 border-white ${item.type === "veg"
+                              ? "bg-green-600"
+                              : "bg-red-600"
+                              }`}></div>
                           </div>
                           <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent"></div>
                         </div>
@@ -731,8 +728,8 @@ function CateringPage() {
                 initial={{ opacity: 0, y: 30, scale: 0.95 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ 
-                  duration: 0.6, 
+                transition={{
+                  duration: 0.6,
                   delay: pkg.id * 0.1,
                   type: "spring",
                   stiffness: 100
@@ -772,14 +769,14 @@ function CateringPage() {
                         </p>
                       </motion.div>
                     </div>
-                    <motion.div 
+                    <motion.div
                       className="absolute inset-0 ring-4 ring-red-500/20 rounded-t-3xl"
                       initial={{ opacity: 0 }}
                       whileHover={{ opacity: 1 }}
                       transition={{ duration: 0.3 }}
                     ></motion.div>
                   </div>
-                  <motion.div 
+                  <motion.div
                     className="bg-gradient-to-r from-red-700 to-red-800 h-16 md:h-20 lg:h-24 flex items-center justify-center relative overflow-hidden group-hover:from-red-600 group-hover:to-red-700 transition-all duration-300"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>

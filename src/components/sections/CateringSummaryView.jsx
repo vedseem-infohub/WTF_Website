@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import Header from "./Header";
 
-const CateringSummaryView = ({ selectedItem, bookingDetails: initialBookingDetails, onBack, slug, packageSlug }) => {
+const CateringSummaryView = ({ selectedItem, selectionType, packageItem, bookingDetails: initialBookingDetails, onBack, slug, packageSlug }) => {
   const [expandedCategory, setExpandedCategory] = useState("Starter");
   const [items, setItems] = useState([]);
   const [currentStep, setCurrentStep] = useState(1);
@@ -15,7 +15,7 @@ const CateringSummaryView = ({ selectedItem, bookingDetails: initialBookingDetai
   const [user, setUser] = useState(null);
   const [selectedAddress, setSelectedAddress] = useState("");
   const [isLoginMode, setIsLoginMode] = useState(true);
-  const [authFormData, setAuthFormData] = useState({ email: '', password: '', firstName: '', lastName: '' });
+  const [authFormData, setAuthFormData] = useState({ email: '', password: '', firstName: '', lastName: '', phone: '' });
   const [authAddresses, setAuthAddresses] = useState(['']);
   const [loading, setLoading] = useState(false);
   const [showAddAddress, setShowAddAddress] = useState(false);
@@ -72,24 +72,28 @@ const CateringSummaryView = ({ selectedItem, bookingDetails: initialBookingDetai
               const allItems = [
                 ...(menuData.starters || []).map(item => ({
                   ...item,
+                  baseQuantity: item.quantity,
                   category: 'Starters',
                   quantity: defaultQuantity,
                   price: item.unitPrice || item.price || 0
                 })),
                 ...(menuData.mainCourses || []).map(item => ({
                   ...item,
+                  baseQuantity: item.quantity,
                   category: 'Mains',
                   quantity: defaultQuantity,
                   price: item.unitPrice || item.price || 0
                 })),
                 ...(menuData.desserts || []).map(item => ({
                   ...item,
+                  baseQuantity: item.quantity,
                   category: 'Desserts',
                   quantity: defaultQuantity,
                   price: item.unitPrice || item.price || 0
                 })),
                 ...(menuData.breadRice || []).map(item => ({
                   ...item,
+                  baseQuantity: item.quantity,
                   category: 'Bread & Rice',
                   quantity: defaultQuantity,
                   price: item.unitPrice || item.price || 0
@@ -142,6 +146,7 @@ const CateringSummaryView = ({ selectedItem, bookingDetails: initialBookingDetai
       const initialGuests = parseInt(bookingDetails.vegGuests || 10);
       const newItem = {
         ...item,
+        baseQuantity: item.quantity,
         quantity: initialGuests * 2, // Default quantity
         price: item.unitPrice || item.price || 0,
         category: getCategoryKeyFromDb(item.category)
@@ -283,7 +288,6 @@ const CateringSummaryView = ({ selectedItem, bookingDetails: initialBookingDetai
   const handleAuthSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3008';
 
     try {
       const endpoint = isLoginMode ? '/api/auth/login' : '/api/auth/signup';
@@ -291,7 +295,7 @@ const CateringSummaryView = ({ selectedItem, bookingDetails: initialBookingDetai
         ? { email: authFormData.email, password: authFormData.password }
         : { ...authFormData, addresses: authAddresses.filter(a => a.trim()) };
 
-      const response = await fetch(`${API_URL}${endpoint}`, {
+      const response = await fetch(`${BACKEND_URL}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
@@ -299,22 +303,21 @@ const CateringSummaryView = ({ selectedItem, bookingDetails: initialBookingDetai
 
       const data = await response.json();
       if (response.ok) {
-        if (isLoginMode) {
-          localStorage.setItem('wtf_token', data.token);
-          localStorage.setItem('wtf_user', JSON.stringify(data.user));
-          setUser(data.user);
-          if (data.user.addresses?.length > 0) setSelectedAddress(data.user.addresses[0]);
-        } else {
-          // Signup might need OTP, but for simplicity here we assume it logs in or user needs to verify
-          // If the backend requires OTP, this will need more complex handling.
-          // For now, let's assume login works if they already have account or signup is direct for this flow.
-          alert("Signup successful! Please login.");
-          setIsLoginMode(true);
+        // Both login and signup now return token and user, so we can auto-login
+        localStorage.setItem('wtf_token', data.token);
+        localStorage.setItem('wtf_user', JSON.stringify(data.user));
+        setUser(data.user);
+        if (data.user.addresses?.length > 0) setSelectedAddress(data.user.addresses[0]);
+
+        if (!isLoginMode) {
+          // If it was signup, show a brief success message or just proceed
+          // alert("Signup successful!"); 
         }
       } else {
         alert(data.message || "Authentication failed");
       }
     } catch (err) {
+      console.error(err);
       alert("Network error");
     } finally {
       setLoading(false);
@@ -383,7 +386,7 @@ const CateringSummaryView = ({ selectedItem, bookingDetails: initialBookingDetai
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
-                            <div className={`w-2 h-2 rounded-full ${item.type === 'veg' ? 'bg-green-500' : 'bg-red-500'}`} />
+                            <div className={`w-2 h-2 rounded-full ${item.type?.toLowerCase() === 'veg' ? 'bg-green-500' : 'bg-red-500'}`} />
                             <h4 className="font-bold text-2xl text-gray-800 leading-none">{item.name}</h4>
                           </div>
                           <p className="text-lg text-gray-500 font-bold">₹{item.unitPrice || item.price || 0}</p>
@@ -469,6 +472,46 @@ const CateringSummaryView = ({ selectedItem, bookingDetails: initialBookingDetai
               exit={{ opacity: 0, x: -20 }}
               className="space-y-4"
             >
+              <div className="bg-red-50/50 rounded-2xl p-6 mb-8 border border-red-100/50">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 opacity-70 uppercase tracking-wider">Booking Details</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  <div>
+                    <p className="text-xl text-gray-500 font-semibold mb-1 capitalize">
+                      {selectionType || 'Interest'}
+                    </p>
+                    <p className="text-2xl font-bold text-gray-800 leading-none mb-2">
+                      {selectedItem?.name}
+                    </p>
+                    {packageItem && (
+                      <>
+                        <p className="text-xl text-gray-500 font-semibold mb-1">Package</p>
+                        <p className="text-2xl font-bold text-gray-800 leading-none">
+                          {packageItem.name}
+                        </p>
+                      </>
+                    )}
+                  </div>
+                  <div>
+                    <p className="text-xl text-gray-500 font-semibold mb-1">Date</p>
+                    <p className="text-2xl font-bold text-gray-800 leading-none">
+                      {bookingDetails.date}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xl text-gray-500 font-semibold mb-1">Time</p>
+                    <p className="text-2xl font-bold text-gray-800 leading-none">
+                      {bookingDetails.time}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xl text-gray-500 font-semibold mb-1">Guests</p>
+                    <p className="text-2xl font-bold text-gray-800 leading-none">
+                      {bookingDetails.vegGuests} <span className="text-lg text-gray-400 font-normal">Veg</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 mb-2">
                 Menu Summary
               </h1>
@@ -542,21 +585,16 @@ const CateringSummaryView = ({ selectedItem, bookingDetails: initialBookingDetai
                                       </div>
                                       <div className="flex-1">
                                         <div className="flex items-center gap-1.5 font-bold text-2xl text-gray-800 leading-none">
-                                          <div className={`w-2 h-2 rounded-full shrink-0 ${item.type === 'veg' ? 'bg-green-500' : 'bg-red-500'}`} />
+                                          <div className={`w-2 h-2 rounded-full shrink-0 ${item.type?.toLowerCase() === 'veg' ? 'bg-green-500' : 'bg-red-500'}`} />
                                           <span className="truncate">{item.name}</span>
                                         </div>
 
-                                        {/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ */}
                                         <div className="text-xl font-bold text-gray-500 mt-1">
                                           ₹{item.price * item.quantity}
-
-                                          {/* <span className="text-sm font-normal text-gray-400">(@ ₹{item.price}/pc)</span> */}
-
-
+                                          <span className="text-sm font-normal text-gray-400">
+                                            (@ ₹{item.price}/{item.baseQuantity && item.baseQuantity > 1 ? item.baseQuantity : ''}{item.measurement === 'pcs' ? 'pc' : item.measurement})
+                                          </span>
                                         </div>
-
-
-                                        {/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ */}
 
                                       </div>
                                       <div className="flex items-center gap-3">
@@ -621,6 +659,46 @@ const CateringSummaryView = ({ selectedItem, bookingDetails: initialBookingDetai
               transition={{ type: "spring", damping: 28, stiffness: 220 }}
               className="pb-20 pt-6 md:pt-0"
             >
+              <div className="bg-red-50/50 rounded-2xl p-6 mb-8 border border-red-100/50">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 opacity-70 uppercase tracking-wider">Booking Details</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  <div>
+                    <p className="text-xl text-gray-500 font-semibold mb-1 capitalize">
+                      {selectionType || 'Interest'}
+                    </p>
+                    <p className="text-2xl font-bold text-gray-800 leading-none mb-2">
+                      {selectedItem?.name}
+                    </p>
+                    {packageItem && (
+                      <>
+                        <p className="text-xl text-gray-500 font-semibold mb-1">Package</p>
+                        <p className="text-2xl font-bold text-gray-800 leading-none">
+                          {packageItem.name}
+                        </p>
+                      </>
+                    )}
+                  </div>
+                  <div>
+                    <p className="text-xl text-gray-500 font-semibold mb-1">Date</p>
+                    <p className="text-2xl font-bold text-gray-800 leading-none">
+                      {bookingDetails.date}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xl text-gray-500 font-semibold mb-1">Time</p>
+                    <p className="text-2xl font-bold text-gray-800 leading-none">
+                      {bookingDetails.time}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xl text-gray-500 font-semibold mb-1">Guests</p>
+                    <p className="text-2xl font-bold text-gray-800 leading-none">
+                      {bookingDetails.vegGuests} <span className="text-lg text-gray-400 font-normal">Veg</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               <div className="flex items-center gap-4 mb-8">
                 <div style={{ lineHeight: "0.7" }}>
                   <h1 className="text-4xl font-semibold text-gray-900">
@@ -637,7 +715,7 @@ const CateringSummaryView = ({ selectedItem, bookingDetails: initialBookingDetai
                   <div className="flex justify-between items-start" style={{ lineHeight: "0.7" }}>
                     <div>
                       <p className="text-2xl font-medium text-gray-900">
-                        Standard Catering Package
+                        {packageItem?.name || "Standard Catering Package"}
                       </p>
                       <p className="text-md text-gray-400 mt-1">
                         Vegetarian • {bookingDetails?.vegGuests || 10} Guests
@@ -738,6 +816,16 @@ const CateringSummaryView = ({ selectedItem, bookingDetails: initialBookingDetai
                       onChange={(e) => setAuthFormData({ ...authFormData, email: e.target.value })}
                       required
                     />
+                    {!isLoginMode && (
+                      <input
+                        type="tel"
+                        placeholder="Phone Number"
+                        className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 text-3xl text-gray-800 placeholder:text-gray-400 outline-none focus:bg-white focus:border-red-500 transition-all"
+                        value={authFormData.phone}
+                        onChange={(e) => setAuthFormData({ ...authFormData, phone: e.target.value })}
+                        required
+                      />
+                    )}
                     <input
                       type="password"
                       placeholder="Password"
@@ -770,10 +858,12 @@ const CateringSummaryView = ({ selectedItem, bookingDetails: initialBookingDetai
                             )}
                           </div>
                         ))}
-                        <button type="button" onClick={() => setAuthAddresses([...authAddresses, ''])} className="text-red-600 font-bold text-xl flex items-center gap-1">
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
-                          Add Address
-                        </button>
+                        {authAddresses.length < 3 && (
+                          <button type="button" onClick={() => setAuthAddresses([...authAddresses, ''])} className="text-red-600 font-bold text-xl flex items-center gap-1">
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                            Add Address
+                          </button>
+                        )}
                       </div>
                     )}
                     <button
@@ -813,7 +903,7 @@ const CateringSummaryView = ({ selectedItem, bookingDetails: initialBookingDetai
                       </button>
                     </div>
                     <p className="text-2xl text-gray-600">{user.firstName} {user.lastName}</p>
-                    <p className="text-xl text-gray-500">{user.email}</p>
+                    <p className="text-xl text-gray-500">{user.email} {user.phone && `• ${user.phone}`}</p>
                   </div>
 
                   <div className="space-y-4">
@@ -857,13 +947,15 @@ const CateringSummaryView = ({ selectedItem, bookingDetails: initialBookingDetai
                         </button>
                       </div>
                     ) : (
-                      <button
-                        onClick={() => setShowAddAddress(true)}
-                        className="flex items-center gap-2 text-red-600 font-bold text-2xl mt-2"
-                      >
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
-                        Add New Address
-                      </button>
+                      user.addresses?.length < 3 && (
+                        <button
+                          onClick={() => setShowAddAddress(true)}
+                          className="flex items-center gap-2 text-red-600 font-bold text-2xl mt-2"
+                        >
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                          Add New Address
+                        </button>
+                      )
                     )}
                   </div>
                 </div>
