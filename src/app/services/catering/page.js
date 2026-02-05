@@ -337,7 +337,7 @@ function CateringPage() {
                     Selected Interest
                   </label>
                   <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 font-bold text-3xl text-slate-800">
-                    {selectedContext?.item?.name}
+                    {selectedContext?.trigger?.item?.name || selectedContext?.item?.name}
                   </div>
                 </div>
 

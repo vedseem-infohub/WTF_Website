@@ -7,10 +7,10 @@ import { motion, AnimatePresence } from "framer-motion";
 // Array of hero images to rotate through
 const heroImages = [
   { src: "/Hero.jpeg", alt: "Hero 1" },
+  { src: "/our-food-menu.jpg", alt: "Hero 5" },
   { src: "/block-1.png", alt: "Hero 2" },
   { src: "/block-2.png", alt: "Hero 3" },
   { src: "/corousel-1.png", alt: "Hero 4" },
-  { src: "/our-food-menu.jpg", alt: "Hero 5" },
 ];
 
 function Hero() {
@@ -74,19 +74,25 @@ function Hero() {
       {/* Pagination Dots */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">
         {heroImages.map((_, index) => (
-          <button
+          <div
             key={index}
             onClick={() => setCurrentIndex(index)}
             className={`
-              transition-all duration-300
-              ${index === currentIndex 
-                ? "w-12 h-3 bg-red-600" 
-                : "w-3 h-3 bg-white/50 hover:bg-white/80"
-              }
-              rounded-full
+              relative overflow-hidden cursor-pointer transition-all duration-300 rounded-full
+              ${index === currentIndex ? "w-12 h-3 bg-white/30" : "w-3 h-3 bg-white/50 hover:bg-white/80"}
             `}
             aria-label={`Go to slide ${index + 1}`}
-          />
+          >
+            {index === currentIndex && (
+              <motion.div
+                layoutId="progress-bar"
+                className="absolute top-0 left-0 h-full bg-red-600 rounded-full"
+                initial={{ width: "0%" }}
+                animate={{ width: "100%" }}
+                transition={{ duration: 30, ease: "linear" }}
+              />
+            )}
+          </div>
         ))}
       </div>
     </section>

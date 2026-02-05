@@ -349,6 +349,9 @@ const CateringSummaryView = ({ selectedItem, selectionType, packageItem, booking
     }
   };
 
+  /* 
+    RESTORED: Generate Order ID immediately for reference
+  */
   const handlePriceCheck = async () => {
     // Create order first to get backend-generated ID
     await createOrder();
@@ -790,9 +793,9 @@ const CateringSummaryView = ({ selectedItem, selectionType, packageItem, booking
                   <h1 className="text-4xl font-semibold text-gray-900">
                     Price Summary
                   </h1>
-                  <p className="text-md text-gray-400 mt-1">
+                  {/* <p className="text-md text-gray-400 mt-1">
                     Order ID • {orderLoading ? 'Generating...' : (orderId || 'N/A')}
-                  </p>
+                  </p> */}
                 </div>
               </div>
 
@@ -998,8 +1001,8 @@ const CateringSummaryView = ({ selectedItem, selectionType, packageItem, booking
                       {user.addresses?.map((addr, idx) => (
                         <div
                           key={idx}
+                          className={`p-4 rounded-xl border-2 cursor-pointer transition-all flex items-center justify-between ${selectedAddress === addr ? 'border-red-500 bg-red-50/20' : 'border-gray-100 hover:border-gray-200'}`}
                           onClick={() => setSelectedAddress(addr)}
-                          className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${selectedAddress === addr ? 'border-red-500 bg-red-50/20' : 'border-gray-100 hover:border-gray-200'}`}
                         >
                           <div className="flex items-center gap-3">
                             <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedAddress === addr ? 'border-red-500 bg-red-500' : 'border-gray-300'}`}>
@@ -1007,6 +1010,18 @@ const CateringSummaryView = ({ selectedItem, selectionType, packageItem, booking
                             </div>
                             <span className="text-2xl text-gray-700">{addr}</span>
                           </div>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const updatedAddresses = user.addresses.filter((_, i) => i !== idx);
+                              setUser({ ...user, addresses: updatedAddresses });
+                              if (selectedAddress === addr) setSelectedAddress(null);
+                            }}
+                            className="text-gray-400 hover:text-red-500 p-1"
+                            title="Remove Address"
+                          >
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                          </button>
                         </div>
                       ))}
                     </div>
@@ -1188,7 +1203,26 @@ const CateringSummaryView = ({ selectedItem, selectionType, packageItem, booking
               Confirm Details
             </button>
           ) : (
-            <button className="flex-1 bg-red-600 text-white rounded-2xl py-3 px-6 text-2xl font-semibold shadow-lg shadow-red-200 active:scale-[0.98] transition-all hover:bg-red-700 uppercase tracking-tight">
+            <button
+              onClick={() => {
+                const proceedWithPayment = (id) => {
+                  const idToUse = id || orderId;
+                  if (idToUse) {
+                    console.log("Proceeding with Order ID:", idToUse);
+                    alert(`Proceeding to payment for Order ID: ${idToUse}`);
+                  }
+                };
+
+                if (orderId) {
+                  proceedWithPayment(orderId);
+                } else {
+                  createOrder().then(id => {
+                    if (id) proceedWithPayment(id);
+                  });
+                }
+              }}
+              className="flex-1 bg-red-600 text-white rounded-2xl py-3 px-6 text-2xl font-semibold shadow-lg shadow-red-200 active:scale-[0.98] transition-all hover:bg-red-700 uppercase tracking-tight"
+            >
               {paymentMethod === "cod" ? "Place Order" : "Pay Now"}
             </button>
           )}

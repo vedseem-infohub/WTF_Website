@@ -192,9 +192,7 @@ function Header() {
             width: sidebarOpen || isHovering ? 240 : 68,
           }}
           transition={{ type: "spring", stiffness: 260, damping: 22 }}
-          className="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 z-50
-             shadow-[0_30px_80px_rgba(0,0,0,0.25)]
-             rounded-xs p-2 overflow-hidden"
+          className="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 z-50 rounded-xs p-2 overflow-hidden"
         >
           <div className="relative flex flex-col gap-2 w-full">
             

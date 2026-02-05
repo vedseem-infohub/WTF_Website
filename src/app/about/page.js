@@ -11,52 +11,35 @@ export default function AboutPage() {
   const timelineStory = [
     {
       year: "2020",
-      title: "Foundation",
-      description: "Established with a vision to transform the food delivery industry through technology and exceptional service.",
-      metric: "5 Restaurants"
-    },
-    {
-      year: "2021",
-      title: "Market Entry",
-      description: "Launched our platform and quickly gained traction with both customers and restaurant partners.",
-      metric: "50+ Partners"
-    },
-    {
-      year: "2022",
-      title: "Expansion Phase",
-      description: "Scaled operations to multiple cities, building a robust delivery network and infrastructure.",
-      metric: "5 Cities"
-    },
-    {
-      year: "2023",
-      title: "Technology Innovation",
-      description: "Introduced AI-driven recommendations and real-time tracking systems for enhanced customer experience.",
-      metric: "100k Users"
+      title: "Humble Beginnings",
+      description: "Started operations with our first outlet, focusing on process discipline, food quality, and building a scalable foundation.",
+      metric: "1st Outlet"
     },
     {
       year: "2024",
-      title: "Strategic Growth",
-      description: "Expanded service offerings with catering solutions and premium restaurant partnerships.",
-      metric: "500+ Restaurants"
+      title: "Operational Launch",
+      description: "Successfully went live with multiple outlets while onboarding new locations under fitment, marking our formal market entry.",
+      metric: "8 Outlets Live + 6 In Fitments"
     },
     {
       year: "2025",
-      title: "International Presence",
-      description: "Established operations in international markets while maintaining our commitment to quality.",
-      metric: "10 Countries"
+      title: "Rapid Expansion",
+      description: "Expanded aggressively across regions, establishing a strong multi-city presence and standardized operations nationwide.",
+      metric: "25+ Outlets Pan India"
     },
     {
-      year: "2026",
-      title: "Sustainable Future",
-      description: "Leading the industry with eco-friendly initiatives and carbon-neutral delivery options.",
-      metric: "Net Zero Goal"
+      year: "2028",
+      title: "Scale & Intelligence",
+      description: "Reached large-scale national coverage while leveraging technology and data-driven systems to manage and optimize operations.",
+      metric: "100+ Outlets Pan India"
     }
   ];
+
 
   return (
     <main className="min-h-screen bg-white selection:bg-red-500 selection:text-white relative">
       <Header />
-      
+
       {/* Hero Section - Stats Only */}
       <section className="relative pt-32 pb-16 md:pt-30 md:pb-24 bg-zinc-950 overflow-hidden min-h-screen flex flex-col justify-center">
         {/* Sophisticated Background */}
@@ -73,12 +56,28 @@ export default function AboutPage() {
               <motion.div
                 initial={{ x: -200, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 1 }}
                 className="text-white"
               >
                 Who
               </motion.div>
               <motion.div
+                initial={{ x: -200, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+                className="text-red-500"
+              >
+                We
+              </motion.div>
+              <motion.div
+                initial={{ x: -200, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0 }}
+                className="text-white"
+              >
+                Are
+              </motion.div>
+              {/* <motion.div
                 initial={{ y: -200, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
@@ -93,9 +92,9 @@ export default function AboutPage() {
                 className="text-white"
               >
                 Are
-              </motion.div>
+              </motion.div> */}
             </div>
-            <motion.div 
+            <motion.div
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
               transition={{ duration: 1, delay: 1 }}
@@ -127,7 +126,7 @@ export default function AboutPage() {
                   <div className="relative w-full max-w-md mx-auto lg:mx-0">
                     {/* Main Image */}
                     <div className="relative rounded-3xl overflow-hidden border-4 border-white/10 shadow-2xl aspect-[3/4]">
-                      <Image 
+                      <Image
                         src="/images/owner_portrait.png"
                         alt="Founder & CEO"
                         fill
@@ -161,7 +160,7 @@ export default function AboutPage() {
                       "Our mission is simple: to bring joy to every doorstep through exceptional food and service."
                     </p>
                     <p className="text-xl md:text-2xl text-zinc-400 leading-relaxed">
-                      We started WTF with a vision to revolutionize how people experience food delivery. 
+                      We started WTF with a vision to revolutionize how people experience food delivery.
                       Every meal we deliver is a promise of quality, speed, and care.
                     </p>
                   </blockquote>
@@ -223,9 +222,9 @@ export default function AboutPage() {
                 className="relative"
               >
                 <div className="relative rounded-[2rem] overflow-hidden shadow-2xl aspect-[4/5] md:aspect-square">
-                  <Image 
-                    src="/images/about_story.png" 
-                    alt="Our Story" 
+                  <Image
+                    src="/images/about_story.png"
+                    alt="Our Story"
                     fill
                     className="object-cover hover:scale-105 transition-transform duration-700"
                   />
@@ -246,43 +245,43 @@ export default function AboutPage() {
                 <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-red-50 border border-red-100">
                   <span className="text-red-600 text-3xl font-bold uppercase tracking-widest">Our Vision</span>
                 </div>
-                
+
                 <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-zinc-950 leading-[0.9] tracking-tighter"
-                    style={{lineHeight: '0.7'}}
+                  style={{ lineHeight: '0.7' }}
                 >
                   Crafting the Best {""}
                   <span className="text-red-600">Culinary Experience</span>
                 </h2>
-                
+
                 <div className="space-y-6 text-zinc-600 text-2xl md:text-3xl leading-tight font-medium"
-                style={{lineHeight: '0.7'}}
+                  style={{ lineHeight: '0.7' }}
                 >
                   <p>
-                    At WTF, our journey began with a simple yet powerful idea: to connect people through the universal language of incredible food. 
+                    At WTF, our journey began with a simple yet powerful idea: to connect people through the universal language of incredible food.
                   </p>
-                <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                >
-                  <div className="inline-block px-4 py-2 mt-8 rounded-full bg-red-50 border border-red-100 text-red-600 font-bold text-3xl uppercase tracking-wider mb-6">
-                    Our Mission
-                  </div>
-                  <h2 className="text-xl md:text-3xl lg:text-4xl font-black text-zinc-950 mb-6 leading-tight"
-                       style={{lineHeight: '0.7'}}
+                  <motion.div
+                    initial={{ opacity: 0, x: -30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
                   >
-                    Connecting People Through <span className="text-red-600">Great Food</span>
-                  </h2>
-                  <div className="space-y-4 text-zinc-600 text-md leading-relaxed"
-                       style={{lineHeight: '0.7'}}
-                  >
-                    <p>
-                      At WTF, we believe food is more than sustenance—it's an experience that brings people together. 
-                      Our mission is to make exceptional dining accessible to everyone, everywhere.
-                    </p>
-                  </div>
-                </motion.div>
+                    <div className="inline-block px-4 py-2 mt-8 rounded-full bg-red-50 border border-red-100 text-red-600 font-bold text-3xl uppercase tracking-wider mb-6">
+                      Our Mission
+                    </div>
+                    <h2 className="text-xl md:text-3xl lg:text-4xl font-black text-zinc-950 mb-6 leading-tight"
+                      style={{ lineHeight: '0.7' }}
+                    >
+                      Connecting People Through <span className="text-red-600">Great Food</span>
+                    </h2>
+                    <div className="space-y-4 text-zinc-600 text-md leading-relaxed"
+                      style={{ lineHeight: '0.7' }}
+                    >
+                      <p>
+                        At WTF, we believe food is more than sustenance—it's an experience that brings people together.
+                        Our mission is to make exceptional dining accessible to everyone, everywhere.
+                      </p>
+                    </div>
+                  </motion.div>
                 </div>
               </motion.div>
             </div>
@@ -293,7 +292,7 @@ export default function AboutPage() {
         <section className="pb-8 md:pb-22 bg-white relative overflow-hidden">
           {/* Subtle Background Decoration */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-red-50/50 rounded-full blur-[120px] -z-10" />
-          
+
           <div className="max-w-7xl mx-auto px-6 md:px-8">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
               {[
@@ -314,10 +313,10 @@ export default function AboutPage() {
                   <div className="relative bg-white rounded-3xl p-8 border border-zinc-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.1)] transition-all duration-500 h-full flex flex-col items-center text-center">
                     {/* Icon container with gradient background on hover */}
                     <div className="mb-6 w-16 h-16 rounded-2xl bg-zinc-50 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-500 relative">
-                       <span className="relative z-10">{item.icon}</span>
-                       <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-500`} />
+                      <span className="relative z-10">{item.icon}</span>
+                      <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-500`} />
                     </div>
-                    
+
                     <div className="space-y-2">
                       <h4 className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tight group-hover:text-red-600 transition-colors duration-300">
                         {item.value}
@@ -339,6 +338,16 @@ export default function AboutPage() {
         {/* Professional Timeline */}
         <ProfessionalTimeline timelineStory={timelineStory} />
 
+        <div className="relative w-full h-[600px] mt-10 ml-6">
+          <Image
+            src="/india_map.jpeg"
+            alt="India Presence"
+            fill
+            className="object-contain"
+            priority
+          />
+        </div>
+
         {/* Newsletter CTA */}
         <section className="py-24 px-6 md:px-8 bg-zinc-50">
           <div className="max-w-4xl mx-auto">
@@ -350,7 +359,7 @@ export default function AboutPage() {
             >
               {/* Background Pattern */}
               <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:32px_32px]" />
-              
+
               <div className="relative z-10 text-center">
                 <h2 className="text-4xl md:text-5xl font-black text-white mb-4">
                   Stay Updated
@@ -409,24 +418,24 @@ function ProfessionalTimeline({ timelineStory }) {
       // Use requestAnimationFrame for smooth 60fps updates
       rafRef.current = requestAnimationFrame(() => {
         if (!timelineContainerRef.current) return;
-      
+
         const container = timelineContainerRef.current;
-      
+
         const containerRect = container.getBoundingClientRect();
         const containerTop = containerRect.top + window.scrollY;
         const containerHeight = container.offsetHeight;
-      
+
         // Viewport center (stable & natural trigger point)
         const viewportCenter = window.scrollY + window.innerHeight * 0.5;
-      
+
         // Progress calculation
         const rawProgress =
           ((viewportCenter - containerTop) / containerHeight) * 1.2;
-      
+
         const percentage = Math.max(0, Math.min(1, rawProgress));
-      
+
         const heightInPixels = percentage * containerHeight;
-      
+
         // Update DOM directly (fast)
         if (progressLineRef.current) {
           progressLineRef.current.style.height = `${percentage * 100}%`;
@@ -434,7 +443,7 @@ function ProfessionalTimeline({ timelineStory }) {
         if (mobileProgressLineRef.current) {
           mobileProgressLineRef.current.style.height = `${percentage * 100}%`;
         }
-      
+
         // Store pixel height for dot sync
         setLineHeight(heightInPixels);
       });
@@ -442,7 +451,7 @@ function ProfessionalTimeline({ timelineStory }) {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll(); // Initial calculation
-    
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
       if (rafRef.current) {
@@ -482,12 +491,12 @@ function ProfessionalTimeline({ timelineStory }) {
           <div className="hidden md:block">
             {/* Background line - stays at center */}
             <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-zinc-200 -translate-x-1/2" />
-            
+
             {/* Progressive filling line - stays at center with GPU acceleration */}
             <div
               ref={progressLineRef}
               className="absolute left-1/2 top-0 w-0.5 -translate-x-1/2 bg-gradient-to-b from-red-500 via-red-600 to-red-700 shadow-[0_0_10px_rgba(239,68,68,0.5)]"
-              style={{ 
+              style={{
                 height: '0%',
                 willChange: 'height',
                 transform: 'translateX(-50%)'
@@ -501,7 +510,7 @@ function ProfessionalTimeline({ timelineStory }) {
             <div
               ref={mobileProgressLineRef}
               className="absolute left-8 top-0 w-0.5 bg-gradient-to-b from-red-500 via-red-600 to-red-700"
-              style={{ 
+              style={{
                 height: '0%',
                 willChange: 'height'
               }}
@@ -531,45 +540,44 @@ function ProfessionalTimeline({ timelineStory }) {
 function TimelineCard({ item, index, lineHeight, totalItems, containerRef }) {
   const dotRef = useRef(null);
   const [isReached, setIsReached] = useState(false);
-  
+
   const isLeft = index % 2 === 0;
 
   // Check if progress line has reached this dot's actual position
   useEffect(() => {
     if (!dotRef.current || !containerRef.current) return;
-    
+
     // Get positions
     const containerRect = containerRef.current.getBoundingClientRect();
     const dotRect = dotRef.current.getBoundingClientRect();
-    
+
     // Calculate dot position relative to the container start
     // This is the precise pixel distance from the top of the red line
     const dotTopRelative = dotRect.top - containerRect.top;
     const dotCenter = dotTopRelative + (dotRect.height / 2);
-    
+
     // Dot is reached when line height >= dot center position
     // No arbitrary offsets needed because we're measuring inside the same container
     const shouldReveal = lineHeight >= dotCenter;
-    
+
     if (shouldReveal !== isReached) {
       setIsReached(shouldReveal);
     }
-    
-  }, [lineHeight, containerRef, isReached]); 
+
+  }, [lineHeight, containerRef, isReached]);
 
   return (
     <div
-      className={`relative flex items-center ${
-        isLeft ? "md:flex-row" : "md:flex-row-reverse"
-      } flex-row gap-8 md:gap-16 mb-10 md:mb-12`}
+      className={`relative flex items-center ${isLeft ? "md:flex-row" : "md:flex-row-reverse"
+        } flex-row gap-8 md:gap-16 mb-10 md:mb-12`}
     >
       {/* Content Card - Appears when line reaches this position */}
       <div className={`w-full md:w-[calc(50%-4rem)] text-left pl-20 md:pl-0 ${isLeft ? "md:pr-8" : "md:pl-8"}`}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isReached ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ 
-            duration: 0.5, 
+          transition={{
+            duration: 0.5,
             ease: [0.25, 0.1, 0.25, 1],
             delay: 0
           }}
@@ -578,7 +586,7 @@ function TimelineCard({ item, index, lineHeight, totalItems, containerRef }) {
         >
           {/* Gradient overlay on hover */}
           <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-orange-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
-          
+
           <div className="relative">
             {/* Year and Metric */}
             <div className="flex items-center justify-between mb-6">
@@ -600,7 +608,7 @@ function TimelineCard({ item, index, lineHeight, totalItems, containerRef }) {
 
             {/* Description */}
             <p className="text-zinc-600 text-md leading-relaxed"
-               style={{lineHeight: '0.9'}}
+              style={{ lineHeight: '0.9' }}
             >
               {item.description}
             </p>
@@ -639,7 +647,7 @@ function TimelineCard({ item, index, lineHeight, totalItems, containerRef }) {
               className="absolute inset-0 w-6 h-6 md:w-8 md:h-8 rounded-full bg-red-500 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2"
             />
           )}
-          
+
           {/* Main dot */}
           <div className="relative w-5 h-5 md:w-6 md:h-6 rounded-full bg-red-600 border-4 border-white shadow-lg" />
         </motion.div>
@@ -659,7 +667,7 @@ function Counter({ to, suffix = "", decimals = 0, duration = 1.5 }) {
     if (!inView) return;
 
     const node = nodeRef.current;
-    
+
     const controls = animate(0, to, {
       duration,
       onUpdate(value) {
