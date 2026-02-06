@@ -49,7 +49,7 @@ function BrandReveal() {
             >
               <div className="relative w-32 h-32 md:w-56 md:h-56">
                 <Image
-                  src="/roll-x.png"
+                  src="/roll-x.webp"
                   alt="Roll-X Logo"
                   fill
                   className="object-contain"
@@ -103,7 +103,7 @@ export default function BrandHero() {
           <div className="absolute inset-0 w-[200%] h-full">
             {/* Desktop Image */}
             <Image
-              src="/hero-brand.png"
+              src="/hero-brand.webp"
               alt="Hero Left"
               fill
               priority
@@ -112,7 +112,7 @@ export default function BrandHero() {
             />
             {/* Mobile Image */}
             <Image
-              src="/hero1_orig.png"
+              src="/hero1_orig.webp"
               alt="Hero Left Mobile"
               fill
               priority
@@ -130,7 +130,7 @@ export default function BrandHero() {
           <div className="absolute inset-0 w-[200%] h-full -left-[100%]">
             {/* Desktop Image */}
             <Image
-              src="/hero-brand.png"
+              src="/hero-brand.webp"
               alt="Hero Right"
               fill
               priority
@@ -139,7 +139,7 @@ export default function BrandHero() {
             />
             {/* Mobile Image */}
             <Image
-              src="/hero1_orig.png"
+              src="/hero1_orig.webp"
               alt="Hero Right Mobile"
               fill
               priority
