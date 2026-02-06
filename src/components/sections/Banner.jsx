@@ -8,12 +8,15 @@ function Banner() {
   useEffect(() => {
     const fetchBanner = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/banner`);
+        // Fetch all banners (Admin API doesn't support public filtering yet, so we filter client-side)
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/banner?limit=100`);
         if (response.ok) {
-          const data = await response.json();
-          if (data && data.length > 0) {
-            setBannerImage(data);
-          }
+          const result = await response.json();
+          // Access data.data as per pagination structure
+          const bannerData = result.data || [];
+          // Filter only active banners for public view
+          const activeBanners = bannerData.filter(item => item.active);
+          setBannerImage(activeBanners);
         }
       } catch (error) {
         console.error("Failed to fetch banner:", error);
@@ -22,7 +25,7 @@ function Banner() {
     fetchBanner();
   }, []);
 
-  if (!bannerImage) return null;
+  if (!bannerImage || bannerImage.length === 0) return null;
 
   return (
     <section className="w-full py-12 md:py-20 bg-zinc-50">

@@ -3,22 +3,23 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 
 function Carousel() {
-  const [images, setImages] = useState([
-    '/corousel-1.png',
-    '/corousel-2.png',
-    'https://i.pinimg.com/736x/fa/3a/12/fa3a12f80bcfce27e40f6602dbc0ec4b.jpg',
-    'https://i.pinimg.com/736x/30/42/ba/3042baa66f32ac00270e77c8ec8ff8f5.jpg',
-    'https://i.pinimg.com/736x/26/24/b4/2624b46fbf64636d9359e8cd7b2251f4.jpg',
-  ]);
+  const [images, setImages] = useState([]);
 
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/carousel`);
+        // Fetch all items (limit 100 to get a good loop set)
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/carousel?limit=100`);
         if (response.ok) {
-          const data = await response.json();
-          if (data && data.length > 0) {
-            setImages(data.map(item => item.image));
+          const result = await response.json();
+          const carouselData = result.data || [];
+          // Filter only active images
+          const activeImages = carouselData
+            .filter(item => item.active)
+            .map(item => item.image);
+
+          if (activeImages.length > 0) {
+            setImages(activeImages);
           }
         }
       } catch (error) {

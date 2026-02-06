@@ -160,9 +160,9 @@ export default function ReelsPage() {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/youtube`);
         if (response.ok) {
-          const data = await response.json();
+          const result = await response.json();
           // Extract IDs and filter valid ones
-          const extractedIds = data
+          const extractedIds = (result.data || [])
             .map(item => getYouTubeVideoId(item.url))
             .filter(id => id !== null); // Remove nulls in case of bad URLs
 

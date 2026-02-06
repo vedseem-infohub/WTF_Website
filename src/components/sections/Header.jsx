@@ -8,28 +8,28 @@ import { motion, AnimatePresence } from "framer-motion";
 const navIcons = {
   Home: (
     <svg viewBox="0 0 24 24" className="w-5 h-5">
-      <path d="M3 10L12 3l9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" fill="currentColor"/>
+      <path d="M3 10L12 3l9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" fill="currentColor" />
     </svg>
   ),
   Menu: (
     <svg viewBox="0 0 24 24" className="w-5 h-5">
-      <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" strokeWidth="2"/>
+      <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" strokeWidth="2" />
     </svg>
   ),
   "Who We Are": (
     <svg viewBox="0 0 24 24" className="w-5 h-5">
-      <circle cx="12" cy="7" r="4" fill="currentColor"/>
-      <path d="M4 21c1-4 6-6 8-6s7 2 8 6" fill="currentColor"/>
+      <circle cx="12" cy="7" r="4" fill="currentColor" />
+      <path d="M4 21c1-4 6-6 8-6s7 2 8 6" fill="currentColor" />
     </svg>
   ),
   Services: (
     <svg viewBox="0 0 24 24" className="w-5 h-5">
-      <path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z" fill="currentColor"/>
+      <path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z" fill="currentColor" />
     </svg>
   ),
   Catering: (
     <svg viewBox="0 0 24 24" className="w-5 h-5">
-      <path d="M4 6h16M6 6v14M18 6v14" stroke="currentColor" strokeWidth="2"/>
+      <path d="M4 6h16M6 6v14M18 6v14" stroke="currentColor" strokeWidth="2" />
     </svg>
   ),
 };
@@ -37,11 +37,10 @@ const navIcons = {
 const navButtonClass = (isActive) =>
   `relative z-10 flex items-center h-14 rounded-xl gap-4
    transition-colors duration-300 cursor-pointer
-   ${
-     isActive
-       ? "bg-red-600 text-white shadow-xl shadow-red-600/30 scale-[1.03]"
-       : "bg-white text-red-700 hover:bg-red-600 hover:text-white shadow-sm"
-   }`;
+   ${isActive
+    ? "bg-red-600 text-white shadow-xl shadow-red-600/30 scale-[1.03]"
+    : "bg-white text-red-700 hover:bg-red-600 hover:text-white shadow-sm"
+  }`;
 
 
 function Header() {
@@ -85,20 +84,20 @@ function Header() {
 
   useEffect(() => {
     let lastY = window.scrollY;
-  
+
     const onScroll = () => {
       const y = window.scrollY;
-  
+
       if (y > lastY + 12) setSidebarOpen(false);
       if (y < lastY - 12) setSidebarOpen(true);
-  
+
       lastY = y;
     };
-  
+
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  
+
 
   // Logout function
   const handleLogout = () => {
@@ -119,7 +118,7 @@ function Header() {
         <div className="lg:hidden w-full px-4 md:px-10 py-2 flex justify-between items-center bg-transparent backdrop-blur-sm">
           <Link href="/" className="transition-transform active:scale-95">
             <div className="flex items-center gap-3">
-              <Image src="/Logo.png" alt="logo" width={80} height={40} className="w-auto h-12" />
+              <Image src="/Logo.png" alt="logo" width={80} height={40} className="w-auto h-12" style={{ width: "auto" }} />
             </div>
           </Link>
 
@@ -128,19 +127,19 @@ function Header() {
             <div className="flex gap-2 mr-2 absolute right-4 top-24">
               <Link href="#" className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white active:scale-90 shadow-lg">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+                  <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
                 </svg>
               </Link>
               <Link href="#" className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white active:scale-90 shadow-lg">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.134l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.134l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
               </Link>
               <Link href="https://www.instagram.com/rollx_bywtf" className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white active:scale-90 shadow-lg">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                  <circle cx="12" cy="12" r="4"/>
-                  <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" />
                 </svg>
               </Link>
             </div>
@@ -159,28 +158,28 @@ function Header() {
         <div className="hidden lg:flex justify-between items-start px-12 py-6 pointer-events-none">
           {/* Logo */}
           <Link href="/" className="pointer-events-auto transition-transform active:scale-95">
-             <Image src="/Logo.png" alt="logo" width={100} height={60} className="w-auto h-16" />
+            <Image src="/Logo.png" alt="logo" width={100} height={60} className="w-auto h-16"  />
           </Link>
 
           {/* Social Icons */}
           <div className="flex gap-4 pointer-events-auto">
-             <Link href="#" className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white hover:bg-red-600 transition-all hover:scale-110 shadow-lg">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
-                </svg>
-             </Link>
-             <Link href="#" className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white hover:bg-red-600 transition-all hover:scale-110 shadow-lg">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.134l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
-             </Link>
-             <Link href="https://www.instagram.com/rollx_bywtf" className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white hover:bg-red-600 transition-all hover:scale-110 shadow-lg">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                  <circle cx="12" cy="12" r="4"/>
-                  <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>
-                </svg>
-             </Link>
+            <Link href="#" className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white hover:bg-red-600 transition-all hover:scale-110 shadow-lg">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
+              </svg>
+            </Link>
+            <Link href="#" className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white hover:bg-red-600 transition-all hover:scale-110 shadow-lg">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.134l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+            </Link>
+            <Link href="https://www.instagram.com/rollx_bywtf" className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white hover:bg-red-600 transition-all hover:scale-110 shadow-lg">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" />
+              </svg>
+            </Link>
           </div>
         </div>
 
@@ -195,7 +194,7 @@ function Header() {
           className="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 z-50 rounded-xs p-2 overflow-hidden"
         >
           <div className="relative flex flex-col gap-2 w-full">
-            
+
             {/* ACTIVE ROUTE INDICATOR */}
             {/* <motion.div
               layout
@@ -206,11 +205,11 @@ function Header() {
                   navItems.findIndex(i => i.href === pathname) * 52 + 12 || 12,
               }}
             /> */}
-        
+
             {navItems.map((item) => {
               const isActive = pathname === item.href;
               const isExpanded = sidebarOpen || isHovering;
-        
+
               return (
                 <Link href={item.href} key={item.label}>
                   <motion.div
@@ -229,7 +228,7 @@ function Header() {
                     >
                       {navIcons[item.label]}
                     </div>
-                  
+
                     {/* LABEL */}
                     <AnimatePresence>
                       {isExpanded && (
@@ -248,7 +247,7 @@ function Header() {
                 </Link>
               );
             })}
-        
+
             {/* PARTNER CTA */}
             <motion.a
               href="https://wtf-foods.vercel.app/"
@@ -289,7 +288,7 @@ function Header() {
               <div className="max-w-7xl mx-auto w-full flex flex-col">
                 {/* Header inside Drawer */}
                 <div className="px-6 md:px-12 py-2 flex items-center justify-between border-b border-white/5">
-                  <Image src="/Logo.png" alt="logo" width={60} height={35} className="w-auto h-10 md:h-12 hover:cursor-pointer" />
+                  <Image src="/Logo.png" alt="logo" width={60} height={35} className="w-auto h-10 md:h-12 hover:cursor-pointer"/>
                   <button
                     className="w-10 h-10 md:w-14 md:h-14 flex items-center justify-center rounded-full text-white/50 hover:text-white transition-all active:scale-95"
                     onClick={() => setIsOpen(false)}
@@ -306,29 +305,29 @@ function Header() {
                     .filter(item => !["Home", "Menu", "Catering", "Reels"].includes(item.label))
                     .map((item, index) => {
                       const isActive = pathname === item.href;
-                    return (
-                      <motion.div
-                        key={item.label}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.05 + 0.1 }}
-                      >
-                        <Link
-                          href={item.href}
-                          onClick={() => setIsOpen(false)}
-                          className="flex items-center justify-between py-2 md:py-4 border-b border-white/[0.03] group"
+                      return (
+                        <motion.div
+                          key={item.label}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.05 + 0.1 }}
                         >
-                          <span className={`text-3xl md:text-4xl dongle-regular tracking-tight transition-colors ${isActive ? "text-red-600" : "text-white/60 group-hover:text-white"
-                            }`}>
-                            {item.label}
-                          </span>
-                          {isActive && (
-                            <div className="w-1.5 md:w-2.5 h-1.5 md:h-2.5 bg-red-600 rounded-full" />
-                          )}
-                        </Link>
-                      </motion.div>
-                    );
-                  })}
+                          <Link
+                            href={item.href}
+                            onClick={() => setIsOpen(false)}
+                            className="flex items-center justify-between py-2 md:py-4 border-b border-white/[0.03] group"
+                          >
+                            <span className={`text-3xl md:text-4xl dongle-regular tracking-tight transition-colors ${isActive ? "text-red-600" : "text-white/60 group-hover:text-white"
+                              }`}>
+                              {item.label}
+                            </span>
+                            {isActive && (
+                              <div className="w-1.5 md:w-2.5 h-1.5 md:h-2.5 bg-red-600 rounded-full" />
+                            )}
+                          </Link>
+                        </motion.div>
+                      );
+                    })}
                 </div>
 
                 {/* Primary Actions Footer */}
