@@ -104,7 +104,7 @@ function Hero() {
             onClick={() => setCurrentIndex(index)}
             className={`
               relative overflow-hidden cursor-pointer transition-all duration-300 rounded-full
-              ${index === currentIndex ? "w-12 h-3 bg-white/30" : "w-3 h-3 bg-white/50 hover:bg-white/80"}
+              ${index === currentIndex ? "w-12 h-2 bg-white/30" : "w-2 h-2 bg-white/50 hover:bg-white/80"}
             `}
             aria-label={`Go to slide ${index + 1}`}
           >

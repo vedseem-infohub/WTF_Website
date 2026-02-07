@@ -42,6 +42,10 @@ body {
   font-style: normal;
 }
 
+.partner-typography, .partner-typography * {
+  font-family: var(--font-geist-sans), sans-serif !important;
+}
+
 .font-cheddar {
   font-family: var(--font-cheddar), sans-serif;
 }
