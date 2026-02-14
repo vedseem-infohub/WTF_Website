@@ -351,10 +351,6 @@ export default function AboutPage() {
                 className="relative"
               >
                 <div className="mb-6 md:mb-8">
-                  <div className="flex items-center gap-4 mb-4">
-                     <span className="w-16 h-1 bg-red-600 rounded-full"></span>
-                     <span className="text-red-600 font-bold tracking-widest uppercase">Our Reach</span>
-                  </div>
                   <h2 className="text-4xl md:text-5xl lg:text-7xl font-black text-zinc-950 leading-tight"
                       style={{lineHeight: "0.7"}}
                   >
